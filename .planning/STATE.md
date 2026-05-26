@@ -1,0 +1,62 @@
+# Project State: SpotOn
+
+**Project:** SpotOn — LMS Spotify Plugin
+**Initialized:** 2026-05-26
+**Mode:** yolo
+
+## Project Reference
+
+**Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
+
+**Current Focus:** Phase 1 — Plugin Skeleton + Binary Foundation
+
+## Current Position
+
+**Phase:** 1
+**Plan:** None started
+**Status:** Not started
+
+```
+Progress: Phase 1 of 6
+[░░░░░░░░░░░░░░░░░░░░] 0%
+```
+
+## Performance Metrics
+
+**Phases completed:** 0 / 6
+**Plans completed:** 0 / ?
+**Requirements mapped:** 62 / 62
+
+## Accumulated Context
+
+### Key Decisions Made
+
+| Decision | Rationale | Phase |
+|----------|-----------|-------|
+| 6 phases from dependency graph | Skeleton → Auth → Browse → Stream → Connect → Polish maps the strict build order | Roadmap |
+| LMS-11 in Phase 4 | Transcoding table race fix is part of streaming, not skeleton | Roadmap |
+| LMS-08/09/10 deferred to Phase 6 | Player prefs and DSTM require streaming + Connect to be functional first | Roadmap |
+| HTTP streaming deferred to v2 | CON-12 uses FIFO; AT-01 through AT-03 are v2 | Roadmap |
+
+### Open Questions
+
+- Keymaster login5 binary interface: verify against actual forked binary (Phase 2)
+- Extended Quota Mode runtime detection behavior (Phase 3)
+- librespot issue #1377 (token expiry) status (Phase 2/5)
+- B&O format support matrix via UPnPBridge — needed for OGG-Direct defaults (Phase 4)
+
+### Blockers
+
+None currently.
+
+### Todos
+
+- [ ] Begin Phase 1 planning (`/gsd:plan-phase 1`)
+
+## Session Continuity
+
+**Last session:** 2026-05-26 — Roadmap created, STATE.md initialized
+**Next action:** `/gsd:plan-phase 1`
+
+---
+*State initialized: 2026-05-26*

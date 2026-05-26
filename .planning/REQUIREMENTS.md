@@ -122,13 +122,74 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| — | — | Populated during roadmap creation |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| AUTH-05 | Phase 2 | Pending |
+| AUTH-06 | Phase 2 | Pending |
+| NAV-01 | Phase 3 | Pending |
+| NAV-02 | Phase 3 | Pending |
+| NAV-03 | Phase 3 | Pending |
+| NAV-04 | Phase 3 | Pending |
+| NAV-05 | Phase 3 | Pending |
+| NAV-06 | Phase 3 | Pending |
+| NAV-07 | Phase 3 | Pending |
+| NAV-08 | Phase 3 | Pending |
+| NAV-09 | Phase 3 | Pending |
+| NAV-10 | Phase 3 | Pending |
+| NAV-11 | Phase 3 | Pending |
+| STR-01 | Phase 4 | Pending |
+| STR-02 | Phase 4 | Pending |
+| STR-03 | Phase 4 | Pending |
+| STR-04 | Phase 4 | Pending |
+| STR-05 | Phase 4 | Pending |
+| STR-06 | Phase 4 | Pending |
+| STR-07 | Phase 4 | Pending |
+| STR-08 | Phase 4 | Pending |
+| STR-09 | Phase 4 | Pending |
+| STR-10 | Phase 4 | Pending |
+| STR-11 | Phase 4 | Pending |
+| CON-01 | Phase 5 | Pending |
+| CON-02 | Phase 5 | Pending |
+| CON-03 | Phase 5 | Pending |
+| CON-04 | Phase 5 | Pending |
+| CON-05 | Phase 5 | Pending |
+| CON-06 | Phase 5 | Pending |
+| CON-07 | Phase 5 | Pending |
+| CON-08 | Phase 5 | Pending |
+| CON-09 | Phase 5 | Pending |
+| CON-10 | Phase 5 | Pending |
+| CON-11 | Phase 5 | Pending |
+| CON-12 | Phase 5 | Pending |
+| CON-13 | Phase 5 | Pending |
+| CON-14 | Phase 5 | Pending |
+| CON-15 | Phase 5 | Pending |
+| CON-16 | Phase 5 | Pending |
+| CON-17 | Phase 5 | Pending |
+| API-01 | Phase 2 | Pending |
+| API-02 | Phase 2 | Pending |
+| API-03 | Phase 2 | Pending |
+| API-04 | Phase 2 | Pending |
+| API-05 | Phase 2 | Pending |
+| API-06 | Phase 2 | Pending |
+| LMS-01 | Phase 1 | Pending |
+| LMS-02 | Phase 1 | Pending |
+| LMS-03 | Phase 1 | Pending |
+| LMS-04 | Phase 1 | Pending |
+| LMS-05 | Phase 1 | Pending |
+| LMS-06 | Phase 1 | Pending |
+| LMS-07 | Phase 1 | Pending |
+| LMS-08 | Phase 6 | Pending |
+| LMS-09 | Phase 6 | Pending |
+| LMS-10 | Phase 6 | Pending |
+| LMS-11 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 50 total
-- Mapped to phases: 0
-- Unmapped: 50 ⚠️
+- v1 requirements: 62 total
+- Mapped to phases: 62
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-26*
-*Last updated: 2026-05-26 after initial definition*
+*Last updated: 2026-05-26 after roadmap creation — traceability populated*
