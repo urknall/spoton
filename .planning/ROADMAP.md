@@ -43,8 +43,9 @@
   3. Credentials file has chmod 600 and parent directory has chmod 700; confirmed via filesystem check
   4. Switching between two configured Spotify accounts causes the active token to change within one menu refresh
   5. Making 50 rapid API calls in a row produces no 429 errors; the central throttle absorbs bursts and respects `Retry-After` headers
-**Plans:** 5 plans
+**Plans:** 6 plans
 Plans:
+- [ ] 02-00-PLAN.md -- Wave 0: test stub infrastructure (mock binary, LMS stubs, skip-guarded tests)
 - [ ] 02-01-PLAN.md -- Rust binary extension: --authenticate + --get-token via librespot-core
 - [ ] 02-02-PLAN.md -- API/TokenManager.pm: token lifecycle, multi-account, credential security
 - [ ] 02-03-PLAN.md -- API/Client.pm: central HTTP client with rate limiting, caching, getMe

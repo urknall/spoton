@@ -603,22 +603,19 @@ Both operations are short-lived and block the plugin call for ~200-500ms, which 
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Client ID source for `--get-token`**
+1. **Client ID source for `--get-token`** (RESOLVED)
    - What we know: Herger's spotty bundles a `client_id.txt` in the binary. SpotOn needs its own.
-   - What's unclear: Whether SpotOn can use the same LMS community client ID that Spotty uses, or needs its own registered app.
-   - Recommendation: Reuse the LMS community infrastructure (same as Spotty) if Herger approves. Otherwise register a SpotOn app in Spotify Developer Console. Needs user decision.
+   - Resolution: Use the Spotty community client ID (`65b708073fc0480ea92a077233ca87bd`) as a constant in TokenManager.pm for initial development. This is the same client ID used by the established Spotty plugin for the LMS ecosystem. If Herger objects or Spotify restricts it, register a new SpotOn app in the Spotify Developer Console and update the constant. The client ID is passed via `--client-id` flag to the binary, not hardcoded in Rust.
 
-2. **librespot-spoton binary scope in Phase 2**
+2. **librespot-spoton binary scope in Phase 2** (RESOLVED)
    - What we know: Current binary only implements `--check`. Phase 2 needs `--authenticate` and `--get-token`.
-   - What's unclear: Whether to extend the current minimal Rust binary or use a Herger fork as the base.
-   - Recommendation: Extend the existing librespot-spoton Rust binary. Add `--authenticate` and `--get-token` subcommands backed by librespot-core as a dependency in Cargo.toml.
+   - Resolution: Extend the existing librespot-spoton Rust binary (Plans 02-01). Add `--authenticate` and `--get-token` subcommands backed by librespot-core as a dependency in Cargo.toml. Do NOT use Herger's fork as base -- maintain independent binary with librespot-core crate dependency.
 
-3. **Login5 password auth broken?**
+3. **Login5 password auth broken?** (RESOLVED)
    - What we know: Spotify disabled username/password for many OAuth flows in Aug 2024. login5 binary protocol may still work.
-   - What's unclear: Current state of `--authenticate` in the spotty binary against real Spotify accounts.
-   - Recommendation: Test `--authenticate` with a real account early in Phase 2 execution. If it fails, pivot to OAuth browser redirect.
+   - Resolution: Plan 02-05 Task 3 is a blocking human checkpoint that tests `--authenticate` with real Spotify credentials. If login5 fails, the checkpoint has an explicit "login5-failed" signal that triggers a fallback discussion for OAuth browser redirect. The risk is accepted and the fallback path is documented. Confidence: LOW -- login5 may not work, but the binary and plugin architecture support pivoting to OAuth without structural changes.
 
 ---
 
