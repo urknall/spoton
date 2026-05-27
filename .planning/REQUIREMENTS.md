@@ -7,12 +7,12 @@
 
 ### Authentication
 
-- [ ] **AUTH-01**: Plugin obtains Spotify access token via Keymaster/login5 through librespot binary
+- [x] **AUTH-01**: Plugin obtains Spotify access token via OAuth 2.0 Authorization Code + PKCE browser flow through per-user Spotify Developer App
 - [ ] **AUTH-02**: Access token is cached and automatically refreshed before expiry
 - [ ] **AUTH-03**: Connect daemons are proactively restarted at 50-minute uptime to prevent silent token expiry
-- [ ] **AUTH-04**: Credentials are stored with restricted permissions (chmod 600, directory 0700)
-- [ ] **AUTH-05**: Multiple Spotify accounts can be configured per LMS instance
-- [ ] **AUTH-06**: Account switching is available in the plugin menu
+- [x] **AUTH-04**: Credential storage uses LMS Prefs with restricted plugin namespace (PKCE replaced filesystem credential files)
+- [x] **AUTH-05**: Multiple Spotify accounts can be configured per LMS instance
+- [x] **AUTH-06**: Account switching is available in the plugin menu
 
 ### Browse & Navigation
 
@@ -111,8 +111,6 @@
 |---------|--------|
 | Lossless/HiFi streaming | Blocked by PlayPlay DRM — architecturally prepared but not implementable |
 | PlayPlay DRM reverse engineering | Explicit prohibition — legal + ethical (HIF-04) |
-| PKCE/OAuth browser flow | Keymaster-only decision — if librespot dies, plugin dies anyway |
-| Spotify Developer App registration | Consequence of Keymaster-only auth |
 | Extended Quota Mode application | Requires 250k MAU + commercial org — not feasible for open-source plugin |
 | Mobile app | LMS plugin only |
 | Real-time collaborative playlists | High complexity, not core value |
@@ -122,12 +120,12 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 2 | Pending |
-| AUTH-02 | Phase 2 | Pending |
-| AUTH-03 | Phase 2 | Pending |
-| AUTH-04 | Phase 2 | Pending |
-| AUTH-05 | Phase 2 | Pending |
-| AUTH-06 | Phase 2 | Pending |
+| AUTH-01 | Phase 02.1 | Complete |
+| AUTH-02 | Phase 02.1 | Complete |
+| AUTH-03 | Phase 02.1 | Complete |
+| AUTH-04 | Phase 02.1 | Complete |
+| AUTH-05 | Phase 02.1 | Complete |
+| AUTH-06 | Phase 02.1 | Complete |
 | NAV-01 | Phase 3 | Pending |
 | NAV-02 | Phase 3 | Pending |
 | NAV-03 | Phase 3 | Pending |
@@ -192,4 +190,4 @@
 
 ---
 *Requirements defined: 2026-05-26*
-*Last updated: 2026-05-26 after roadmap creation — traceability populated*
+*Last updated: 2026-05-27 after Phase 02.1 gap closure — AUTH requirements reflect OAuth PKCE*
