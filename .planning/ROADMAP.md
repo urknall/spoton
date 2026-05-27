@@ -53,10 +53,10 @@
   3. The access token is cached with TTL and automatically refreshed via refresh_token before expiry
   4. No username/password fields exist anywhere in the Settings page; the old Keymaster/login5 code is completely removed
   5. All new UI strings display correctly in both English and German
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
-- [ ] 02.1-01-PLAN.md — TokenManager.pm PKCE rewrite + tests
+- [x] 02.1-01-PLAN.md — TokenManager.pm PKCE rewrite + tests
 - [ ] 02.1-02-PLAN.md — OAuth callback route (Callback.pm) + tests
 - [ ] 02.1-03-PLAN.md — Settings UI integration (Setup Wizard, strings, Plugin.pm wiring)
 
@@ -113,7 +113,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
-| 02.1. OAuth-PKCE Browser Auth | 0/3 | Planning complete | - |
+| 02.1. OAuth-PKCE Browser Auth | 1/3 | In Progress|  |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
