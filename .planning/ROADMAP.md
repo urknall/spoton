@@ -27,10 +27,10 @@
   3. `spotify://` URIs are registered as a protocol; attempting to play one does not crash LMS
   4. librespot binaries for x86_64, aarch64, armhf, and i386 are present; running `binary --check` returns a parseable JSON version response that satisfies the minimum version requirement
   5. All UI strings display in English and German without missing-key placeholders
-**Plans:** 2/4 plans executed
+**Plans:** 3/4 plans executed
 - [x] 01-01-PLAN.md -- Plugin-Skelett + Konfigurationsdateien (install.xml, strings.txt, custom-types.conf, custom-convert.conf, Plugin.pm, ProtocolHandler.pm)
 - [x] 01-02-PLAN.md -- Helper.pm (Binary-Discovery) + Settings.pm + basic.html Template
-- [ ] 01-03-PLAN.md -- Bin/-Verzeichnisstruktur, Test-Suite (6 Testdateien), LMS-Integration-Verifikation
+- [x] 01-03-PLAN.md -- Bin/-Verzeichnisstruktur, Test-Suite (6 Testdateien), LMS-Integration-Verifikation
 - [ ] 01-04-PLAN.md -- x86_64 Binary-Build + GitHub Actions CI fuer ARM-Cross-Compilation
 
 ### Phase 2: Auth + API Foundation
@@ -96,7 +96,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Plugin Skeleton + Binary Foundation | 2/4 | In Progress|  |
+| 1. Plugin Skeleton + Binary Foundation | 3/4 | In Progress|  |
 | 2. Auth + API Foundation | 0/? | Not started | - |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
