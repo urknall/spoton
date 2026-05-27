@@ -10,6 +10,7 @@
 
 - [ ] **Phase 1: Plugin Skeleton + Binary Foundation** - Plugin loads in LMS, correct manifest, binary scaffolding in place
 - [x] **Phase 2: Auth + API Foundation** - Authenticated Spotify API requests work; token lifecycle managed (completed 2026-05-27)
+- [ ] **Phase 02.1: OAuth-PKCE Browser Auth** - Replace non-functional Keymaster/login5 auth with OAuth 2.0 PKCE browser flow
 - [ ] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus
 - [ ] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
@@ -40,6 +41,24 @@
   4. Switching between two configured Spotify accounts causes the active token to change within one menu refresh
   5. Making 50 rapid API calls in a row produces no 429 errors; the central throttle absorbs bursts and respects `Retry-After` headers
 **Plans**: TBD
+
+### Phase 02.1: OAuth-PKCE Browser Auth (INSERTED)
+
+**Goal:** Replace non-functional Keymaster/login5 authentication with OAuth 2.0 Authorization Code + PKCE browser flow; users authenticate via their own Spotify Developer App through a guided Setup Wizard in the LMS Settings page
+**Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, AUTH-06, D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12
+**Depends on:** Phase 02
+**Success Criteria** (what must be TRUE):
+  1. Entering a Spotify Developer App Client-ID in the Settings page and clicking "Mit Spotify verbinden" redirects the browser to Spotify's auth page
+  2. After authenticating on Spotify, the browser returns to LMS and shows "Erfolgreich verbunden!" with the user's display name
+  3. The access token is cached with TTL and automatically refreshed via refresh_token before expiry
+  4. No username/password fields exist anywhere in the Settings page; the old Keymaster/login5 code is completely removed
+  5. All new UI strings display correctly in both English and German
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02.1-01-PLAN.md — TokenManager.pm PKCE rewrite + tests
+- [ ] 02.1-02-PLAN.md — OAuth callback route (Callback.pm) + tests
+- [ ] 02.1-03-PLAN.md — Settings UI integration (Setup Wizard, strings, Plugin.pm wiring)
 
 ### Phase 3: Browse + Navigation
 **Goal**: Users can navigate the full Spotify content hierarchy — Home, Search, Library — via LMS OPML menus
@@ -94,6 +113,7 @@
 |-------|----------------|--------|-----------|
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
+| 02.1. OAuth-PKCE Browser Auth | 0/3 | Planning complete | - |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
@@ -101,4 +121,4 @@
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-05-26 after initial creation*
+*Last updated: 2026-05-27 after Phase 02.1 planning*
