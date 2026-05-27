@@ -50,13 +50,13 @@
   4. Switching between two configured Spotify accounts causes the active token to change within one menu refresh
   5. Making 50 rapid API calls in a row produces no 429 errors; the central throttle absorbs bursts and respects `Retry-After` headers
 
-**Plans:** 2/6 plans executed
+**Plans:** 3/6 plans executed
 Plans:
 **Wave 1**
 
 - [x] 02-00-PLAN.md -- Wave 0: test stub infrastructure (mock binary, LMS stubs, skip-guarded tests)
 - [x] 02-01-PLAN.md -- Rust binary extension: --authenticate + --get-token via librespot-core
-- [ ] 02-02-PLAN.md -- API/TokenManager.pm: token lifecycle, multi-account, credential security
+- [x] 02-02-PLAN.md -- API/TokenManager.pm: token lifecycle, multi-account, credential security
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -131,7 +131,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Skeleton + Binary Foundation | 4/4 | Complete   | 2026-05-27 |
-| 2. Auth + API Foundation | 2/6 | In Progress|  |
+| 2. Auth + API Foundation | 3/6 | In Progress|  |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
