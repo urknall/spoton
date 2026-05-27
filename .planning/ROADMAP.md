@@ -114,7 +114,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
-| 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete   | 2026-05-27 |
+| 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete    | 2026-05-27 |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |

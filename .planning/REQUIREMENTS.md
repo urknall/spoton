@@ -8,8 +8,8 @@
 ### Authentication
 
 - [x] **AUTH-01**: Plugin obtains Spotify access token via OAuth 2.0 Authorization Code + PKCE browser flow through per-user Spotify Developer App
-- [ ] **AUTH-02**: Access token is cached and automatically refreshed before expiry
-- [ ] **AUTH-03**: Connect daemons are proactively restarted at 50-minute uptime to prevent silent token expiry
+- [x] **AUTH-02**: Access token is cached and automatically refreshed before expiry
+- [x] **AUTH-03**: Connect daemons are proactively restarted at 50-minute uptime to prevent silent token expiry
 - [x] **AUTH-04**: Credential storage uses LMS Prefs with restricted plugin namespace (PKCE replaced filesystem credential files)
 - [x] **AUTH-05**: Multiple Spotify accounts can be configured per LMS instance
 - [x] **AUTH-06**: Account switching is available in the plugin menu
