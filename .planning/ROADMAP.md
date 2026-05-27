@@ -10,7 +10,7 @@
 
 - [ ] **Phase 1: Plugin Skeleton + Binary Foundation** - Plugin loads in LMS, correct manifest, binary scaffolding in place
 - [x] **Phase 2: Auth + API Foundation** - Authenticated Spotify API requests work; token lifecycle managed (completed 2026-05-27)
-- [ ] **Phase 02.1: OAuth-PKCE Browser Auth** - Replace non-functional Keymaster/login5 auth with OAuth 2.0 PKCE browser flow
+- [x] **Phase 02.1: OAuth-PKCE Browser Auth** - Replace non-functional Keymaster/login5 auth with OAuth 2.0 PKCE browser flow (completed 2026-05-27)
 - [ ] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus
 - [ ] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
@@ -53,12 +53,12 @@
   3. The access token is cached with TTL and automatically refreshed via refresh_token before expiry
   4. No username/password fields exist anywhere in the Settings page; the old Keymaster/login5 code is completely removed
   5. All new UI strings display correctly in both English and German
-**Plans:** 1/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 02.1-01-PLAN.md — TokenManager.pm PKCE rewrite + tests
-- [ ] 02.1-02-PLAN.md — OAuth callback route (Callback.pm) + tests
-- [ ] 02.1-03-PLAN.md — Settings UI integration (Setup Wizard, strings, Plugin.pm wiring)
+- [x] 02.1-02-PLAN.md — OAuth callback route (Callback.pm) + tests
+- [x] 02.1-03-PLAN.md — Settings UI integration (Setup Wizard, strings, Plugin.pm wiring)
 
 ### Phase 3: Browse + Navigation
 **Goal**: Users can navigate the full Spotify content hierarchy — Home, Search, Library — via LMS OPML menus
@@ -113,7 +113,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
-| 02.1. OAuth-PKCE Browser Auth | 1/3 | In Progress|  |
+| 02.1. OAuth-PKCE Browser Auth | 3/3 | Complete   | 2026-05-27 |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
