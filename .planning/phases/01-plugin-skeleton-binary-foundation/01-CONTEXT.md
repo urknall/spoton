@@ -19,7 +19,7 @@ The plugin loads cleanly under LMS and all LMS integration contracts are in plac
 
 ### Binary Distribution
 - **D-03:** Binaries are bundled in the plugin ZIP (Spotty model). All supported architectures (x86_64, aarch64, armhf, i386) ship in the ZIP under a `Bin/` directory.
-- **D-04:** `Bin/` subdirectory structure uses Perl's `$Config{archname}` convention (e.g., `x86_64-linux-gnu-thread-multi`), not Spotty's simplified naming. This aligns with LMS internals.
+- **D-04:** ~~`Bin/` subdirectory structure uses Perl's `$Config{archname}` convention.~~ **REVISED (2026-05-27):** Bin/ uses simplified LMS names (`x86_64-linux`, `aarch64-linux`, `armhf-linux`, `arm-linux`, `i386-linux`) as used by `Slim::Utils::OS::initSearchPath()`. Research proved that `$Config{archname}` strings would cause silent binary discovery failure. User confirmed revision.
 - **D-05:** No download-at-first-use mechanism. What ships in the ZIP is what runs.
 
 ### Settings Page (Phase 1)
