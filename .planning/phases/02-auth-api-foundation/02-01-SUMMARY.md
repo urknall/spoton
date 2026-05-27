@@ -145,6 +145,15 @@ None — no external service configuration required for this plan.
 - Actual Spotify auth test with real credentials is deferred to Plan 02-05 checkpoint (login5 feasibility gate)
 - Note: If Spotify login5 password auth has been disabled, the `--authenticate` command will return an error at the Spotify AP connection step. This is the expected failure mode for Plan 02-05 checkpoint.
 
+## Self-Check: PASSED
+
+- All 5 files created/modified exist on disk
+- Commits 1ce5003, 0c98c01 verified in git log
+- Binary executes --check with correct Phase 1 contract output
+- Cargo.toml contains librespot-core dependency
+- main.rs contains Mode enum with all required variants
+- prove -l t/ 47/47 tests pass
+
 ---
 *Phase: 02-auth-api-foundation*
 *Completed: 2026-05-27*
