@@ -53,12 +53,13 @@
   3. The access token is cached with TTL and automatically refreshed via refresh_token before expiry
   4. No username/password fields exist anywhere in the Settings page; the old Keymaster/login5 code is completely removed
   5. All new UI strings display correctly in both English and German
-**Plans:** 3/3 plans complete
+**Plans:** 4 plans (3 complete + 1 gap closure)
 
 Plans:
 - [x] 02.1-01-PLAN.md — TokenManager.pm PKCE rewrite + tests
 - [x] 02.1-02-PLAN.md — OAuth callback route (Callback.pm) + tests
 - [x] 02.1-03-PLAN.md — Settings UI integration (Setup Wizard, strings, Plugin.pm wiring)
+- [ ] 02.1-04-PLAN.md — Gap closure: display name in callback + REQUIREMENTS.md update
 
 ### Phase 3: Browse + Navigation
 **Goal**: Users can navigate the full Spotify content hierarchy — Home, Search, Library — via LMS OPML menus
@@ -113,7 +114,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
-| 02.1. OAuth-PKCE Browser Auth | 3/3 | Complete   | 2026-05-27 |
+| 02.1. OAuth-PKCE Browser Auth | 3/4 | Gap closure | - |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
@@ -121,4 +122,4 @@ Plans:
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-05-27 after Phase 02.1 planning*
+*Last updated: 2026-05-27 after Phase 02.1 gap closure planning*
