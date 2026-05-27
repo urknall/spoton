@@ -12,14 +12,14 @@ Reliable Spotify playback and Connect integration on LMS — Browse, stream, and
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] OAuth 2.0 PKCE browser authentication via per-user Spotify Developer App — Validated in Phase 02.1
 
 ### Active
 
 - [ ] Spotify navigation (Home, Search, Library) via OPML menu trees
 - [ ] Audio streaming via librespot single-track mode with FLAC/PCM/MP3 transcoding
 - [ ] Spotify Connect with per-player daemons and HTTP-streaming audio transport
-- [ ] Keymaster-only authentication (no browser redirect, no Developer App required)
+- [ ] OAuth 2.0 PKCE authentication with guided Setup Wizard
 - [ ] Central API throttle preventing 429 bursts
 - [ ] OGG-Direct passthrough for capable players
 - [ ] Sync-group handling for Connect (one daemon on master)
@@ -29,8 +29,6 @@ Reliable Spotify playback and Connect integration on LMS — Browse, stream, and
 
 - Lossless/HiFi streaming — blocked by PlayPlay DRM, architecturally prepared but not implementable (HIF-04)
 - PlayPlay DRM reverse engineering — explicit prohibition, legal + ethical
-- PKCE/OAuth browser flow — Keymaster-only decision, simplifies auth significantly
-- Spotify Developer App registration for users — consequence of Keymaster-only
 - Podcast support — defer to v2, not core to music playback use case
 - Mobile app — LMS plugin only
 
@@ -60,7 +58,7 @@ Reliable Spotify playback and Connect integration on LMS — Browse, stream, and
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Keymaster-only auth (no PKCE) | If librespot/login5 breaks, the entire plugin is dead anyway (Connect requires librespot). Simpler code, better UX, no Dev App needed. | — Pending |
+| OAuth 2.0 PKCE auth (replaced Keymaster) | Keymaster/login5 auth proved non-functional. PKCE browser flow via per-user Spotify Developer App provides reliable auth. Setup Wizard guides users through Client-ID entry. | Phase 02.1 — Complete |
 | HTTP-streaming for Connect audio | FIFO has architectural limitations (seek lag, white noise on reconnect, no safe flush from Perl). HTTP gives clean connection semantics. FIFO as fallback until HTTP is ready. | — Pending |
 | LMS 8.0+ floor | Only 1-2 test environments available. Higher floor = less legacy code. Most active installations are 8.0+. | — Pending |
 | Sliding Window or Adaptive pipeline | Research phase to evaluate. Central throttle is MUST regardless. | — Pending |
@@ -87,4 +85,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-26 after initialization*
+*Last updated: 2026-05-27 after Phase 02.1 completion — auth switched from Keymaster to OAuth PKCE*
