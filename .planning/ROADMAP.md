@@ -9,7 +9,7 @@
 ## Phases
 
 - [ ] **Phase 1: Plugin Skeleton + Binary Foundation** - Plugin loads in LMS, correct manifest, binary scaffolding in place
-- [ ] **Phase 2: Auth + API Foundation** - Authenticated Spotify API requests work; token lifecycle managed
+- [x] **Phase 2: Auth + API Foundation** - Authenticated Spotify API requests work; token lifecycle managed (completed 2026-05-27)
 - [ ] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus
 - [ ] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
@@ -93,7 +93,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
-| 2. Auth + API Foundation | 5/6 | In Progress|  |
+| 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
