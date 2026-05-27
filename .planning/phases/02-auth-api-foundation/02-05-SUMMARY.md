@@ -116,19 +116,24 @@ completed: 2026-05-27
 | All required stubs present for perl -c to pass on all 6 module files | PASS |
 | prove -v t/ reports 0 failures across all test files (01-09) | PASS (119 tests) |
 
-## Task 3: Checkpoint Pending (human-verify)
+## Task 3: Checkpoint Result — login5-failed
 
-**Status:** AWAITING HUMAN VERIFICATION
+**Status:** COMPLETED (login5-failed)
 
-Task 3 is a `checkpoint:human-verify` requiring live LMS installation to test the full auth flow:
+Human verification confirmed:
+- Plugin loads cleanly in LMS, binary detected (v1.0.0)
+- Settings UI renders correctly (binary status, bitrate, account form)
+- Error messages display in red on auth failure (fixed during checkpoint)
+- Binary connects to Spotify AP and receives server response
 
-- Install plugin into LMS and verify clean startup
-- Add a Spotify account via Settings UI
-- Verify token refresh appears in server.log
-- Verify account switcher appears in OPML menu as first item
-- Verify credential file permissions are 0600/0700
+**login5 authentication blocked by Spotify:** Username/password auth via librespot-core's login5 protocol returns "Permission denied { Login failed with reason: Bad credentials }" for all credential formats (username, user ID, email). Same credentials work on Spotify's web interface (which uses OAuth). This confirms Spotify has restricted or disabled password-based login5 authentication for third-party clients.
 
-See PLAN.md Task 3 `<how-to-verify>` block for the complete checklist.
+**Action required:** OAuth-PKCE browser redirect flow must be implemented as the authentication method. This was anticipated as a fallback scenario in the plan (D-03 alternative path).
+
+**Post-checkpoint fixes committed:**
+- `372db17`: i18n button labels (was showing raw value "1")
+- `f0eab77`: capture binary stderr, log full errors, fix pref warning
+- `b7c6739`: restructure addAccount to synchronous flow (UI was not rendering)
 
 ## Deviations from Plan
 
@@ -162,5 +167,5 @@ Test run: 119/119 tests pass full suite (prove -v t/).
 
 ---
 *Phase: 02-auth-api-foundation*
-*Completed (tasks 1-2): 2026-05-27*
-*Task 3: Awaiting human verification*
+*Completed: 2026-05-27*
+*Task 3 checkpoint: login5-failed — OAuth-PKCE required*
