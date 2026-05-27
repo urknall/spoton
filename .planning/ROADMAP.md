@@ -43,7 +43,13 @@
   3. Credentials file has chmod 600 and parent directory has chmod 700; confirmed via filesystem check
   4. Switching between two configured Spotify accounts causes the active token to change within one menu refresh
   5. Making 50 rapid API calls in a row produces no 429 errors; the central throttle absorbs bursts and respects `Retry-After` headers
-**Plans**: TBD
+**Plans:** 5 plans
+Plans:
+- [ ] 02-01-PLAN.md -- Rust binary extension: --authenticate + --get-token via librespot-core
+- [ ] 02-02-PLAN.md -- API/TokenManager.pm: token lifecycle, multi-account, credential security
+- [ ] 02-03-PLAN.md -- API/Client.pm: central HTTP client with rate limiting, caching, getMe
+- [ ] 02-04-PLAN.md -- Settings.pm account CRUD + basic.html dynamic UI + i18n strings
+- [ ] 02-05-PLAN.md -- Plugin.pm integration: timer, account switcher, rate-limit hint + live verification
 
 ### Phase 3: Browse + Navigation
 **Goal**: Users can navigate the full Spotify content hierarchy — Home, Search, Library — via LMS OPML menus
@@ -97,7 +103,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Skeleton + Binary Foundation | 4/4 | Complete   | 2026-05-27 |
-| 2. Auth + API Foundation | 0/? | Not started | - |
+| 2. Auth + API Foundation | 0/5 | Planning complete | - |
 | 3. Browse + Navigation | 0/? | Not started | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
@@ -105,4 +111,4 @@
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-05-27 after Phase 1 plan revision (4 plans)*
+*Last updated: 2026-05-27 after Phase 2 planning (5 plans, 3 waves)*
