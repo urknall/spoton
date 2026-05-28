@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-05-28T16:42:01.071Z"
+last_updated: "2026-05-28T17:04:21.678Z"
 progress:
   total_phases: 8
   completed_phases: 5
-  total_plans: 19
+  total_plans: 21
   completed_plans: 19
   percent: 63
 ---
@@ -22,15 +22,15 @@ progress:
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 04 — single-track-streaming
+**Current Focus:** Phase 04.1 — streaming-bug-fixes-passthrough-binary
 
 ## Current Position
 
-Phase: 04 (single-track-streaming) — EXECUTING
+Phase: 04.1 (streaming-bug-fixes-passthrough-binary) — EXECUTING
 Plan: 1 of 2
 **Phase:** 4
 **Plan:** Not started
-**Status:** Executing Phase 04
+**Status:** Executing Phase 04.1
 
 ```
 Progress: Phase 1 of 6

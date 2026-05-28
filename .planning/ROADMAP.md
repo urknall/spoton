@@ -13,7 +13,7 @@
 - [x] **Phase 02.1: OAuth-PKCE Browser Auth** - Replace non-functional Keymaster/login5 auth with OAuth 2.0 PKCE browser flow (completed 2026-05-27)
 - [x] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus (completed 2026-05-28)
 - [x] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus (completed 2026-05-28)
-- [ ] **Phase 04.1: Streaming Bug Fixes + Passthrough Binary** - Fix UAT blockers and build passthrough-decoder binary
+- [x] **Phase 04.1: Streaming Bug Fixes + Passthrough Binary** - Fix UAT blockers and build passthrough-decoder binary (completed 2026-05-28)
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
@@ -136,13 +136,13 @@ Plans:
   4. strings.txt produces no parse errors in LMS log on startup
   5. librespot binary includes passthrough-decoder; OGG-capable players receive OGG stream directly
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
-- [ ] 04.1-01-PLAN.md — Perl bug fixes: URL prefix, formatOverride, getMetadataFor, passthrough-guard, strings.txt, pref_ prefix
-- [ ] 04.1-02-PLAN.md — librespot-spoton binary: --single-track mode with passthrough-decoder
+- [x] 04.1-01-PLAN.md — Perl bug fixes: URL prefix, formatOverride, getMetadataFor, passthrough-guard, strings.txt, pref_ prefix
+- [x] 04.1-02-PLAN.md — librespot-spoton binary: --single-track mode with passthrough-decoder
 
 ### Phase 5: Spotify Connect
 
@@ -182,7 +182,7 @@ Plans:
 | 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete    | 2026-05-27 |
 | 3. Browse + Navigation | 3/3 | Complete   | 2026-05-28 |
 | 4. Single-Track Streaming | 2/2 | Complete   | 2026-05-28 |
-| 04.1. Streaming Bug Fixes + Passthrough Binary | 0/2 | Planning complete | - |
+| 04.1. Streaming Bug Fixes + Passthrough Binary | 2/2 | Complete   | 2026-05-28 |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
