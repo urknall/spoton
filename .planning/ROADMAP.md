@@ -14,6 +14,7 @@
 - [x] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus (completed 2026-05-28)
 - [x] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus (completed 2026-05-28)
 - [x] **Phase 04.1: Streaming Bug Fixes + Passthrough Binary** - Fix UAT blockers and build passthrough-decoder binary (completed 2026-05-28)
+- [ ] **Phase 04.2: Credentials + Made For You Fix** - Own librespot credentials + category endpoint for personal mixes
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
@@ -143,6 +144,19 @@ Plans:
 
 - [x] 04.1-01-PLAN.md — Perl bug fixes: URL prefix, formatOverride, getMetadataFor, passthrough-guard, strings.txt, pref_ prefix
 - [x] 04.1-02-PLAN.md — librespot-spoton binary: --single-track mode with passthrough-decoder
+
+### Phase 04.2: Credentials + Made For You Fix (INSERTED)
+
+**Goal:** SpotOn manages its own librespot credentials independently from Spotty, and the Made For You feed uses the correct Spotify category endpoint instead of the broken me/playlists owner filter
+**Depends on:** Phase 04.1
+**Requirements**: AUTH-01, AUTH-02, NAV-02
+**Success Criteria** (what must be TRUE):
+
+  1. SpotOn provisions librespot credentials in its own cache directory during OAuth setup — no manual copy from Spotty's cache needed
+  2. "Für dich gemacht" shows Daily Mix, Discover Weekly, Release Radar and other personal playlists using the browse/categories endpoint
+  3. Streaming works after a fresh SpotOn setup without Spotty ever being installed
+
+**Plans:** TBD
 
 ### Phase 5: Spotify Connect
 
