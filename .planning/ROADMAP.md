@@ -71,7 +71,12 @@ Plans:
   3. Searching "Radiohead" returns results grouped into Tracks, Albums, Artists, and Playlists sections
   4. Navigating into an artist shows Albums/Singles/Compilations; into an album shows the paginated tracklist with track number, duration, and featuring artists
   5. Endpoints unavailable in Dev Mode (Artist Top Tracks, Related Artists, Browse Categories, New Releases) are silently hidden rather than showing an error
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — API endpoint methods (Client.pm) + TokenManager scope extension + i18n strings
+- [ ] 03-02-PLAN.md — Top-level menu + Home feed + Library feed + shared item builders (Plugin.pm)
+- [ ] 03-03-PLAN.md — Search feed + Detail pages (Artist/Album/Playlist) + context navigation + human verify
 
 ### Phase 4: Single-Track Streaming
 **Goal**: Users can play any Spotify track found via Browse, with correct transcoding pipeline selection and seeking support
@@ -115,11 +120,11 @@ Plans:
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
 | 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete    | 2026-05-27 |
-| 3. Browse + Navigation | 0/? | Not started | - |
+| 3. Browse + Navigation | 0/3 | Planning complete | - |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-05-27 after Phase 02.1 gap closure planning*
+*Last updated: 2026-05-28 after Phase 3 planning*
