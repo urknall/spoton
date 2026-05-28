@@ -83,7 +83,7 @@ Plans:
   4. Navigating into an artist shows Albums/Singles/Compilations; into an album shows the paginated tracklist with track number, duration, and featuring artists
   5. Endpoints unavailable in Dev Mode (Artist Top Tracks, Related Artists, Browse Categories, New Releases) are silently hidden rather than showing an error
 
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 
 Plans:
 **Wave 1**
@@ -92,7 +92,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 03-02-PLAN.md — Top-level menu + Home feed + Library feed + shared item builders (Plugin.pm)
+- [x] 03-02-PLAN.md — Top-level menu + Home feed + Library feed + shared item builders (Plugin.pm)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -149,7 +149,7 @@ Plans:
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
 | 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete    | 2026-05-27 |
-| 3. Browse + Navigation | 1/3 | In Progress|  |
+| 3. Browse + Navigation | 2/3 | In Progress|  |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
