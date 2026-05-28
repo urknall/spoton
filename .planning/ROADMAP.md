@@ -170,6 +170,7 @@ Plans:
   1. Setting bitrate to 96 kbps on one player and 320 kbps on another causes each player to stream at its configured bitrate independently
   2. When a playlist ends, Don't Stop The Music automatically queues a related Spotify track and playback continues without user intervention
   3. Placing a custom librespot binary in the designated path causes the plugin to use that binary instead of the bundled one; the `--check` version enforcement still applies
+  4. Tapping a single track in an album or playlist queues all visible tracks and starts at the tapped track (playall fix from Phase 04.1 UAT backlog)
 
 **Plans**: TBD
 
