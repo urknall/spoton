@@ -111,7 +111,16 @@ Plans:
   4. Two players simultaneously starting different tracks each play their correct track (no transcoding-table race condition)
   5. Hourly cleanup runs with no orphaned librespot processes accumulating after 2 hours of normal use
 
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 04-01-PLAN.md — Core transcoding engine: dynamic formatOverride + updateTranscodingTable + normalization pref
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 04-02-PLAN.md — Context queueing (playall), orphaned process cleanup, streaming settings UI + i18n
 
 ### Phase 5: Spotify Connect
 
@@ -150,10 +159,10 @@ Plans:
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
 | 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete    | 2026-05-27 |
 | 3. Browse + Navigation | 3/3 | Complete   | 2026-05-28 |
-| 4. Single-Track Streaming | 0/? | Not started | - |
+| 4. Single-Track Streaming | 0/2 | Planned | - |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-05-28 after Phase 3 planning*
+*Last updated: 2026-05-28 after Phase 4 planning*
