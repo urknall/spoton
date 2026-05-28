@@ -1,11 +1,11 @@
 ---
-status: partial
+status: resolved
 phase: 04-single-track-streaming
 source:
   - 04-01-SUMMARY.md
   - 04-02-SUMMARY.md
 started: 2026-05-28T00:00:00Z
-updated: 2026-05-28T18:36:00Z
+updated: 2026-05-28T22:00:00Z
 ---
 
 ## Current Test
@@ -83,7 +83,7 @@ pending: 0
 ## Gaps
 
 - truth: "SpotOn ProtocolHandler muss spotify:// URIs eigenstaendig streamen koennen"
-  status: failed
+  status: resolved
   reason: "URL-Konstruktion erzeugt doppeltes Prefix: spotify://spotify:track:... statt spotify://track:... LMS faellt auf RemoteStream zurueck und versucht 'spotify' als Hostnamen aufzuloesen. ProtocolHandler wird nicht als Transcoding-Handler erkannt."
   severity: blocker
   test: 1
@@ -95,7 +95,7 @@ pending: 0
     - ProtocolHandler muss von LMS als Transcoding-Handler erkannt werden (nicht RemoteStream)
     - Artwork-Metadata fuer queued Tracks (getMetadataFor Implementierung)
 - truth: "Tapping a track in an album feed queues the entire album and starts at the tapped track"
-  status: failed
+  status: resolved
   reason: "playall => 1 hat keinen sichtbaren Effekt auf Track-Items. LMS 'Alle Titel' Play-Button fuellt Queue, aber kein Audio und kein Artwork."
   severity: blocker
   test: 5
@@ -106,7 +106,7 @@ pending: 0
     - 'Alle Titel' Queue: kein Audio wegen URL-Prefix-Bug (siehe Gap 1)
     - Artwork fehlt bei Queue-Modus (getMetadataFor fehlt)
 - truth: "Tapping a track in search/playlist queues all visible tracks"
-  status: failed
+  status: resolved
   reason: "Gleiches Problem wie Test 5 — playall ohne Effekt, 'Alle Titel' kein Audio/Artwork."
   severity: blocker
   test: 6
@@ -114,7 +114,7 @@ pending: 0
     - Plugins/SpotOn/Plugin.pm (_trackItem)
   missing: []
 - truth: "strings.txt NORMALIZATION_DESC leer verursacht Parse-Fehler in LMS"
-  status: failed
+  status: resolved
   reason: "LMS Slim::Utils::Strings::parseStrings meldet Error auf Zeilen 226-227. Leere Werte in strings.txt werden nicht korrekt geparst."
   severity: minor
   test: 8
@@ -123,7 +123,7 @@ pending: 0
   missing:
     - Leere String-Werte brauchen mindestens einen Platzhalter-Text oder muessen entfernt werden
 - truth: "Settings template clientId braucht pref_ Prefix"
-  status: failed
+  status: resolved
   reason: "LMS warnt: 'Preference names must be prefixed by pref_ in the page template: clientId'. Template-Variable heisst clientId statt pref_clientId."
   severity: minor
   test: 9
