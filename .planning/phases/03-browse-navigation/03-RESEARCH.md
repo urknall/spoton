@@ -647,19 +647,19 @@ use constant REQUIRED_SCOPES => join(' ', qw(
 
 ## Open Questions
 
-1. **Re-Auth-Trigger bei Scope-Erweiterung**
+1. **Re-Auth-Trigger bei Scope-Erweiterung** (RESOLVED)
    - What we know: `user-follow-read` fehlt in REQUIRED_SCOPES. Hinzufügen ändert die Auth-URL.
-   - What's unclear: Erzwingt der bestehende TokenManager automatisch einen Re-Auth wenn der Scope sich ändert? Oder behält er den alten Token bis zur nächsten Erneuerung?
+   - What's unclear: (RESOLVED) Plan 01 Task 2 addresses this: TokenManager checks scope mismatch on token refresh. Plan 01 Task 2 acceptance_criteria now includes grep verification for scope-check logic.
    - Recommendation: Im Plan einen expliziten Schritt einbauen: nach Scope-Erweiterung Token-Cache für alle Accounts invalidieren (einmalig beim Plugin-Start).
 
-2. **Playlist-Items für Spotify-owned Playlists (Made-For-You)**
+2. **Playlist-Items für Spotify-owned Playlists (Made-For-You)** (ACKNOWLEDGED — empirical test at runtime)
    - What we know: Feb 2026: Items nur für Playlists, die der User besitzt oder mitarbeitet.
    - What's unclear: Zählt "Discover Weekly" (owner = spotify) als für den User zugänglich via `/playlists/{id}/items`? Der User "folgt" diesen Playlists.
-   - Recommendation: Empirisch testen. Falls blockiert: Made-For-You in Phase 3 als reine Liste ohne durchklickbare Tracks implementieren (Playlist als Ganzes abspielen kommt Phase 4).
+   - Recommendation: Empirisch testen. Plan 03 Task 1 includes explicit fallback: if getPlaylistItems returns 403 (undef $data), the error callback shows NO_RESULTS textarea. Made-For-You home feed shows playlist list from getUserPlaylists (no drill-down blocked). Playlist detail drill-down may fail gracefully.
 
-3. **Top-Ergebnis bei Suche (D-10)**
+3. **Top-Ergebnis bei Suche (D-10)** (RESOLVED)
    - What we know: Kein `best_match`-Feld in der Spotify Search API.
-   - What's unclear: Welcher Typ (Track/Album/Künstler) soll als "Top-Ergebnis" priorisiert werden?
+   - What's unclear: (RESOLVED) Plan 03 implements first track from tracks.items[0] as Top Result — the most commonly searched object type. No best_match field needed.
    - Recommendation: Ersten Track aus `tracks.items[0]` als Top-Ergebnis nehmen — Tracks sind das häufigste gesuchte Objekt.
 
 ---
