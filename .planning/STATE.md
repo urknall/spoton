@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-05-28T15:20:09.069Z"
+last_updated: "2026-05-28T16:42:01.071Z"
 progress:
-  total_phases: 7
-  completed_phases: 4
+  total_phases: 8
+  completed_phases: 5
   total_plans: 19
-  completed_plans: 17
-  percent: 57
+  completed_plans: 19
+  percent: 63
 ---
 
 # Project State: SpotOn
@@ -48,6 +48,7 @@ Progress: Phase 1 of 6
 ### Roadmap Evolution
 
 - Phase 02.1 inserted after Phase 02: OAuth-PKCE Browser Auth (URGENT)
+- Phase 04.1 inserted after Phase 04: Streaming Bug Fixes + Passthrough Binary (URGENT)
 
 ### Key Decisions Made
 

@@ -122,6 +122,25 @@ Plans:
 
 - [x] 04-02-PLAN.md — Context queueing (playall), orphaned process cleanup, streaming settings UI + i18n
 
+### Phase 04.1: Streaming Bug Fixes + Passthrough Binary (INSERTED)
+
+**Goal:** Fix all Phase 4 UAT blockers: URL double-prefix, ProtocolHandler transcoding chain, getMetadataFor for artwork, playall feed structure, strings.txt parse errors, clientId pref prefix, and passthrough-decoder binary build
+**Depends on:** Phase 4
+**Requirements**: STR-01, STR-02, STR-03, STR-05, STR-06
+**Success Criteria** (what must be TRUE):
+
+  1. Selecting a track from SpotOn menus plays audio through LMS without Spotty active; no "Couldn't resolve IP address" errors in logs
+  2. Artwork displays correctly for playing and queued tracks
+  3. "Alle Titel" play button in album/playlist queues all tracks with working audio and artwork
+  4. strings.txt produces no parse errors in LMS log on startup
+  5. librespot binary includes passthrough-decoder; OGG-capable players receive OGG stream directly
+
+**Plans:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 04.1 to break down)
+
 ### Phase 5: Spotify Connect
 
 **Goal**: Every LMS player appears as a Spotify Connect receiver; transferring playback from the Spotify app to any LMS player starts audio within 3 seconds, and Spotify app transport controls work
