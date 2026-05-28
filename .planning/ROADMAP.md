@@ -11,7 +11,7 @@
 - [ ] **Phase 1: Plugin Skeleton + Binary Foundation** - Plugin loads in LMS, correct manifest, binary scaffolding in place
 - [x] **Phase 2: Auth + API Foundation** - Authenticated Spotify API requests work; token lifecycle managed (completed 2026-05-27)
 - [x] **Phase 02.1: OAuth-PKCE Browser Auth** - Replace non-functional Keymaster/login5 auth with OAuth 2.0 PKCE browser flow (completed 2026-05-27)
-- [ ] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus
+- [x] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus (completed 2026-05-28)
 - [ ] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
@@ -83,7 +83,7 @@ Plans:
   4. Navigating into an artist shows Albums/Singles/Compilations; into an album shows the paginated tracklist with track number, duration, and featuring artists
   5. Endpoints unavailable in Dev Mode (Artist Top Tracks, Related Artists, Browse Categories, New Releases) are silently hidden rather than showing an error
 
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1**
@@ -96,7 +96,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 03-03-PLAN.md — Search feed + Detail pages (Artist/Album/Playlist) + context navigation + human verify
+- [x] 03-03-PLAN.md — Search feed + Detail pages (Artist/Album/Playlist) + context navigation + human verify
 
 ### Phase 4: Single-Track Streaming
 
@@ -149,7 +149,7 @@ Plans:
 | 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
 | 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete    | 2026-05-27 |
-| 3. Browse + Navigation | 2/3 | In Progress|  |
+| 3. Browse + Navigation | 3/3 | Complete   | 2026-05-28 |
 | 4. Single-Track Streaming | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
