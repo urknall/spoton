@@ -12,7 +12,7 @@
 - [x] **Phase 2: Auth + API Foundation** - Authenticated Spotify API requests work; token lifecycle managed (completed 2026-05-27)
 - [x] **Phase 02.1: OAuth-PKCE Browser Auth** - Replace non-functional Keymaster/login5 auth with OAuth 2.0 PKCE browser flow (completed 2026-05-27)
 - [x] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus (completed 2026-05-28)
-- [ ] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus
+- [x] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus (completed 2026-05-28)
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
@@ -111,7 +111,7 @@ Plans:
   4. Two players simultaneously starting different tracks each play their correct track (no transcoding-table race condition)
   5. Hourly cleanup runs with no orphaned librespot processes accumulating after 2 hours of normal use
 
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -120,7 +120,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 04-02-PLAN.md — Context queueing (playall), orphaned process cleanup, streaming settings UI + i18n
+- [x] 04-02-PLAN.md — Context queueing (playall), orphaned process cleanup, streaming settings UI + i18n
 
 ### Phase 5: Spotify Connect
 
@@ -159,7 +159,7 @@ Plans:
 | 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
 | 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete    | 2026-05-27 |
 | 3. Browse + Navigation | 3/3 | Complete   | 2026-05-28 |
-| 4. Single-Track Streaming | 1/2 | In Progress|  |
+| 4. Single-Track Streaming | 2/2 | Complete   | 2026-05-28 |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
