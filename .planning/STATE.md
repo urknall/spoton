@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-05-28T20:11:58.978Z"
+last_updated: "2026-05-28T20:40:55.741Z"
 progress:
   total_phases: 9
   completed_phases: 6
-  total_plans: 21
+  total_plans: 23
   completed_plans: 21
   percent: 67
 ---
@@ -30,7 +30,7 @@ Phase: 04.1 (streaming-bug-fixes-passthrough-binary) — EXECUTING
 Plan: 1 of 2
 **Phase:** 4
 **Plan:** Not started
-**Status:** Executing Phase 04.1
+**Status:** Ready to execute
 
 ```
 Progress: Phase 1 of 6
