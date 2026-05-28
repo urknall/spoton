@@ -600,22 +600,25 @@ if ($paramRef->{saveSettings}) {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **passthrough-Capability im Binary**
    - Was wir wissen: CLAUDE.md listet `--passthrough` als Flag; `passthrough-decoder` ist ein optionales librespot Build-Feature
    - Was unklar ist: Ob das existierende SpotOn-Binary mit passthrough-decoder kompiliert wurde
    - Empfehlung: In `Helper.pm::helperCheck()` pruefen ob `--check` JSON ein `"passthrough": true` enthaelt; in `formatOverride` guard einbauen
+   - **RESOLVED:** formatOverride enthaelt einen getCapability('passthrough')-Guard: OGG wird NUR zurueckgegeben wenn sowohl der Player OGG unterstuetzt ALS AUCH das Binary passthrough-capable ist. Wenn das Binary kein passthrough hat, faellt formatOverride sicher auf FLAC zurueck. Das unbekannte Risiko (A2) ist damit korrekt mitigiert — kein Live-Test noetig fuer Code-Korrektheit.
 
 2. **librespot -n Flag und Player-Name-Konflikte**
    - Was wir wissen: `custom-convert.conf` nutzt `-n Squeezebox` als festen Namen
    - Was unklar ist: Ob der Name in Phase 4 (Single-Track, kein Connect) eine Rolle spielt; in Phase 5 wird `-n` auf Player-Name gesetzt (Connect)
    - Empfehlung: In Phase 4 `-n Squeezebox` fest lassen; Phase 5 aendert das
+   - **RESOLVED:** In Phase 4 (--single-track, kein Connect) hat der `-n` Name keine funktionale Relevanz — er wird nur fuer mDNS-Announcement benoetigt, das mit `--disable-discovery` ohnehin deaktiviert ist. Fest auf `-n Squeezebox` belassen; Phase 5 aendert das fuer Connect-Daemons.
 
 3. **Pref-Namespace `normalization` vs. LMS `replayGainMode`**
    - Was wir wissen: Spotty synct `replaygain` Pref mit LMS-Server-Pref `replayGainMode`
    - Was unklar ist: Ob wir das fuer Phase 4 ebenfalls wollen (oder einfaches eigenes Pref)
    - Empfehlung: Eigenes einfaches Pref `normalization` (0/1) in Phase 4; LMS-Sync-Integration in Phase 6
+   - **RESOLVED:** Phase 4 verwendet eigenes einfaches Pref `normalization` (0/1, global). LMS-Server-Pref-Sync (`replayGainMode`) ist Phase 6 Scope (LMS-08 per-player settings).
 
 ---
 
