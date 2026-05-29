@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-05-29T17:21:28Z",
+  "phase": "04.4",
+  "phase_name": "dual-token-api-routing",
+  "phase_dir": ".planning/phases/04.4-dual-token-api-routing",
+  "plan": null,
+  "task": null,
+  "total_tasks": 4,
+  "status": "complete",
+  "completed_tasks": [
+    {"id": 1, "name": "Plan 04.4-01: TokenManager + Client.pm dual-token routing", "status": "done", "commit": "d33d4fa..2911686"},
+    {"id": 2, "name": "Plan 04.4-02: Settings UI + degraded-mode warning", "status": "done", "commit": "e79b93a..a1f725c"},
+    {"id": 3, "name": "Code Review — 3 critical fixes", "status": "done", "commit": "b2dd1e9"},
+    {"id": 4, "name": "UAT — 6/7 passed, 4 fixes during testing", "status": "done", "commit": "6399360"}
+  ],
+  "remaining_tasks": [],
+  "blockers": [],
+  "human_actions_pending": [
+    {"action": "Restore LMS log.conf — run: sudo cp /tmp/log.conf.fixed /var/lib/squeezeboxserver/prefs/log.conf && sudo chown squeezeboxserver:nogroup /var/lib/squeezeboxserver/prefs/log.conf && sudo systemctl restart lyrionmusicserver", "context": "Debugging form POST set all LMS log categories to ERROR. Fixed file at /tmp/log.conf.fixed restores WARN defaults.", "blocking": false},
+    {"action": "Confirm Made For You playlists visible (Release Radar, Discover Weekly, Daily Mixes)", "context": "Pagination fix committed but user didn't confirm final list after last restart", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "Use Herger's Spotty-NG Client-ID (93aac68fb06348598c1e67734dfaceee) as bundled-token ID", "rationale": "librespot-Default-ID permanently 429'd due to shared usage. Herger's ID has own rate-limit bucket and browse/categories access.", "phase": "04.4"},
+    {"decision": "Made For You via browse/categories instead of me/playlists regex", "rationale": "Curated playlists don't appear in me/playlists. Spotty-NG pattern: browse/categories/0JQ5DAt0tbjZptfcdMSKl3/playlists with bundled-token.", "phase": "04.4"},
+    {"decision": "Both token flavors use --client-id with different IDs", "rationale": "Originally bundled = no --client-id (librespot default). Changed because librespot default is rate-limited.", "phase": "04.4"}
+  ],
+  "uncommitted_files": [".planning/config.json", ".planning/phases/04.4-dual-token-api-routing/04.4-REVIEW.md"],
+  "next_action": "Phase 04.4 complete. Next: /gsd:progress to advance to Phase 5 (Spotify Connect) or review backlog items (dead code cleanup, own Client-ID registration).",
+  "context_notes": "Phase 04.4 fully executed, reviewed, verified, and UAT'd. Backlog items added to ROADMAP.md. Memory updated with dead-code-cleanup items."
+}
