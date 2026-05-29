@@ -261,6 +261,14 @@ Plans:
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
+## Backlog
+
+Items discovered during UAT — not blocking, schedule into future phases.
+
+1. **Dead Code Cleanup (Phase 04.4)** — Remove `_isMadeForYou` No-Op filter in Plugin.pm:689, dead `_onSuccess`/`_onError` subs in Client.pm:530-604, unused `RATE_LIMIT_CACHE_KEY` constant. ~80 lines. Candidates for Phase 6 or standalone `/gsd-quick`.
+2. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID (`93aac68...`). Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode für browse/categories-Zugriff.
+3. **playall auf Track-Items** — XMLBrowser ignoriert playall; muss in Phase 6 oder eigener Phase gefixt werden (aus Phase 04.1 UAT).
+
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-05-29 after Phase 04.4 planning*
+*Last updated: 2026-05-29 after Phase 04.4 UAT*
