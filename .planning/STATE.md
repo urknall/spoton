@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-05-29T08:40:00.441Z"
+last_updated: "2026-05-29T14:10:21.001Z"
 progress:
-  total_phases: 10
-  completed_phases: 7
+  total_phases: 11
+  completed_phases: 8
   total_plans: 27
-  completed_plans: 23
-  percent: 70
+  completed_plans: 27
+  percent: 73
 ---
 
 # Project State: SpotOn
@@ -22,15 +22,15 @@ progress:
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 04.3 — zeroconf-keymaster-auth
+**Current Focus:** Phase 04.4 — dual-token-api-routing
 
 ## Current Position
 
-Phase: 04.3 (zeroconf-keymaster-auth) — EXECUTING
-Plan: 1 of 4
-**Phase:** 4
+Phase: 04.4 (dual-token-api-routing) — DISCUSSING
+Plan: 0 of 0
+**Phase:** 04.4
 **Plan:** Not started
-**Status:** Executing Phase 04.3
+**Status:** Discussing Phase 04.4
 
 ```
 Progress: Phase 1 of 6
@@ -51,6 +51,7 @@ Progress: Phase 1 of 6
 - Phase 04.1 inserted after Phase 04: Streaming Bug Fixes + Passthrough Binary (URGENT)
 - Phase 04.2 inserted after Phase 04.1: Credentials + Made For You Fix (URGENT)
 - Phase 04.3 inserted after Phase 04.2: ZeroConf + Keymaster Auth — PKCE token incompatible with Spotify AP, requires architectural rework (URGENT)
+- Phase 04.4 inserted after Phase 04.3: Dual-Token API Routing (URGENT)
 
 ### Key Decisions Made
 

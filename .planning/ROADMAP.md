@@ -194,6 +194,24 @@ Plans:
 
 - [x] 04.3-04-PLAN.md — PKCE cleanup: UAT verification + Callback.pm deletion (D-06)
 
+### Phase 04.4: Dual-Token API Routing (INSERTED)
+
+**Goal:** Implement dual-flavor token routing in Client.pm — own-token (eigene Client-ID) for me/* and search, bundled-token (librespot-Default-ID) for browse/categories and curated playlists — with 403/410 fallback, hint-cache, and me/* guard based on Spotty-NG reference architecture
+**Requirements**: API-01, API-02, API-03
+**Depends on:** Phase 04.3
+**Success Criteria** (what must be TRUE):
+
+  1. Web API calls to `me/*` endpoints always use own-token (eigene Client-ID) — never bundled
+  2. Web API calls to `browse/categories` and curated playlists (`37i9*`) use bundled-token (librespot-Default-ID)
+  3. A 403/410 on own-token triggers automatic retry with bundled-token and caches the hint for 24h
+  4. No 429 rate-limit errors under normal Browse + Library usage patterns (dual-ID pressure distribution)
+  5. Both token flavors refresh independently without user interaction
+
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 04.4 to break down)
+
 ### Phase 5: Spotify Connect
 
 **Goal**: Every LMS player appears as a Spotify Connect receiver; transferring playback from the Spotify app to any LMS player starts audio within 3 seconds, and Spotify app transport controls work
@@ -236,6 +254,7 @@ Plans:
 | 04.1. Streaming Bug Fixes + Passthrough Binary | 2/2 | Complete   | 2026-05-28 |
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
+| 04.4. Dual-Token API Routing | 0/? | Not started | - |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
