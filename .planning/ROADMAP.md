@@ -14,7 +14,7 @@
 - [x] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus (completed 2026-05-28)
 - [x] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus (completed 2026-05-28)
 - [x] **Phase 04.1: Streaming Bug Fixes + Passthrough Binary** - Fix UAT blockers and build passthrough-decoder binary (completed 2026-05-28)
-- [ ] **Phase 04.2: Credentials + Made For You Fix** - Own librespot credentials + category endpoint for personal mixes
+- [x] **Phase 04.2: Credentials + Made For You Fix** - Own librespot credentials + category endpoint for personal mixes (completed 2026-05-29)
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
@@ -156,13 +156,13 @@ Plans:
   2. "Für dich gemacht" shows Daily Mix, Discover Weekly, Release Radar and other personal playlists using the browse/categories endpoint
   3. Streaming works after a fresh SpotOn setup without Spotty ever being installed
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
-- [ ] 04.2-01-PLAN.md — Token-Login binary mode (main.rs) + credential provisioning in TokenManager.pm
-- [ ] 04.2-02-PLAN.md — Made For You feed: category endpoint + name-matching fallback (Client.pm + Plugin.pm)
+- [x] 04.2-01-PLAN.md — Token-Login binary mode (main.rs) + credential provisioning in TokenManager.pm
+- [x] 04.2-02-PLAN.md — Made For You feed: category endpoint + name-matching fallback (Client.pm + Plugin.pm)
 
 ### Phase 5: Spotify Connect
 
@@ -204,7 +204,7 @@ Plans:
 | 3. Browse + Navigation | 3/3 | Complete   | 2026-05-28 |
 | 4. Single-Track Streaming | 2/2 | Complete   | 2026-05-28 |
 | 04.1. Streaming Bug Fixes + Passthrough Binary | 2/2 | Complete   | 2026-05-28 |
-| 04.2. Credentials + Made For You Fix | 0/2 | Planning complete | - |
+| 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
