@@ -178,7 +178,7 @@ Plans:
   4. Token refresh happens automatically via --get-token without user interaction
   5. PKCE OAuth flow removed or disabled — no browser redirect in auth flow
 
-**Plans:** 1/4 plans executed
+**Plans:** 3/4 plans executed
 
 Plans:
 **Wave 1**
@@ -187,8 +187,8 @@ Plans:
 
 **Wave 2** *(parallel — no file overlap)*
 
-- [ ] 04.3-02-PLAN.md — TokenManager.pm rewrite (Keymaster --get-token + Discovery lifecycle) + Plugin.pm wiring
-- [ ] 04.3-03-PLAN.md — Settings UI (ZeroConf discovery page + AJAX status endpoint + strings)
+- [x] 04.3-02-PLAN.md — TokenManager.pm rewrite (Keymaster --get-token + Discovery lifecycle) + Plugin.pm wiring
+- [x] 04.3-03-PLAN.md — Settings UI (ZeroConf discovery page + AJAX status endpoint + strings)
 
 **Wave 3** *(blocked on Wave 2, requires UAT)*
 
@@ -235,7 +235,7 @@ Plans:
 | 4. Single-Track Streaming | 2/2 | Complete   | 2026-05-28 |
 | 04.1. Streaming Bug Fixes + Passthrough Binary | 2/2 | Complete   | 2026-05-28 |
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
-| 04.3. ZeroConf + Keymaster Auth | 1/4 | In Progress|  |
+| 04.3. ZeroConf + Keymaster Auth | 3/4 | In Progress|  |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
