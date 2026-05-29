@@ -178,12 +178,12 @@ Plans:
   4. Token refresh happens automatically via --get-token without user interaction
   5. PKCE OAuth flow removed or disabled — no browser redirect in auth flow
 
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 04.3-01-PLAN.md — Binary: --discover-once mode (librespot-discovery + ZeroConf mDNS)
+- [x] 04.3-01-PLAN.md — Binary: --discover-once mode (librespot-discovery + ZeroConf mDNS)
 
 **Wave 2** *(parallel — no file overlap)*
 
@@ -235,7 +235,7 @@ Plans:
 | 4. Single-Track Streaming | 2/2 | Complete   | 2026-05-28 |
 | 04.1. Streaming Bug Fixes + Passthrough Binary | 2/2 | Complete   | 2026-05-28 |
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
-| 04.3. ZeroConf + Keymaster Auth | 0/4 | Planned    | - |
+| 04.3. ZeroConf + Keymaster Auth | 1/4 | In Progress|  |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
