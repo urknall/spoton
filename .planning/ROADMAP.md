@@ -207,13 +207,13 @@ Plans:
   4. No 429 rate-limit errors under normal Browse + Library usage patterns (dual-ID pressure distribution)
   5. Both token flavors refresh independently without user interaction
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
-- [ ] 04.4-01-PLAN.md — TokenManager.pm flavor-aware interface + Client.pm dual-token routing pipeline
-- [ ] 04.4-02-PLAN.md — Settings UI: Client-ID field, degraded-mode warning, i18n strings
+- [x] 04.4-01-PLAN.md — TokenManager.pm flavor-aware interface + Client.pm dual-token routing pipeline
+- [x] 04.4-02-PLAN.md — Settings UI: Client-ID field, degraded-mode warning, i18n strings
 
 ### Phase 5: Spotify Connect
 
@@ -257,7 +257,7 @@ Plans:
 | 04.1. Streaming Bug Fixes + Passthrough Binary | 2/2 | Complete   | 2026-05-28 |
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
-| 04.4. Dual-Token API Routing | 0/2 | Planned    | - |
+| 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
