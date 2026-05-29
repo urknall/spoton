@@ -15,7 +15,7 @@
 - [x] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus (completed 2026-05-28)
 - [x] **Phase 04.1: Streaming Bug Fixes + Passthrough Binary** - Fix UAT blockers and build passthrough-decoder binary (completed 2026-05-28)
 - [x] **Phase 04.2: Credentials + Made For You Fix** - Own librespot credentials + category endpoint for personal mixes (completed 2026-05-29)
-- [ ] **Phase 04.3: ZeroConf + Keymaster Auth** - Single auth step via Spotify app replaces PKCE browser flow for credential provisioning
+- [x] **Phase 04.3: ZeroConf + Keymaster Auth** - Single auth step via Spotify app replaces PKCE browser flow for credential provisioning (completed 2026-05-29)
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
@@ -178,7 +178,7 @@ Plans:
   4. Token refresh happens automatically via --get-token without user interaction
   5. PKCE OAuth flow removed or disabled — no browser redirect in auth flow
 
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 1**
@@ -192,7 +192,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2, requires UAT)*
 
-- [ ] 04.3-04-PLAN.md — PKCE cleanup: UAT verification + Callback.pm deletion (D-06)
+- [x] 04.3-04-PLAN.md — PKCE cleanup: UAT verification + Callback.pm deletion (D-06)
 
 ### Phase 5: Spotify Connect
 
@@ -235,7 +235,7 @@ Plans:
 | 4. Single-Track Streaming | 2/2 | Complete   | 2026-05-28 |
 | 04.1. Streaming Bug Fixes + Passthrough Binary | 2/2 | Complete   | 2026-05-28 |
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
-| 04.3. ZeroConf + Keymaster Auth | 3/4 | In Progress|  |
+| 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
