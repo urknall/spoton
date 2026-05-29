@@ -15,6 +15,7 @@
 - [x] **Phase 4: Single-Track Streaming** - Users can play any Spotify track from the Browse menus (completed 2026-05-28)
 - [x] **Phase 04.1: Streaming Bug Fixes + Passthrough Binary** - Fix UAT blockers and build passthrough-decoder binary (completed 2026-05-28)
 - [x] **Phase 04.2: Credentials + Made For You Fix** - Own librespot credentials + category endpoint for personal mixes (completed 2026-05-29)
+- [ ] **Phase 04.3: ZeroConf + Keymaster Auth** - Single auth step via Spotify app replaces PKCE browser flow for credential provisioning
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
@@ -163,6 +164,21 @@ Plans:
 
 - [x] 04.2-01-PLAN.md — Token-Login binary mode (main.rs) + credential provisioning in TokenManager.pm
 - [x] 04.2-02-PLAN.md — Made For You feed: category endpoint + name-matching fallback (Client.pm + Plugin.pm)
+
+### Phase 04.3: ZeroConf + Keymaster Auth (INSERTED)
+
+**Goal:** Replace PKCE token-based credential provisioning with ZeroConf discovery for librespot credentials and Keymaster --get-token for Web API access — single auth step via Spotify app, no browser OAuth required for streaming
+**Depends on:** Phase 04.2
+**Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-05
+**Success Criteria** (what must be TRUE):
+
+  1. SpotOn settings show "Connect with Spotify app" instruction that starts ZeroConf discovery mode
+  2. Connecting via Spotify app creates credentials.json in SpotOn cache — verified by ls -la
+  3. After ZeroConf auth, all Web API calls (library, playlists, search, browse) use Keymaster tokens from --get-token
+  4. Token refresh happens automatically via --get-token without user interaction
+  5. PKCE OAuth flow removed or disabled — no browser redirect in auth flow
+
+**Plans:** TBD
 
 ### Phase 5: Spotify Connect
 
