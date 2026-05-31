@@ -1,31 +1,37 @@
 {
   "version": "1.0",
-  "timestamp": "2026-05-29T17:21:28Z",
-  "phase": "04.4",
-  "phase_name": "dual-token-api-routing",
-  "phase_dir": ".planning/phases/04.4-dual-token-api-routing",
+  "timestamp": "2026-05-31T18:40:00Z",
+  "phase": null,
+  "phase_name": "between-phases",
+  "phase_dir": null,
   "plan": null,
   "task": null,
-  "total_tasks": 4,
-  "status": "complete",
+  "total_tasks": 0,
+  "status": "between_phases",
   "completed_tasks": [
-    {"id": 1, "name": "Plan 04.4-01: TokenManager + Client.pm dual-token routing", "status": "done", "commit": "d33d4fa..2911686"},
-    {"id": 2, "name": "Plan 04.4-02: Settings UI + degraded-mode warning", "status": "done", "commit": "e79b93a..a1f725c"},
-    {"id": 3, "name": "Code Review — 3 critical fixes", "status": "done", "commit": "b2dd1e9"},
-    {"id": 4, "name": "UAT — 6/7 passed, 4 fixes during testing", "status": "done", "commit": "6399360"}
+    {"id": 1, "name": "Dead code cleanup: _onSuccess/_onError, RATE_LIMIT_CACHE_KEY", "status": "done", "commit": "3094f20"},
+    {"id": 2, "name": "Fix broken rate-limit hint (checked never-set cache key)", "status": "done", "commit": "3094f20"},
+    {"id": 3, "name": "MFY sorting: locale-independent via parallel EN+localized requests", "status": "done", "commit": "b5ad2ae"},
+    {"id": 4, "name": "Album/playlist action buttons (play, queue, favorites)", "status": "done", "commit": "b5ad2ae"},
+    {"id": 5, "name": "Account switcher hidden for single account", "status": "done", "commit": "b5ad2ae"},
+    {"id": 6, "name": "displayName auto-correction on token refresh", "status": "done", "commit": "b5ad2ae"},
+    {"id": 7, "name": "Client.pm: generic _locale parameter for Accept-Language", "status": "done", "commit": "b5ad2ae"},
+    {"id": 8, "name": "Plugin icon (SpotOn spotlight design)", "status": "done", "commit": "3e7139b"},
+    {"id": 9, "name": "Bundled Client ID ecosystem research", "status": "done", "commit": null}
   ],
   "remaining_tasks": [],
   "blockers": [],
   "human_actions_pending": [
-    {"action": "Restore LMS log.conf — run: sudo cp /tmp/log.conf.fixed /var/lib/squeezeboxserver/prefs/log.conf && sudo chown squeezeboxserver:nogroup /var/lib/squeezeboxserver/prefs/log.conf && sudo systemctl restart lyrionmusicserver", "context": "Debugging form POST set all LMS log categories to ERROR. Fixed file at /tmp/log.conf.fixed restores WARN defaults.", "blocking": false},
-    {"action": "Confirm Made For You playlists visible (Release Radar, Discover Weekly, Daily Mixes)", "context": "Pagination fix committed but user didn't confirm final list after last restart", "blocking": false}
+    {"action": "LMS log.conf: alle Kategorien auf ERROR (Debugging-Überbleibsel). Fix via LMS Web-UI (Settings > Erweitert > Protokollierung) oder: sudo sed -i 's/=ERROR/=WARN/g' /var/lib/squeezeboxserver/prefs/log.conf && sudo systemctl restart lyrionmusicserver", "context": "Backup-Datei /tmp/log.conf.fixed existiert nicht mehr", "blocking": false},
+    {"action": "Eigene SpotOn Client-ID bei Spotify registrieren + Extended Quota beantragen", "context": "Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID. Langfristig eigene ID nötig. Siehe memory: bundled-client-ids.md", "blocking": false}
   ],
   "decisions": [
-    {"decision": "Use Herger's Spotty-NG Client-ID (93aac68fb06348598c1e67734dfaceee) as bundled-token ID", "rationale": "librespot-Default-ID permanently 429'd due to shared usage. Herger's ID has own rate-limit bucket and browse/categories access.", "phase": "04.4"},
-    {"decision": "Made For You via browse/categories instead of me/playlists regex", "rationale": "Curated playlists don't appear in me/playlists. Spotty-NG pattern: browse/categories/0JQ5DAt0tbjZptfcdMSKl3/playlists with bundled-token.", "phase": "04.4"},
-    {"decision": "Both token flavors use --client-id with different IDs", "rationale": "Originally bundled = no --client-id (librespot default). Changed because librespot default is rate-limited.", "phase": "04.4"}
+    {"decision": "_isMadeForYou ist kein Dead Code — verhindert Duplikate zwischen MFY-Feed und Library-Playlists", "rationale": "Daily Mixes erscheinen in me/playlists UND browse/categories. Filter in _libraryPlaylistsFeed verhindert doppelte Anzeige.", "phase": "backlog"},
+    {"decision": "MFY-Sortierung via parallele EN+lokalisierte API-Requests", "rationale": "Spotify lokalisiert Playlist-Namen (Discover Weekly → Dein Mix der Woche). Englischer Name als Sortier-Schlüssel, lokalisierter Name für Display.", "phase": "backlog"},
+    {"decision": "type='playlist' + favorites_url für Album/Playlist-Items", "rationale": "Aktiviert Play/Queue/Favorites-Buttons im LMS Web-UI. Spotty-NG Pattern.", "phase": "backlog"},
+    {"decision": "ncspot Client-ID (d420a117...) hat Extended Quota Mode", "rationale": "spotify-player nutzt sie offen. Mögliche Alternative zu Hergers ID für SpotOn.", "phase": "research"}
   ],
-  "uncommitted_files": [".planning/config.json", ".planning/phases/04.4-dual-token-api-routing/04.4-REVIEW.md"],
-  "next_action": "Phase 04.4 complete. Next: /gsd:progress to advance to Phase 5 (Spotify Connect) or review backlog items (dead code cleanup, own Client-ID registration).",
-  "context_notes": "Phase 04.4 fully executed, reviewed, verified, and UAT'd. Backlog items added to ROADMAP.md. Memory updated with dead-code-cleanup items."
+  "uncommitted_files": [],
+  "next_action": "Phase 5 (Spotify Connect) ist die nächste auf der Roadmap. /gsd:discuss-phase 5 zum Kontext sammeln.",
+  "context_notes": "Zwischen-Session: Backlog-Cleanup, UX-Verbesserungen, Icon erstellt. Alle 9 bisherigen Phasen complete. Phase 5 (Spotify Connect, 17 Requirements CON-01..CON-17) noch nicht gestartet."
 }
