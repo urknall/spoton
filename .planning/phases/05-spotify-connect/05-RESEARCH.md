@@ -812,27 +812,19 @@ Phase 5 ist keine Rename/Refactor-Phase. Kein Runtime State Inventory erforderli
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **librespot-connect 0.8.0 vs. Spotty-NG interne Version: API-Divergenz**
-   - What we know: Spotty-NG nutzt `librespot-connect` als path-dependency (git-Workspace). Die crates.io-Version 0.8.0 ist released.
-   - What's unclear: Ob `ConnectConfig`-Felder, `Spirc::new()`-Signatur und `spirc.pause()`/`spirc.play()`/`spirc.next()`/`spirc.prev()` identisch sind zwischen git-HEAD und crates.io 0.8.0.
-   - Recommendation: Wave 0 Task — `cargo add librespot-connect@0.8.0` und Cargo-Resolve pruefen. Falls Signatur-Divergenz: Spotty-NG git-Fork als lokale Path-Dependency oder Version einfrieren.
+1. **librespot-connect 0.8.0 vs. Spotty-NG interne Version: API-Divergenz** — RESOLVED (accepted risk)
+   - Resolution: Plan 05-01 Task 2 enthält adaptive Implementierung: "If librespot-connect 0.8.0 Spirc public API differs from Spotty-NG assumptions, adapt: use mpsc channel to send control commands to the Spirc task, or use available Spirc methods." Beide Szenarien (direkte Public-API oder mpsc-Channel) sind vollständig geplant.
 
-2. **HTTP-Control-Endpoints: Spirc-Public-API**
-   - What we know: Spotty-NG's `Spirc` hat `shutdown()` Methode. D-14 erfordert `pause()`, `play()`, `volume()`, `seek()`, `next()`, `prev()`.
-   - What's unclear: Ob `librespot-connect 0.8.0 Spirc` diese Methoden oeffentlich exponiert oder nur intern durch Dealer-Messages implementiert.
-   - Recommendation: `cargo doc --open librespot-connect` nach Installation prueft die public API. Falls nicht vorhanden: Control ueber separaten mpsc-Channel an Spirc-Task.
+2. **HTTP-Control-Endpoints: Spirc-Public-API** — RESOLVED (accepted risk)
+   - Resolution: Plan 05-01 Task 2 implementiert Control über den verfügbaren Mechanismus — direkte spirc-Methoden wenn public, sonst mpsc-Channel. `cargo doc` wird während der Implementierung geprüft. Keine Blockade.
 
-3. **D-13 Enriched Events: Binary-Implementierungs-Komplexitaet**
-   - What we know: D-13 sagt Metadata direkt im Payload. Das benoetigt einen Metadata-Fetch im Binary (librespot-metadata Crate) nach TrackChanged.
-   - What's unclear: Ob `librespot-metadata` fuer SpotOn verfuegbar ist und ob der Fetch-Aufwand gerechtfertigt ist gegenueber einem einfachen API-Call von Perl aus.
-   - Recommendation: Starter-Implementierung ohne Enrichment (Perl ruft `API::Client->getTrack()` nach `start`/`change`-Event). Enrichment als optionales Upgrade wenn Latenz-Probleme auftreten.
+3. **D-13 Enriched Events: Binary-Implementierungs-Komplexitaet** — RESOLVED (plan decision)
+   - Resolution: Plan 05-04 Task 1 entscheidet: Starter-Implementierung ohne Binary-Enrichment. Perl ruft `API::Client->getTrack()` nach `start`/`change`-Event. Binary sendet nur track_id im Event-Payload.
 
-4. **Mixer fuer Connect-Mode**
-   - What we know: `Spirc::new()` benoetigt `Arc<dyn Mixer>`.
-   - What's unclear: Ob `NoOpMixer` oder `SoftMixer` fuer Volume-Control ueber Spotify korrekt ist.
-   - Recommendation: `SoftMixer::open(MixerConfig::default())` wie Spotty-NG. Volume-Events kommen als `VolumeChanged` PlayerEvent und werden als 0-100% ueber LMS-JSON-RPC weitergeleitet.
+4. **Mixer fuer Connect-Mode** — RESOLVED (plan decision)
+   - Resolution: Plan 05-01 Task 2 entscheidet: `SoftMixer::open(MixerConfig::default())` für Volume-Control (Pitfall 8). Volume-Events kommen als `VolumeChanged` PlayerEvent.
 
 ---
 
