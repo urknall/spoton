@@ -18,7 +18,7 @@
 - [x] **Phase 04.3: ZeroConf + Keymaster Auth** - Single auth step via Spotify app replaces PKCE browser flow for credential provisioning (completed 2026-05-29)
 - [x] **Phase 04.4: Dual-Token API Routing** - Dual-flavor token routing for rate-limit distribution (completed 2026-05-29)
 - [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
-- [ ] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay
+- [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -271,7 +271,7 @@ Plans:
 
 **Debug Approach:** Run squeezelite with `-d all` for SLIMproto-level visibility; add binary stderr logging for Spirc event sequence and HttpStreamSink write counts
 
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
@@ -281,7 +281,7 @@ Plans:
 
 **Wave 2** *(depends on Wave 1)*
 
-- [ ] 05.1-03-PLAN.md — Bug 2 diagnosis from logs + HTTP response header fix (conditional) + UAT checkpoint
+- [x] 05.1-03-PLAN.md — Bug 2 diagnosis from logs + HTTP response header fix (conditional) + UAT checkpoint
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -311,7 +311,7 @@ Plans:
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
-| 05.1. Connect Audio Streaming Bugfix | 2/3 | In Progress|  |
+| 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
