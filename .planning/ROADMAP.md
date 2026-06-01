@@ -370,7 +370,7 @@ Items discovered during UAT — not blocking, schedule into future phases.
 1. **Dead Code Cleanup (Phase 04.4)** — Remove `_isMadeForYou` No-Op filter in Plugin.pm:689, dead `_onSuccess`/`_onError` subs in Client.pm:530-604, unused `RATE_LIMIT_CACHE_KEY` constant. ~80 lines. Candidates for Phase 6 or standalone `/gsd-quick`.
 2. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID (`93aac68...`). Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode für browse/categories-Zugriff.
 3. **playall auf Track-Items** — XMLBrowser ignoriert playall; muss in Phase 6 oder eigener Phase gefixt werden (aus Phase 04.1 UAT).
-4. **Connect Session-Handover nach LMS-Quellenwechsel** — Wenn im Connect-Modus eine andere LMS-Musikquelle abgespielt wird (z.B. Spotty, lokale Musik) und danach über die Spotify App Play gedrückt wird, erfolgt kein Handover zurück zu Spotify Connect. Daemon läuft, App zeigt Player, aber Session wird nicht wieder aufgenommen.
+4. **Connect Session-Handover nach LMS-Quellenwechsel** — Wenn im Connect-Modus eine andere LMS-Musikquelle abgespielt wird (z.B. Spotty, lokale Musik) und danach über die Spotify App Play gedrückt wird, erfolgt kein Handover zurück zu Spotify Connect. Daemon läuft, App zeigt Player, aber Session wird nicht wieder aufgenommen. Spirc-Session scheint nach Quellenwechsel tot — erfordert Daemon-Neustart. Braucht vermutlich SessionDisconnected-Handling oder automatisches Daemon-Recycling.
 
 ---
 *Roadmap created: 2026-05-26*
