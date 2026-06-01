@@ -271,7 +271,17 @@ Plans:
 
 **Debug Approach:** Run squeezelite with `-d all` for SLIMproto-level visibility; add binary stderr logging for Spirc event sequence and HttpStreamSink write counts
 
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+**Wave 1** *(parallel — no file overlap)*
+
+- [ ] 05.1-01-PLAN.md — Binary fixes: Grace-timer (D-03) + eprintln! debug logging (D-02) in connect.rs + binary rebuild
+- [ ] 05.1-02-PLAN.md — Daemon.pm stderr capture (D-02 Perl half) for binary debug log persistence
+
+**Wave 2** *(depends on Wave 1)*
+
+- [ ] 05.1-03-PLAN.md — Bug 2 diagnosis from logs + HTTP response header fix (conditional) + UAT checkpoint
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -301,7 +311,7 @@ Plans:
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
-| 05.1. Connect Audio Streaming Bugfix | 0/? | Not started | - |
+| 05.1. Connect Audio Streaming Bugfix | 0/3 | Planning complete | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
@@ -314,4 +324,4 @@ Items discovered during UAT — not blocking, schedule into future phases.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-01 after Phase 05.1 insertion*
+*Last updated: 2026-06-01 after Phase 05.1 planning*
