@@ -18,6 +18,7 @@
 - [x] **Phase 04.3: ZeroConf + Keymaster Auth** - Single auth step via Spotify app replaces PKCE browser flow for credential provisioning (completed 2026-05-29)
 - [x] **Phase 04.4: Dual-Token API Routing** - Dual-flavor token routing for rate-limit distribution (completed 2026-05-29)
 - [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
+- [ ] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -249,6 +250,29 @@ Plans:
 
 - [x] 05-05-PLAN.md — Settings UI (per-player Connect toggle, OGG override) + i18n strings + UAT checkpoint
 
+### Phase 05.1: Connect Audio Streaming Bugfix (INSERTED)
+
+**Goal:** Fix the audio streaming pipeline: squeezelite DirectStream connection timing, binary Spirc session stability (spurious stop after TrackChanged), and PCM relay data flow verification. All Connect event/metadata/control paths verified working — only the audio data path remains.
+**Depends on:** Phase 5
+**Requirements**: CON-03, CON-04, CON-05, CON-14
+**Success Criteria** (what must be TRUE):
+
+  1. Transferring playback from Spotify app to LMS player produces audible audio within 5 seconds
+  2. squeezelite establishes and maintains a TCP connection to the binary's /stream HTTP endpoint
+  3. PCM data flows continuously from binary HttpStreamSink through HTTP relay to squeezelite
+  4. Playback time advances in LMS status; track duration and position match Spotify app
+  5. Browse-mode single-track streaming continues to work without regression
+
+**Known Issues (from Phase 5 UAT):**
+
+  1. squeezelite receives strm command but does not consistently open TCP connection to stream port
+  2. Binary's Spirc fires Stopped event shortly after TrackChanged→Playing sequence, causing premature session end
+  3. When connected, time=0 persists — PCM relay may not deliver data to the specific squeezelite connection
+
+**Debug Approach:** Run squeezelite with `-d all` for SLIMproto-level visibility; add binary stderr logging for Spirc event sequence and HttpStreamSink write counts
+
+**Plans**: TBD
+
 ### Phase 6: Polish + DSTM + Settings
 
 **Goal**: Player-specific preferences are applied per player, auto-play continues music after a queue ends, and power users can supply their own librespot binary
@@ -277,6 +301,7 @@ Plans:
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
+| 05.1. Connect Audio Streaming Bugfix | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
@@ -289,4 +314,4 @@ Items discovered during UAT — not blocking, schedule into future phases.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-01 after Phase 05 planning*
+*Last updated: 2026-06-01 after Phase 05.1 insertion*
