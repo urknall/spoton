@@ -19,7 +19,7 @@
 - [x] **Phase 04.4: Dual-Token API Routing** - Dual-flavor token routing for rate-limit distribution (completed 2026-05-29)
 - [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
 - [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
-- [ ] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek
+- [x] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek (completed 2026-06-01)
 - [ ] **Phase 05.3: Player Sync Groups** - Connect audio for synced players via LMS proxy path; multi-player sync-group testing
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
@@ -306,7 +306,7 @@ Plans:
   3. Volume Web API fallback returns 411 Length Required (PUT without Content-Length)
   4. Debug eprintln! lines in connect.rs need cleanup (scheduled from Phase 05.1)
 
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -315,7 +315,7 @@ Plans:
 
 **Wave 2** *(depends on Wave 1)*
 
-- [ ] 05.2-02-PLAN.md — Perl: Connect.pm resume handler + Client.pm Content-Length fix + UAT checkpoint
+- [x] 05.2-02-PLAN.md — Perl: Connect.pm resume handler + Client.pm Content-Length fix + UAT checkpoint
 
 ### Phase 05.3: Player Sync Groups (PLACEHOLDER)
 
@@ -359,7 +359,7 @@ Plans:
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
-| 05.2. Connect Controls & Resume | 1/2 | In Progress|  |
+| 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 0/? | Placeholder | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
