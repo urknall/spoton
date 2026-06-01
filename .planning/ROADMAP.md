@@ -19,6 +19,7 @@
 - [x] **Phase 04.4: Dual-Token API Routing** - Dual-flavor token routing for rate-limit distribution (completed 2026-05-29)
 - [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
 - [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
+- [ ] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -282,6 +283,29 @@ Plans:
 **Wave 2** *(depends on Wave 1)*
 
 - [x] 05.1-03-PLAN.md — Bug 2 diagnosis from logs + HTTP response header fix (conditional) + UAT checkpoint
+
+### Phase 05.2: Connect Controls & Resume (INSERTED)
+
+**Goal:** Fix Connect Resume after Pause and verify/fix all Connect control paths bidirectionally. All controls tested from both Spotify app→LMS and LMS→Spotify directions.
+**Depends on:** Phase 05.1
+**Requirements**: CON-05, CON-11, CON-13
+**Success Criteria** (what must be TRUE):
+
+  1. Resume after Pause works from Spotify app (binary sends resume event to LMS, squeezelite unpauses)
+  2. Volume sync is bidirectional: Spotify app volume change reflects on LMS player, LMS volume change reflects in Spotify app
+  3. Pause/Resume is bidirectional: Pause from Spotify pauses LMS, Pause from LMS pauses Spotify
+  4. Skip (next/prev) from Spotify app advances track on LMS; Skip from LMS sends skip to Spotify (semi-bidirectional)
+  5. Seek from Spotify app updates LMS playback position (unidirectional — LMS seek not expected to work in Connect mode)
+  6. Debug eprintln! logging from Phase 05.1 cleaned up or gated behind a flag
+
+**Known Issues (from Phase 05.1 UAT):**
+
+  1. Resume after Pause: Binary fires Playing event but does not send 'start' notification to LMS — squeezelite stays paused
+  2. Volume /control/volume returns 404 (binary endpoint not implemented or path mismatch)
+  3. Volume Web API fallback returns 411 Length Required (PUT without Content-Length)
+  4. Debug eprintln! lines in connect.rs need cleanup (scheduled from Phase 05.1)
+
+**Plans:** 0 plans — not yet planned
 
 ### Phase 6: Polish + DSTM + Settings
 
