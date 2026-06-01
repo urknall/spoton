@@ -20,6 +20,7 @@
 - [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
 - [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
 - [ ] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek
+- [ ] **Phase 05.3: Player Sync Groups** - Connect audio for synced players via LMS proxy path; multi-player sync-group testing
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -307,6 +308,19 @@ Plans:
 
 **Plans:** 0 plans — not yet planned
 
+### Phase 05.3: Player Sync Groups (PLACEHOLDER)
+
+**Goal:** Connect audio works for synced LMS players. LMS proxy path (`# I` / `Slim::Player::Protocols::HTTP`) delivers PCM from binary's /stream endpoint to multiple sync-group members simultaneously.
+**Depends on:** Phase 05.2
+**Requirements**: CON-06
+**Known Blockers:**
+
+  1. LMS proxy path (`# I`) connects to binary but disconnects immediately — likely needs buffered response or different HTTP server approach (hyper HTTP/1.0 streaming body not consumed fast enough by LMS's synchronous sysreadline)
+  2. `canDirectStream` returns 0 for synced players (correct) — proxy path via `ProtocolHandler::new()` must work
+  3. May require switching from hyper's async streaming body to a pre-buffered or chunked approach for the proxy connection
+
+**Plans:** 0 plans — placeholder, not yet scoped
+
 ### Phase 6: Polish + DSTM + Settings
 
 **Goal**: Player-specific preferences are applied per player, auto-play continues music after a queue ends, and power users can supply their own librespot binary
@@ -336,6 +350,8 @@ Plans:
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
+| 05.2. Connect Controls & Resume | 0/? | Not started | - |
+| 05.3. Player Sync Groups | 0/? | Placeholder | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
@@ -348,4 +364,4 @@ Items discovered during UAT — not blocking, schedule into future phases.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-01 after Phase 05.1 planning*
+*Last updated: 2026-06-01 after Phase 05.2/05.3 insertion*
