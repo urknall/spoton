@@ -306,7 +306,16 @@ Plans:
   3. Volume Web API fallback returns 411 Length Required (PUT without Content-Length)
   4. Debug eprintln! lines in connect.rs need cleanup (scheduled from Phase 05.1)
 
-**Plans:** 0 plans — not yet planned
+**Plans:** 2 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 05.2-01-PLAN.md — Binary: was_paused resume detection + volume 404 fix + eprintln! -> log::debug! migration + rebuild
+
+**Wave 2** *(depends on Wave 1)*
+
+- [ ] 05.2-02-PLAN.md — Perl: Connect.pm resume handler + Client.pm Content-Length fix + UAT checkpoint
 
 ### Phase 05.3: Player Sync Groups (PLACEHOLDER)
 
@@ -350,7 +359,7 @@ Plans:
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
 | 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
-| 05.2. Connect Controls & Resume | 0/? | Not started | - |
+| 05.2. Connect Controls & Resume | 0/2 | Planned    | - |
 | 05.3. Player Sync Groups | 0/? | Placeholder | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
@@ -364,4 +373,4 @@ Items discovered during UAT — not blocking, schedule into future phases.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-01 after Phase 05.2/05.3 insertion*
+*Last updated: 2026-06-01 after Phase 05.2 planning*
