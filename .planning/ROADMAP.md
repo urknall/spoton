@@ -16,6 +16,7 @@
 - [x] **Phase 04.1: Streaming Bug Fixes + Passthrough Binary** - Fix UAT blockers and build passthrough-decoder binary (completed 2026-05-28)
 - [x] **Phase 04.2: Credentials + Made For You Fix** - Own librespot credentials + category endpoint for personal mixes (completed 2026-05-29)
 - [x] **Phase 04.3: ZeroConf + Keymaster Auth** - Single auth step via Spotify app replaces PKCE browser flow for credential provisioning (completed 2026-05-29)
+- [x] **Phase 04.4: Dual-Token API Routing** - Dual-flavor token routing for rate-limit distribution (completed 2026-05-29)
 - [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
@@ -228,8 +229,25 @@ Plans:
   4. Starting a Browse-streaming session while Connect is active stops the Connect daemon cleanly; starting Connect while Browse-streaming is active stops the local playback cleanly
   5. A Connect daemon that crashes is automatically restarted with exponential backoff; Connect daemons are never killed by LMS's `killHangingProcesses`
 
-**Plans**: TBD
-**UI hint**: yes
+**Plans:** 5 plans
+
+Plans:
+**Wave 1** *(parallel — no file overlap)*
+
+- [ ] 05-01-PLAN.md — Rust binary: Cargo.toml deps + connect.rs (LMS notifier, HttpStreamSink, http_stream_server, run_connect) + main.rs wiring + binary build
+- [ ] 05-02-PLAN.md — Config files (custom-convert.conf soc profiles, custom-types.conf soc type) + Daemon.pm process wrapper
+
+**Wave 2** *(depends on Wave 1)*
+
+- [ ] 05-03-PLAN.md — DaemonManager.pm lifecycle + Plugin.pm integration (Connect init at boot, CON-09 PID exclusion, updateTranscodingTable soc)
+
+**Wave 3** *(depends on Wave 2)*
+
+- [ ] 05-04-PLAN.md — Connect.pm event dispatch + ProtocolHandler.pm Connect extensions (soc format, canDirectStream, sync proxy)
+
+**Wave 4** *(depends on Wave 3)*
+
+- [ ] 05-05-PLAN.md — Settings UI (per-player Connect toggle, OGG override) + i18n strings + UAT checkpoint
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -258,7 +276,7 @@ Plans:
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
-| 5. Spotify Connect | 0/? | Not started | - |
+| 5. Spotify Connect | 0/5 | Planning complete | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
@@ -271,4 +289,4 @@ Items discovered during UAT — not blocking, schedule into future phases.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-05-29 after Phase 04.4 UAT*
+*Last updated: 2026-06-01 after Phase 05 planning*
