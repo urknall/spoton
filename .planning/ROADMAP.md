@@ -229,13 +229,13 @@ Plans:
   4. Starting a Browse-streaming session while Connect is active stops the Connect daemon cleanly; starting Connect while Browse-streaming is active stops the local playback cleanly
   5. A Connect daemon that crashes is automatically restarted with exponential backoff; Connect daemons are never killed by LMS's `killHangingProcesses`
 
-**Plans:** 5 plans
+**Plans:** 2/5 plans executed
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
-- [ ] 05-01-PLAN.md — Rust binary: Cargo.toml deps + connect.rs (LMS notifier, HttpStreamSink, http_stream_server, run_connect) + main.rs wiring + binary build
-- [ ] 05-02-PLAN.md — Config files (custom-convert.conf soc profiles, custom-types.conf soc type) + Daemon.pm process wrapper
+- [x] 05-01-PLAN.md — Rust binary: Cargo.toml deps + connect.rs (LMS notifier, HttpStreamSink, http_stream_server, run_connect) + main.rs wiring + binary build
+- [x] 05-02-PLAN.md — Config files (custom-convert.conf soc profiles, custom-types.conf soc type) + Daemon.pm process wrapper
 
 **Wave 2** *(depends on Wave 1)*
 
@@ -276,7 +276,7 @@ Plans:
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
-| 5. Spotify Connect | 0/5 | Planning complete | - |
+| 5. Spotify Connect | 2/5 | In Progress|  |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
