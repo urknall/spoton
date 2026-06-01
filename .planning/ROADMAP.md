@@ -229,7 +229,7 @@ Plans:
   4. Starting a Browse-streaming session while Connect is active stops the Connect daemon cleanly; starting Connect while Browse-streaming is active stops the local playback cleanly
   5. A Connect daemon that crashes is automatically restarted with exponential backoff; Connect daemons are never killed by LMS's `killHangingProcesses`
 
-**Plans:** 3/5 plans executed
+**Plans:** 4/5 plans executed
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
@@ -243,7 +243,7 @@ Plans:
 
 **Wave 3** *(depends on Wave 2)*
 
-- [ ] 05-04-PLAN.md — Connect.pm event dispatch + ProtocolHandler.pm Connect extensions (soc format, canDirectStream, sync proxy)
+- [x] 05-04-PLAN.md — Connect.pm event dispatch + ProtocolHandler.pm Connect extensions (soc format, canDirectStream, sync proxy)
 
 **Wave 4** *(depends on Wave 3)*
 
@@ -276,7 +276,7 @@ Plans:
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
-| 5. Spotify Connect | 3/5 | In Progress|  |
+| 5. Spotify Connect | 4/5 | In Progress|  |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
