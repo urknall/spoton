@@ -17,7 +17,7 @@
 - [x] **Phase 04.2: Credentials + Made For You Fix** - Own librespot credentials + category endpoint for personal mixes (completed 2026-05-29)
 - [x] **Phase 04.3: ZeroConf + Keymaster Auth** - Single auth step via Spotify app replaces PKCE browser flow for credential provisioning (completed 2026-05-29)
 - [x] **Phase 04.4: Dual-Token API Routing** - Dual-flavor token routing for rate-limit distribution (completed 2026-05-29)
-- [ ] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback
+- [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -229,7 +229,7 @@ Plans:
   4. Starting a Browse-streaming session while Connect is active stops the Connect daemon cleanly; starting Connect while Browse-streaming is active stops the local playback cleanly
   5. A Connect daemon that crashes is automatically restarted with exponential backoff; Connect daemons are never killed by LMS's `killHangingProcesses`
 
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans complete
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
@@ -247,7 +247,7 @@ Plans:
 
 **Wave 4** *(depends on Wave 3)*
 
-- [ ] 05-05-PLAN.md — Settings UI (per-player Connect toggle, OGG override) + i18n strings + UAT checkpoint
+- [x] 05-05-PLAN.md — Settings UI (per-player Connect toggle, OGG override) + i18n strings + UAT checkpoint
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -276,7 +276,7 @@ Plans:
 | 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
 | 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
 | 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
-| 5. Spotify Connect | 4/5 | In Progress|  |
+| 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
