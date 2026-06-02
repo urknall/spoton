@@ -21,7 +21,7 @@
 - [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
 - [x] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek (completed 2026-06-01)
 - [x] **Phase 05.3: Sync Groups + Connect Robustness** - Sync-group audio and Connect session-handover fix (completed 2026-06-02)
-- [ ] **Phase 05.4: mDNS Connect Discovery Fix** - mDNS discovery works reliably, devices connect via discovery, crash-loop protection auto-resets
+- [x] **Phase 05.4: mDNS Connect Discovery Fix** - mDNS discovery works reliably, devices connect via discovery, crash-loop protection auto-resets (completed 2026-06-02)
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -362,14 +362,14 @@ Plans:
   2. `disableDiscovery` pref is set permanently by crash-loop protection, never auto-resets
   3. Repeated `ready` events (~30s interval) suggest unstable Spirc registration
 
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 **Wave 1** *(parallel — no file overlap)*
 - [x] 05.4-01-PLAN.md — Rust binary: Device-ID synchronization (SessionConfig + Discovery share FNV-1a hash) + rebuild
 - [x] 05.4-02-PLAN.md — Perl: Per-player crash-loop cooldown + LMS-start reset + Discovery toggle UI + prefs + strings
 
 **Wave 2** *(depends on Wave 1)*
-- [ ] 05.4-03-PLAN.md — UAT: Deploy binary, verify mDNS discovery, Spirc stability, Settings UI
+- [x] 05.4-03-PLAN.md — UAT: Deploy binary, verify mDNS discovery, Spirc stability, Settings UI
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -405,7 +405,7 @@ Plans:
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
-| 05.4. mDNS Connect Discovery Fix | 2/3 | In Progress|  |
+| 05.4. mDNS Connect Discovery Fix | 3/3 | Complete   | 2026-06-02 |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
