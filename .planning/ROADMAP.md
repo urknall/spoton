@@ -350,6 +350,7 @@ Plans:
   4. Tapping a single track in an album or playlist queues all visible tracks and starts at the tapped track (playall fix from Phase 04.1 UAT backlog)
   5. Per-player Settings page shows toggles for: Connect mode enable/disable, auto-play (DSTM), and a transcoding fallback option for players that can't handle direct PCM/OGG streams (e.g., force FLAC or MP3 transcode)
   6. A player with transcoding fallback enabled receives audio through the custom-convert.conf pipeline instead of DirectStream, while other players continue with direct streaming
+  7. Volume normalisation setting applies to Connect mode — Daemon.pm passes `--enable-volume-normalisation` to the binary when the global `normalization` pref is enabled (currently only works in Direct/single-track mode)
 
 **Plans**: TBD
 
