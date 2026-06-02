@@ -20,7 +20,7 @@
 - [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
 - [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
 - [x] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek (completed 2026-06-01)
-- [ ] **Phase 05.3: Sync Groups + Connect Robustness** - Sync-group audio, Connect session-handover fix, dead code cleanup
+- [ ] **Phase 05.3: Sync Groups + Connect Robustness** - Sync-group audio and Connect session-handover fix
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -319,23 +319,28 @@ Plans:
 
 ### Phase 05.3: Sync Groups + Connect Robustness
 
-**Goal:** Connect audio works for synced LMS players, Connect session survives LMS source switches, and accumulated dead code is cleaned up.
+**Goal:** Connect audio works for synced LMS players and Connect session survives LMS source switches.
 **Depends on:** Phase 05.2
 **Requirements**: CON-06
 **Success Criteria** (what must be TRUE):
 
   1. Two synced LMS players both receive Connect audio simultaneously via LMS proxy path
   2. After playing a different LMS source (Spotty, local music) and pressing Play in the Spotify app, the Connect session resumes without requiring a daemon restart (Backlog #4)
-  3. Dead code removed: `_isMadeForYou` no-op filter, dead `_onSuccess`/`_onError` subs, unused `RATE_LIMIT_CACHE_KEY` constant (~80 lines, Backlog #1)
 
 **Known Blockers:**
 
   1. LMS proxy path (`# I`) connects to binary but disconnects immediately — likely needs buffered response or different HTTP server approach (hyper HTTP/1.0 streaming body not consumed fast enough by LMS's synchronous sysreadline)
   2. `canDirectStream` returns 0 for synced players (correct) — proxy path via `ProtocolHandler::new()` must work
   3. May require switching from hyper's async streaming body to a pre-buffered or chunked approach for the proxy connection
-  4. Spirc session appears dead after LMS source switch — needs SessionDisconnected handling or automatic daemon recycling
 
-**Plans:** 2/3 plans executed
+**Plans:** 3 plans
+
+**Wave 1** *(parallel — no file overlap)*
+- [ ] 05.3-01-PLAN.md — ProtocolHandler proxy fix (requestString + canEnhanceHTTP overrides)
+- [ ] 05.3-02-PLAN.md — Binary relay_active safety + ready notify + rebuild
+
+**Wave 2** *(depends on Wave 1)*
+- [ ] 05.3-03-PLAN.md — Connect.pm ready handler + ROADMAP correction + UAT checkpoint
 
 ### Phase 6: Polish + DSTM + Settings
 
