@@ -335,7 +335,7 @@ Plans:
   3. May require switching from hyper's async streaming body to a pre-buffered or chunked approach for the proxy connection
   4. Spirc session appears dead after LMS source switch — needs SessionDisconnected handling or automatic daemon recycling
 
-**Plans:** 0 plans — not yet scoped
+**Plans:** 2/3 plans executed
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -370,7 +370,7 @@ Plans:
 | 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
-| 05.3. Player Sync Groups | 0/? | Placeholder | - |
+| 05.3. Player Sync Groups | 2/3 | In Progress|  |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
