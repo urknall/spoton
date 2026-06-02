@@ -20,7 +20,7 @@
 - [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
 - [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
 - [x] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek (completed 2026-06-01)
-- [ ] **Phase 05.3: Player Sync Groups** - Connect audio for synced players via LMS proxy path; multi-player sync-group testing
+- [ ] **Phase 05.3: Sync Groups + Connect Robustness** - Sync-group audio, Connect session-handover fix, dead code cleanup
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -317,18 +317,25 @@ Plans:
 
 - [x] 05.2-02-PLAN.md — Perl: Connect.pm resume handler + Client.pm Content-Length fix + UAT checkpoint
 
-### Phase 05.3: Player Sync Groups (PLACEHOLDER)
+### Phase 05.3: Sync Groups + Connect Robustness
 
-**Goal:** Connect audio works for synced LMS players. LMS proxy path (`# I` / `Slim::Player::Protocols::HTTP`) delivers PCM from binary's /stream endpoint to multiple sync-group members simultaneously.
+**Goal:** Connect audio works for synced LMS players, Connect session survives LMS source switches, and accumulated dead code is cleaned up.
 **Depends on:** Phase 05.2
 **Requirements**: CON-06
+**Success Criteria** (what must be TRUE):
+
+  1. Two synced LMS players both receive Connect audio simultaneously via LMS proxy path
+  2. After playing a different LMS source (Spotty, local music) and pressing Play in the Spotify app, the Connect session resumes without requiring a daemon restart (Backlog #4)
+  3. Dead code removed: `_isMadeForYou` no-op filter, dead `_onSuccess`/`_onError` subs, unused `RATE_LIMIT_CACHE_KEY` constant (~80 lines, Backlog #1)
+
 **Known Blockers:**
 
   1. LMS proxy path (`# I`) connects to binary but disconnects immediately — likely needs buffered response or different HTTP server approach (hyper HTTP/1.0 streaming body not consumed fast enough by LMS's synchronous sysreadline)
   2. `canDirectStream` returns 0 for synced players (correct) — proxy path via `ProtocolHandler::new()` must work
   3. May require switching from hyper's async streaming body to a pre-buffered or chunked approach for the proxy connection
+  4. Spirc session appears dead after LMS source switch — needs SessionDisconnected handling or automatic daemon recycling
 
-**Plans:** 0 plans — placeholder, not yet scoped
+**Plans:** 0 plans — not yet scoped
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -369,10 +376,10 @@ Plans:
 
 Items discovered during UAT — not blocking, schedule into future phases.
 
-1. **Dead Code Cleanup (Phase 04.4)** — Remove `_isMadeForYou` No-Op filter in Plugin.pm:689, dead `_onSuccess`/`_onError` subs in Client.pm:530-604, unused `RATE_LIMIT_CACHE_KEY` constant. ~80 lines. Candidates for Phase 6 or standalone `/gsd-quick`.
+1. ~~Dead Code Cleanup~~ → integriert in Phase 05.3
 2. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID (`93aac68...`). Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode für browse/categories-Zugriff.
 3. **playall auf Track-Items** — XMLBrowser ignoriert playall; muss in Phase 6 oder eigener Phase gefixt werden (aus Phase 04.1 UAT).
-4. **Connect Session-Handover nach LMS-Quellenwechsel** — Wenn im Connect-Modus eine andere LMS-Musikquelle abgespielt wird (z.B. Spotty, lokale Musik) und danach über die Spotify App Play gedrückt wird, erfolgt kein Handover zurück zu Spotify Connect. Daemon läuft, Player erscheint noch in der App, aber Antippen/Play transferiert Wiedergabe nicht zurück. Spirc-Session scheint nach Quellenwechsel tot — erfordert Daemon-Neustart. Braucht vermutlich SessionDisconnected-Handling oder automatisches Daemon-Recycling.
+4. ~~Connect Session-Handover~~ → integriert in Phase 05.3
 
 ---
 *Roadmap created: 2026-05-26*
