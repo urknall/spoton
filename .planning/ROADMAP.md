@@ -362,11 +362,11 @@ Plans:
   2. `disableDiscovery` pref is set permanently by crash-loop protection, never auto-resets
   3. Repeated `ready` events (~30s interval) suggest unstable Spirc registration
 
-**Plans:** 3 plans
+**Plans:** 2/3 plans executed
 
 **Wave 1** *(parallel — no file overlap)*
-- [ ] 05.4-01-PLAN.md — Rust binary: Device-ID synchronization (SessionConfig + Discovery share FNV-1a hash) + rebuild
-- [ ] 05.4-02-PLAN.md — Perl: Per-player crash-loop cooldown + LMS-start reset + Discovery toggle UI + prefs + strings
+- [x] 05.4-01-PLAN.md — Rust binary: Device-ID synchronization (SessionConfig + Discovery share FNV-1a hash) + rebuild
+- [x] 05.4-02-PLAN.md — Perl: Per-player crash-loop cooldown + LMS-start reset + Discovery toggle UI + prefs + strings
 
 **Wave 2** *(depends on Wave 1)*
 - [ ] 05.4-03-PLAN.md — UAT: Deploy binary, verify mDNS discovery, Spirc stability, Settings UI
@@ -405,7 +405,7 @@ Plans:
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
-| 05.4. mDNS Connect Discovery Fix | 0/3 | Planned    | - |
+| 05.4. mDNS Connect Discovery Fix | 2/3 | In Progress|  |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
