@@ -342,6 +342,27 @@ Plans:
 **Wave 2** *(depends on Wave 1)*
 - [x] 05.3-03-PLAN.md — Connect.pm ready handler + ROADMAP correction + UAT checkpoint
 
+### Phase 05.4: mDNS Connect Discovery Fix (INSERTED)
+
+**Goal:** mDNS/ZeroConf discovery for Spotify Connect works reliably — devices appear in Spotify app and connections succeed via discovery (not just "In anderen Netzwerken").
+**Depends on:** Phase 05.3
+**Requirements**: CON-01
+**Success Criteria** (what must be TRUE):
+
+  1. Connect devices appear in the Spotify app's device list via mDNS within 10 seconds of daemon start
+  2. Connecting to a device via mDNS discovery starts audio (not just via "In anderen Netzwerken")
+  3. Spirc registration is stable — no repeated `ready` events every 30 seconds
+  4. `disableDiscovery` crash-loop protection auto-resets after a cooldown period (not permanent)
+  5. Per-player `disableDiscovery` option available in Settings UI
+
+**Known Issues:**
+
+  1. mDNS discovery shows devices but connection fails — possibly libmdns registration or Spirc session issue
+  2. `disableDiscovery` pref is set permanently by crash-loop protection, never auto-resets
+  3. Repeated `ready` events (~30s interval) suggest unstable Spirc registration
+
+**Plans**: TBD
+
 ### Phase 6: Polish + DSTM + Settings
 
 **Goal**: Player-specific preferences are applied per player, auto-play continues music after a queue ends, power users can supply their own librespot binary, and incompatible players can fall back to transcoding
@@ -376,6 +397,7 @@ Plans:
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
+| 05.4. mDNS Connect Discovery Fix | 0/? | Not started | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
