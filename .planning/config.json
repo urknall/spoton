@@ -70,7 +70,6 @@
   "phase_naming": "sequential",
   "agent_skills": {},
   "features": {},
-  "branching_strategy": "none",
   "quick_branch_template": null,
   "intel": {
     "enabled": false
