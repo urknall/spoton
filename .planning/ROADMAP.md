@@ -21,6 +21,7 @@
 - [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
 - [x] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek (completed 2026-06-01)
 - [x] **Phase 05.3: Sync Groups + Connect Robustness** - Sync-group audio and Connect session-handover fix (completed 2026-06-02)
+- [ ] **Phase 05.4: mDNS Connect Discovery Fix** - mDNS discovery works reliably, devices connect via discovery, crash-loop protection auto-resets
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -361,7 +362,14 @@ Plans:
   2. `disableDiscovery` pref is set permanently by crash-loop protection, never auto-resets
   3. Repeated `ready` events (~30s interval) suggest unstable Spirc registration
 
-**Plans**: TBD
+**Plans:** 3 plans
+
+**Wave 1** *(parallel — no file overlap)*
+- [ ] 05.4-01-PLAN.md — Rust binary: Device-ID synchronization (SessionConfig + Discovery share FNV-1a hash) + rebuild
+- [ ] 05.4-02-PLAN.md — Perl: Per-player crash-loop cooldown + LMS-start reset + Discovery toggle UI + prefs + strings
+
+**Wave 2** *(depends on Wave 1)*
+- [ ] 05.4-03-PLAN.md — UAT: Deploy binary, verify mDNS discovery, Spirc stability, Settings UI
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -397,7 +405,7 @@ Plans:
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
-| 05.4. mDNS Connect Discovery Fix | 0/? | Not started | - |
+| 05.4. mDNS Connect Discovery Fix | 0/3 | Planned    | - |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
@@ -411,4 +419,4 @@ Items discovered during UAT — not blocking, schedule into future phases.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-01 after Phase 05.2 planning*
+*Last updated: 2026-06-02 after Phase 05.4 planning*
