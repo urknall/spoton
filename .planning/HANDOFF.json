@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-02T19:45:29Z",
+  "phase": "05.4",
+  "phase_name": "mDNS Connect Discovery Fix",
+  "phase_dir": ".planning/phases/05.4-mdns-connect-discovery-fix",
+  "plan": 3,
+  "task": 3,
+  "total_tasks": 3,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "05.4-01: mDNS IP detection + device_id fix", "status": "done", "commit": "a5e58f4"},
+    {"id": 2, "name": "05.4-02: Settings UI reorganization + volume normalization", "status": "done", "commit": "22dd856"},
+    {"id": 3, "name": "05.4-03: UAT + inline fixes", "status": "done", "commit": "3f1c6fc"}
+  ],
+  "remaining_tasks": [],
+  "blockers": [],
+  "human_actions_pending": [
+    {"action": "Phase 01 SC-4: ARM-Binaries via GitHub Actions CI bauen", "context": "aarch64, armhf, i386 Directories haben nur .gitkeep Platzhalter", "blocking": false},
+    {"action": "Phase 05.4 SC-4: Crash-loop auto-reset nach 1800s testen", "context": "Code-verifiziert aber End-to-End braucht 30min Wartezeit auf Live-LMS", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "Phase 05.4 als letzte Sub-Phase abgeschlossen — alle Connect-Features fertig", "rationale": "9/10 must-haves verifiziert, SC-4 nur code-verifiziert", "phase": "05.4"},
+    {"decision": "Phase 6 als nächstes", "rationale": "Einzige verbleibende Phase in v1 Roadmap: Polish + DSTM + Settings", "phase": "06"}
+  ],
+  "uncommitted_files": [
+    ".planning/config.json",
+    "Plugins/SpotOn/Bin/x86_64-linux/spoton"
+  ],
+  "next_action": "/gsd:discuss-phase für Phase 6 (Polish + DSTM + Settings) starten",
+  "context_notes": "Milestone v1 hat 14 von 15 Phasen abgeschlossen. Phase 1 ist im ROADMAP unchecked weil human_needed, aber alle 4 Plans sind done. Phase 6 ist die letzte Phase und beinhaltet Player-spezifische Preferences, Auto-Play/DSTM Continuation, und Custom Binary Override. Keine Debug-Sessions aktiv (sync-group-audio.md ist abgeschlossen). Untracked test_*.py Dateien und claude-spotty.sudoers sind Entwicklungs-Hilfsmittel, kein Produktivcode."
+}
