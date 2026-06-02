@@ -405,7 +405,7 @@ Plans:
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
-| 05.4. mDNS Connect Discovery Fix | 3/3 | Complete   | 2026-06-02 |
+| 05.4. mDNS Connect Discovery Fix | 3/3 | Complete    | 2026-06-02 |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog

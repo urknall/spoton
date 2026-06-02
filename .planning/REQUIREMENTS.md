@@ -44,7 +44,7 @@
 
 ### Spotify Connect
 
-- [ ] **CON-01**: One librespot Connect daemon per LMS player
+- [x] **CON-01**: One librespot Connect daemon per LMS player
 - [ ] **CON-02**: Daemon lifecycle management (start at init, stop at shutdown, restart on crash with backoff)
 - [ ] **CON-03**: Event dispatching from binary to LMS via JSON-RPC (start/stop/change/volume/pause)
 - [ ] **CON-04**: Transfer playback from Spotify app to LMS player starts audio within 3 seconds
@@ -148,7 +148,7 @@
 | STR-09 | Phase 4 | Pending |
 | STR-10 | Phase 4 | Pending |
 | STR-11 | Phase 4 | Pending |
-| CON-01 | Phase 5 | Pending |
+| CON-01 | Phase 5 | Complete |
 | CON-02 | Phase 5 | Pending |
 | CON-03 | Phase 5 | Pending |
 | CON-04 | Phase 5 | Pending |
