@@ -332,7 +332,7 @@ Plans:
 
 ### Phase 6: Polish + DSTM + Settings
 
-**Goal**: Player-specific preferences are applied per player, auto-play continues music after a queue ends, and power users can supply their own librespot binary
+**Goal**: Player-specific preferences are applied per player, auto-play continues music after a queue ends, power users can supply their own librespot binary, and incompatible players can fall back to transcoding
 **Depends on**: Phase 3, Phase 4, Phase 5
 **Requirements**: LMS-08, LMS-09, LMS-10
 **Success Criteria** (what must be TRUE):
@@ -341,6 +341,8 @@ Plans:
   2. When a playlist ends, Don't Stop The Music automatically queues a related Spotify track and playback continues without user intervention
   3. Placing a custom librespot binary in the designated path causes the plugin to use that binary instead of the bundled one; the `--check` version enforcement still applies
   4. Tapping a single track in an album or playlist queues all visible tracks and starts at the tapped track (playall fix from Phase 04.1 UAT backlog)
+  5. Per-player Settings page shows toggles for: Connect mode enable/disable, auto-play (DSTM), and a transcoding fallback option for players that can't handle direct PCM/OGG streams (e.g., force FLAC or MP3 transcode)
+  6. A player with transcoding fallback enabled receives audio through the custom-convert.conf pipeline instead of DirectStream, while other players continue with direct streaming
 
 **Plans**: TBD
 
