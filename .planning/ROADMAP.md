@@ -20,7 +20,7 @@
 - [x] **Phase 5: Spotify Connect** - LMS players appear as Spotify Connect receivers; Spotify app controls playback (completed 2026-06-01)
 - [x] **Phase 05.1: Connect Audio Streaming Bugfix** - Fix audio streaming pipeline: DirectStream connection, Spirc session stability, PCM relay (completed 2026-06-01)
 - [x] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek (completed 2026-06-01)
-- [ ] **Phase 05.3: Sync Groups + Connect Robustness** - Sync-group audio and Connect session-handover fix
+- [x] **Phase 05.3: Sync Groups + Connect Robustness** - Sync-group audio and Connect session-handover fix (completed 2026-06-02)
 - [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
 
 ## Phase Details
@@ -333,14 +333,14 @@ Plans:
   2. `canDirectStream` returns 0 for synced players (correct) — proxy path via `ProtocolHandler::new()` must work
   3. May require switching from hyper's async streaming body to a pre-buffered or chunked approach for the proxy connection
 
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 **Wave 1** *(parallel — no file overlap)*
-- [ ] 05.3-01-PLAN.md — ProtocolHandler proxy fix (requestString + canEnhanceHTTP overrides)
-- [ ] 05.3-02-PLAN.md — Binary relay_active safety + ready notify + rebuild
+- [x] 05.3-01-PLAN.md — ProtocolHandler proxy fix (requestString + canEnhanceHTTP overrides)
+- [x] 05.3-02-PLAN.md — Binary relay_active safety + ready notify + rebuild
 
 **Wave 2** *(depends on Wave 1)*
-- [ ] 05.3-03-PLAN.md — Connect.pm ready handler + ROADMAP correction + UAT checkpoint
+- [x] 05.3-03-PLAN.md — Connect.pm ready handler + ROADMAP correction + UAT checkpoint
 
 ### Phase 6: Polish + DSTM + Settings
 
@@ -375,7 +375,7 @@ Plans:
 | 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
 | 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
-| 05.3. Player Sync Groups | 2/3 | In Progress|  |
+| 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
 | 6. Polish + DSTM + Settings | 0/? | Not started | - |
 
 ## Backlog
