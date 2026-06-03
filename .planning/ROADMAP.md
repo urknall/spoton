@@ -1,14 +1,20 @@
 # Roadmap: SpotOn
 
 **Project:** SpotOn — LMS Spotify Plugin
-**Milestone:** v1
 **Created:** 2026-05-26
 **Granularity:** standard
-**Requirements:** 62 v1 requirements mapped across 6 phases
+
+## Milestones
+
+- ✅ **v1.0 Foundation** - Phases 1-6 (shipped 2026-06-03)
+- 🚧 **v1.1 Hardening & Reach** - Phases 7-10 (in progress)
 
 ## Phases
 
-- [ ] **Phase 1: Plugin Skeleton + Binary Foundation** - Plugin loads in LMS, correct manifest, binary scaffolding in place
+<details>
+<summary>✅ v1.0 Foundation (Phases 1-6) — SHIPPED 2026-06-03</summary>
+
+- [x] **Phase 1: Plugin Skeleton + Binary Foundation** - Plugin loads in LMS, correct manifest, binary scaffolding in place
 - [x] **Phase 2: Auth + API Foundation** - Authenticated Spotify API requests work; token lifecycle managed (completed 2026-05-27)
 - [x] **Phase 02.1: OAuth-PKCE Browser Auth** - Replace non-functional Keymaster/login5 auth with OAuth 2.0 PKCE browser flow (completed 2026-05-27)
 - [x] **Phase 3: Browse + Navigation** - Users can navigate Home, Search, and Library via LMS menus (completed 2026-05-28)
@@ -24,424 +30,100 @@
 - [x] **Phase 05.4: mDNS Connect Discovery Fix** - mDNS discovery works reliably, devices connect via discovery, crash-loop protection auto-resets (completed 2026-06-02)
 - [x] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional (completed 2026-06-03)
 
+</details>
+
+### 🚧 v1.1 Hardening & Reach (In Progress)
+
+**Milestone Goal:** Connect-DSTM, Multi-Arch Binaries for all 6 platforms, and full DE→EN code cleanup.
+
+- [ ] **Phase 7: DE→EN Code Cleanup** - All German comments and log strings replaced with English; codebase is language-clean
+- [ ] **Phase 8: Multi-Arch Binary Distribution** - librespot binary available for all 8 platform targets; Helper.pm selects the correct binary automatically
+- [ ] **Phase 9: Stream Metadata** - Songinfo shows active mode, format, and bitrate for every playing track
+- [ ] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via queue injection when the Spotify queue is exhausted
+
 ## Phase Details
 
-### Phase 1: Plugin Skeleton + Binary Foundation
+### Phase 7: DE→EN Code Cleanup
 
-**Goal**: The plugin loads cleanly under LMS and all LMS integration contracts are in place before any Spotify functionality is added
-**Depends on**: Nothing
-**Requirements**: LMS-01, LMS-02, LMS-03, LMS-04, LMS-05, LMS-06, LMS-07
+**Goal**: The codebase contains no German text in code comments or log strings; every comment and log call reads in English
+**Depends on**: Nothing (v1.1 start)
+**Requirements**: CLEAN-01, CLEAN-02, CLEAN-03
 **Success Criteria** (what must be TRUE):
-
-  1. LMS recognizes and loads the SpotOn plugin after installing the zip from the repository URL in install.xml
-  2. The SpotOn settings page is accessible and renders (even if fields are empty) under LMS Settings
-  3. `spotify://` URIs are registered as a protocol; attempting to play one does not crash LMS
-  4. librespot binaries for x86_64, aarch64, armhf, and i386 are present; running `binary --check` returns a parseable JSON version response that satisfies the minimum version requirement
-  5. All UI strings display in English and German without missing-key placeholders
-
+  1. Running `grep -rn` for German special characters (ä, ö, ü, ß, Ä, Ö, Ü) against all Perl and Rust source files (excluding strings.txt and i18n files) returns zero matches
+  2. Every `# Kommentar`-style comment block in Plugin.pm, Connect.pm, Client.pm, and Helper.pm is readable in English without ambiguity
+  3. Every DEBUGLOG, INFOLOG, WARNLOG, and ERRORLOG call emits an English string — no German words in any log line visible at runtime
 **Plans**: TBD
 
-### Phase 2: Auth + API Foundation
+### Phase 8: Multi-Arch Binary Distribution
 
-**Goal**: The plugin can obtain, cache, and refresh a Spotify access token via Keymaster/login5, and all outbound Spotify API calls flow through a single rate-limited, caching HTTP client
-**Depends on**: Phase 1
-**Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, AUTH-06, API-01, API-02, API-03, API-04, API-05, API-06
+**Goal**: A librespot binary is available for every supported platform target; the plugin selects the correct binary at runtime without user configuration
+**Depends on**: Nothing (independent of Phase 7, can run in parallel)
+**Requirements**: ARCH-01, ARCH-02, ARCH-03, ARCH-04, ARCH-05, ARCH-06, ARCH-07, ARCH-08, ARCH-09, ARCH-10
 **Success Criteria** (what must be TRUE):
-
-  1. Configuring a Spotify account in settings causes the plugin to obtain a valid access token; the token is visible in the debug log
-  2. The token is automatically refreshed before expiry with no user interaction; a 50-minute-old Connect daemon is restarted proactively
-  3. Credentials file has chmod 600 and parent directory has chmod 700; confirmed via filesystem check
-  4. Switching between two configured Spotify accounts causes the active token to change within one menu refresh
-  5. Making 50 rapid API calls in a row produces no 429 errors; the central throttle absorbs bursts and respects `Retry-After` headers
-
+  1. The Bin/ directory contains subdirectories for all 8 targets (x86_64-linux, aarch64-linux, armv7-linux, i386-linux, armv6-linux, x86_64-darwin, aarch64-darwin, x86_64-win64) each holding a static librespot binary
+  2. Helper.pm correctly identifies all 8 platform/arch combinations and returns the matching binary path without falling back to an incorrect binary
+  3. On an aarch64 Linux system (Pi 4, NAS), the plugin loads the aarch64 binary, starts the Connect daemon, and streams a track successfully
+  4. All Linux binaries are musl-statically linked — no glibc dependency, confirmed by `ldd` returning "not a dynamic executable"
+  5. The x86_64 Linux binary replaces the previous glibc-linked binary and passes `--check` version verification
 **Plans**: TBD
 
-### Phase 02.1: OAuth-PKCE Browser Auth (INSERTED)
+### Phase 9: Stream Metadata
 
-**Goal:** Replace non-functional Keymaster/login5 authentication with OAuth 2.0 Authorization Code + PKCE browser flow; users authenticate via their own Spotify Developer App through a guided Setup Wizard in the LMS Settings page
-**Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, AUTH-06, D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12
-**Depends on:** Phase 02
+**Goal**: Songinfo for a playing Spotify track shows the active playback mode, stream format, and bitrate so the user can confirm what the plugin is delivering
+**Depends on**: Phase 7 (cleanup complete before adding new code)
+**Requirements**: META-01, META-02, META-03
 **Success Criteria** (what must be TRUE):
+  1. Songinfo for a track played via LMS Browse menus shows "(Spotify Browse)" in the source line
+  2. Songinfo for a track playing through Spotify Connect shows "(Spotify Connect)" in the source line
+  3. Songinfo shows the active stream format (e.g., "OGG Vorbis", "FLAC", "MP3", "PCM") for the currently playing track
+  4. When bitrate information is available, Songinfo shows it alongside the format (e.g., "320k, OGG Vorbis (Spotify Connect)")
+**Plans**: TBD
+**UI hint**: yes
 
-  1. Entering a Spotify Developer App Client-ID in the Settings page and clicking "Mit Spotify verbinden" redirects the browser to Spotify's auth page
-  2. After authenticating on Spotify, the browser returns to LMS and shows "Erfolgreich verbunden!" with the user's display name
-  3. The access token is cached with TTL and automatically refreshed via refresh_token before expiry
-  4. No username/password fields exist anywhere in the Settings page; the old Keymaster/login5 code is completely removed
-  5. All new UI strings display correctly in both English and German
+### Phase 10: Connect-DSTM
 
-**Plans:** 4/4 plans complete
-
-Plans:
-
-- [x] 02.1-01-PLAN.md — TokenManager.pm PKCE rewrite + tests
-- [x] 02.1-02-PLAN.md — OAuth callback route (Callback.pm) + tests
-- [x] 02.1-03-PLAN.md — Settings UI integration (Setup Wizard, strings, Plugin.pm wiring)
-- [x] 02.1-04-PLAN.md — Gap closure: display name in callback + REQUIREMENTS.md update
-
-### Phase 3: Browse + Navigation
-
-**Goal**: Users can navigate the full Spotify content hierarchy — Home, Search, Library — via LMS OPML menus
-**Depends on**: Phase 2
-**Requirements**: NAV-01, NAV-02, NAV-03, NAV-04, NAV-05, NAV-06, NAV-07, NAV-08, NAV-09, NAV-10, NAV-11
+**Goal**: When the Spotify queue runs out during a Connect session, the plugin automatically queues a new track so playback continues uninterrupted — matching the auto-play behavior already present in Browse mode
+**Depends on**: Phase 8 (binary rebuild required for EndOfTrack event), Phase 9
+**Requirements**: DSTM-01, DSTM-02, DSTM-03, DSTM-04, DSTM-05, DSTM-06
 **Success Criteria** (what must be TRUE):
-
-  1. The top-level SpotOn menu shows Home, Search, and Library; all three are navigable
-  2. Home displays Recently Played items and at least one Made For You mix; Liked Songs appears in Library without any special configuration
-  3. Searching "Radiohead" returns results grouped into Tracks, Albums, Artists, and Playlists sections
-  4. Navigating into an artist shows Albums/Singles/Compilations; into an album shows the paginated tracklist with track number, duration, and featuring artists
-  5. Endpoints unavailable in Dev Mode (Artist Top Tracks, Related Artists, Browse Categories, New Releases) are silently hidden rather than showing an error
-
-**Plans:** 3/3 plans complete
-
-Plans:
-**Wave 1**
-
-- [x] 03-01-PLAN.md — API endpoint methods (Client.pm) + TokenManager scope extension + i18n strings
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 03-02-PLAN.md — Top-level menu + Home feed + Library feed + shared item builders (Plugin.pm)
-
-**Wave 3** *(blocked on Wave 2 completion)*
-
-- [x] 03-03-PLAN.md — Search feed + Detail pages (Artist/Album/Playlist) + context navigation + human verify
-
-### Phase 4: Single-Track Streaming
-
-**Goal**: Users can play any Spotify track found via Browse, with correct transcoding pipeline selection and seeking support
-**Depends on**: Phase 2, Phase 3
-**Requirements**: STR-01, STR-02, STR-03, STR-04, STR-05, STR-06, STR-07, STR-08, STR-09, STR-10, STR-11, LMS-11
-**Success Criteria** (what must be TRUE):
-
-  1. Selecting a track from a Browse menu plays audio through LMS within 5 seconds; audio is FLAC by default
-  2. Players that support OGG receive the OGG stream directly; players that do not receive FLAC or MP3 based on capability
-  3. Seeking to the middle of a track (via LMS remote or app) resumes from the correct position, not from the start
-  4. Two players simultaneously starting different tracks each play their correct track (no transcoding-table race condition)
-  5. Hourly cleanup runs with no orphaned librespot processes accumulating after 2 hours of normal use
-
-**Plans:** 2/2 plans complete
-
-Plans:
-**Wave 1**
-
-- [x] 04-01-PLAN.md — Core transcoding engine: dynamic formatOverride + updateTranscodingTable + normalization pref
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 04-02-PLAN.md — Context queueing (playall), orphaned process cleanup, streaming settings UI + i18n
-
-### Phase 04.1: Streaming Bug Fixes + Passthrough Binary (INSERTED)
-
-**Goal:** Fix all Phase 4 UAT blockers: URL double-prefix, ProtocolHandler transcoding chain, getMetadataFor for artwork, playall feed structure, strings.txt parse errors, clientId pref prefix, and passthrough-decoder binary build
-**Depends on:** Phase 4
-**Requirements**: STR-01, STR-02, STR-03, STR-05, STR-06
-**Success Criteria** (what must be TRUE):
-
-  1. Selecting a track from SpotOn menus plays audio through LMS without Spotty active; no "Couldn't resolve IP address" errors in logs
-  2. Artwork displays correctly for playing and queued tracks
-  3. "Alle Titel" play button in album/playlist queues all tracks with working audio and artwork
-  4. strings.txt produces no parse errors in LMS log on startup
-  5. librespot binary includes passthrough-decoder; OGG-capable players receive OGG stream directly
-
-**Plans:** 2/2 plans complete
-
-Plans:
-**Wave 1** *(parallel — no file overlap)*
-
-- [x] 04.1-01-PLAN.md — Perl bug fixes: URL prefix, formatOverride, getMetadataFor, passthrough-guard, strings.txt, pref_ prefix
-- [x] 04.1-02-PLAN.md — librespot-spoton binary: --single-track mode with passthrough-decoder
-
-### Phase 04.2: Credentials + Made For You Fix (INSERTED)
-
-**Goal:** SpotOn manages its own librespot credentials independently from Spotty, and the Made For You feed uses the correct Spotify category endpoint instead of the broken me/playlists owner filter
-**Depends on:** Phase 04.1
-**Requirements**: AUTH-01, AUTH-02, NAV-02
-**Success Criteria** (what must be TRUE):
-
-  1. SpotOn provisions librespot credentials in its own cache directory during OAuth setup — no manual copy from Spotty's cache needed
-  2. "Für dich gemacht" shows Daily Mix, Discover Weekly, Release Radar and other personal playlists using the browse/categories endpoint
-  3. Streaming works after a fresh SpotOn setup without Spotty ever being installed
-
-**Plans:** 2/2 plans complete
-
-Plans:
-**Wave 1** *(parallel — no file overlap)*
-
-- [x] 04.2-01-PLAN.md — Token-Login binary mode (main.rs) + credential provisioning in TokenManager.pm
-- [x] 04.2-02-PLAN.md — Made For You feed: category endpoint + name-matching fallback (Client.pm + Plugin.pm)
-
-### Phase 04.3: ZeroConf + Keymaster Auth (INSERTED)
-
-**Goal:** Replace PKCE token-based credential provisioning with ZeroConf discovery for librespot credentials and Keymaster --get-token for Web API access — single auth step via Spotify app, no browser OAuth required for streaming
-**Depends on:** Phase 04.2
-**Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-05
-**Success Criteria** (what must be TRUE):
-
-  1. SpotOn settings show "Connect with Spotify app" instruction that starts ZeroConf discovery mode
-  2. Connecting via Spotify app creates credentials.json in SpotOn cache — verified by ls -la
-  3. After ZeroConf auth, all Web API calls (library, playlists, search, browse) use Keymaster tokens from --get-token
-  4. Token refresh happens automatically via --get-token without user interaction
-  5. PKCE OAuth flow removed or disabled — no browser redirect in auth flow
-
-**Plans:** 4/4 plans complete
-
-Plans:
-**Wave 1**
-
-- [x] 04.3-01-PLAN.md — Binary: --discover-once mode (librespot-discovery + ZeroConf mDNS)
-
-**Wave 2** *(parallel — no file overlap)*
-
-- [x] 04.3-02-PLAN.md — TokenManager.pm rewrite (Keymaster --get-token + Discovery lifecycle) + Plugin.pm wiring
-- [x] 04.3-03-PLAN.md — Settings UI (ZeroConf discovery page + AJAX status endpoint + strings)
-
-**Wave 3** *(blocked on Wave 2, requires UAT)*
-
-- [x] 04.3-04-PLAN.md — PKCE cleanup: UAT verification + Callback.pm deletion (D-06)
-
-### Phase 04.4: Dual-Token API Routing (INSERTED)
-
-**Goal:** Implement dual-flavor token routing in Client.pm — own-token (eigene Client-ID) for me/* and search, bundled-token (librespot-Default-ID) for browse/categories and curated playlists — with 403/410 fallback, hint-cache, and me/* guard based on Spotty-NG reference architecture
-**Requirements**: API-01, API-02, API-03
-**Depends on:** Phase 04.3
-**Success Criteria** (what must be TRUE):
-
-  1. Web API calls to `me/*` endpoints always use own-token (eigene Client-ID) — never bundled
-  2. Web API calls to `browse/categories` and curated playlists (`37i9*`) use bundled-token (librespot-Default-ID)
-  3. A 403/410 on own-token triggers automatic retry with bundled-token and caches the hint for 24h
-  4. No 429 rate-limit errors under normal Browse + Library usage patterns (dual-ID pressure distribution)
-  5. Both token flavors refresh independently without user interaction
-
-**Plans:** 2/2 plans complete
-
-Plans:
-**Wave 1** *(parallel — no file overlap)*
-
-- [x] 04.4-01-PLAN.md — TokenManager.pm flavor-aware interface + Client.pm dual-token routing pipeline
-- [x] 04.4-02-PLAN.md — Settings UI: Client-ID field, degraded-mode warning, i18n strings
-
-### Phase 5: Spotify Connect
-
-**Goal**: Every LMS player appears as a Spotify Connect receiver; transferring playback from the Spotify app to any LMS player starts audio within 3 seconds, and Spotify app transport controls work
-**Depends on**: Phase 4
-**Requirements**: CON-01, CON-02, CON-03, CON-04, CON-05, CON-06, CON-07, CON-08, CON-09, CON-10, CON-11, CON-12, CON-13, CON-14, CON-15, CON-16, CON-17
-**Success Criteria** (what must be TRUE):
-
-  1. Each LMS player appears as a separate device in the Spotify app's device list; a sync group appears as a single merged device named after the grouped players
-  2. Transferring playback from the Spotify app to an LMS player starts audio within 3 seconds with correct position (no volume jump in the first second)
-  3. Play, Pause, Skip Next, Skip Previous, and Volume from the Spotify app all take effect on the LMS player within 2 seconds
-  4. Starting a Browse-streaming session while Connect is active stops the Connect daemon cleanly; starting Connect while Browse-streaming is active stops the local playback cleanly
-  5. A Connect daemon that crashes is automatically restarted with exponential backoff; Connect daemons are never killed by LMS's `killHangingProcesses`
-
-**Plans:** 5/5 plans complete
-
-Plans:
-**Wave 1** *(parallel — no file overlap)*
-
-- [x] 05-01-PLAN.md — Rust binary: Cargo.toml deps + connect.rs (LMS notifier, HttpStreamSink, http_stream_server, run_connect) + main.rs wiring + binary build
-- [x] 05-02-PLAN.md — Config files (custom-convert.conf soc profiles, custom-types.conf soc type) + Daemon.pm process wrapper
-
-**Wave 2** *(depends on Wave 1)*
-
-- [x] 05-03-PLAN.md — DaemonManager.pm lifecycle + Plugin.pm integration (Connect init at boot, CON-09 PID exclusion, updateTranscodingTable soc)
-
-**Wave 3** *(depends on Wave 2)*
-
-- [x] 05-04-PLAN.md — Connect.pm event dispatch + ProtocolHandler.pm Connect extensions (soc format, canDirectStream, sync proxy)
-
-**Wave 4** *(depends on Wave 3)*
-
-- [x] 05-05-PLAN.md — Settings UI (per-player Connect toggle, OGG override) + i18n strings + UAT checkpoint
-
-### Phase 05.1: Connect Audio Streaming Bugfix (INSERTED)
-
-**Goal:** Fix the audio streaming pipeline: squeezelite DirectStream connection timing, binary Spirc session stability (spurious stop after TrackChanged), and PCM relay data flow verification. All Connect event/metadata/control paths verified working — only the audio data path remains.
-**Depends on:** Phase 5
-**Requirements**: CON-03, CON-04, CON-05, CON-14
-**Success Criteria** (what must be TRUE):
-
-  1. Transferring playback from Spotify app to LMS player produces audible audio within 5 seconds
-  2. squeezelite establishes and maintains a TCP connection to the binary's /stream HTTP endpoint
-  3. PCM data flows continuously from binary HttpStreamSink through HTTP relay to squeezelite
-  4. Playback time advances in LMS status; track duration and position match Spotify app
-  5. Browse-mode single-track streaming continues to work without regression
-
-**Known Issues (from Phase 5 UAT):**
-
-  1. squeezelite receives strm command but does not consistently open TCP connection to stream port
-  2. Binary's Spirc fires Stopped event shortly after TrackChanged→Playing sequence, causing premature session end
-  3. When connected, time=0 persists — PCM relay may not deliver data to the specific squeezelite connection
-
-**Debug Approach:** Run squeezelite with `-d all` for SLIMproto-level visibility; add binary stderr logging for Spirc event sequence and HttpStreamSink write counts
-
-**Plans:** 3/3 plans complete
-
-Plans:
-**Wave 1** *(parallel — no file overlap)*
-
-- [x] 05.1-01-PLAN.md — Binary fixes: Grace-timer (D-03) + eprintln! debug logging (D-02) in connect.rs + binary rebuild
-- [x] 05.1-02-PLAN.md — Daemon.pm stderr capture (D-02 Perl half) for binary debug log persistence
-
-**Wave 2** *(depends on Wave 1)*
-
-- [x] 05.1-03-PLAN.md — Bug 2 diagnosis from logs + HTTP response header fix (conditional) + UAT checkpoint
-
-### Phase 05.2: Connect Controls & Resume (INSERTED)
-
-**Goal:** Fix Connect Resume after Pause and verify/fix all Connect control paths bidirectionally. All controls tested from both Spotify app→LMS and LMS→Spotify directions.
-**Depends on:** Phase 05.1
-**Requirements**: CON-05, CON-11, CON-13
-**Success Criteria** (what must be TRUE):
-
-  1. Resume after Pause works from Spotify app (binary sends resume event to LMS, squeezelite unpauses)
-  2. Volume sync is bidirectional: Spotify app volume change reflects on LMS player, LMS volume change reflects in Spotify app
-  3. Pause/Resume is bidirectional: Pause from Spotify pauses LMS, Pause from LMS pauses Spotify
-  4. Skip (next/prev) from Spotify app advances track on LMS; Skip from LMS sends skip to Spotify (semi-bidirectional)
-  5. Seek from Spotify app updates LMS playback position (unidirectional — LMS seek not expected to work in Connect mode)
-  6. Debug eprintln! logging from Phase 05.1 cleaned up or gated behind a flag
-
-**Known Issues (from Phase 05.1 UAT):**
-
-  1. Resume after Pause: Binary fires Playing event but does not send 'start' notification to LMS — squeezelite stays paused
-  2. Volume /control/volume returns 404 (binary endpoint not implemented or path mismatch)
-  3. Volume Web API fallback returns 411 Length Required (PUT without Content-Length)
-  4. Debug eprintln! lines in connect.rs need cleanup (scheduled from Phase 05.1)
-
-**Plans:** 2/2 plans complete
-
-Plans:
-**Wave 1**
-
-- [x] 05.2-01-PLAN.md — Binary: was_paused resume detection + volume 404 fix + eprintln! -> log::debug! migration + rebuild
-
-**Wave 2** *(depends on Wave 1)*
-
-- [x] 05.2-02-PLAN.md — Perl: Connect.pm resume handler + Client.pm Content-Length fix + UAT checkpoint
-
-### Phase 05.3: Sync Groups + Connect Robustness
-
-**Goal:** Connect audio works for synced LMS players and Connect session survives LMS source switches.
-**Depends on:** Phase 05.2
-**Requirements**: CON-06
-**Success Criteria** (what must be TRUE):
-
-  1. Two synced LMS players both receive Connect audio simultaneously via LMS proxy path
-  2. After playing a different LMS source (Spotty, local music) and pressing Play in the Spotify app, the Connect session resumes without requiring a daemon restart (Backlog #4)
-
-**Known Blockers:**
-
-  1. LMS proxy path (`# I`) connects to binary but disconnects immediately — likely needs buffered response or different HTTP server approach (hyper HTTP/1.0 streaming body not consumed fast enough by LMS's synchronous sysreadline)
-  2. `canDirectStream` returns 0 for synced players (correct) — proxy path via `ProtocolHandler::new()` must work
-  3. May require switching from hyper's async streaming body to a pre-buffered or chunked approach for the proxy connection
-
-**Plans:** 3/3 plans complete
-
-**Wave 1** *(parallel — no file overlap)*
-- [x] 05.3-01-PLAN.md — ProtocolHandler proxy fix (requestString + canEnhanceHTTP overrides)
-- [x] 05.3-02-PLAN.md — Binary relay_active safety + ready notify + rebuild
-
-**Wave 2** *(depends on Wave 1)*
-- [x] 05.3-03-PLAN.md — Connect.pm ready handler + ROADMAP correction + UAT checkpoint
-
-### Phase 05.4: mDNS Connect Discovery Fix (INSERTED)
-
-**Goal:** mDNS/ZeroConf discovery for Spotify Connect works reliably — devices appear in Spotify app and connections succeed via discovery (not just "In anderen Netzwerken").
-**Depends on:** Phase 05.3
-**Requirements**: CON-01
-**Success Criteria** (what must be TRUE):
-
-  1. Connect devices appear in the Spotify app's device list via mDNS within 10 seconds of daemon start
-  2. Connecting to a device via mDNS discovery starts audio (not just via "In anderen Netzwerken")
-  3. Spirc registration is stable — no repeated `ready` events every 30 seconds
-  4. `disableDiscovery` crash-loop protection auto-resets after a cooldown period (not permanent)
-  5. Per-player `disableDiscovery` option available in Settings UI
-
-**Known Issues:**
-
-  1. mDNS discovery shows devices but connection fails — possibly libmdns registration or Spirc session issue
-  2. `disableDiscovery` pref is set permanently by crash-loop protection, never auto-resets
-  3. Repeated `ready` events (~30s interval) suggest unstable Spirc registration
-
-**Plans:** 3/3 plans complete
-
-**Wave 1** *(parallel — no file overlap)*
-- [x] 05.4-01-PLAN.md — Rust binary: Device-ID synchronization (SessionConfig + Discovery share FNV-1a hash) + rebuild
-- [x] 05.4-02-PLAN.md — Perl: Per-player crash-loop cooldown + LMS-start reset + Discovery toggle UI + prefs + strings
-
-**Wave 2** *(depends on Wave 1)*
-- [x] 05.4-03-PLAN.md — UAT: Deploy binary, verify mDNS discovery, Spirc stability, Settings UI
-
-### Phase 6: Polish + Release Readiness
-
-**Goal**: Feature polish (per-player prefs, DSTM, normalization), release preparation (full i18n, all binaries, setup guide, security review), and distribution as LMS custom repository for early adopter feedback
-**Depends on**: Phase 3, Phase 4, Phase 5
-**Requirements**: LMS-03, LMS-06, LMS-08, LMS-09, LMS-10
-**Success Criteria** (what must be TRUE):
-
-  1. Setting bitrate to 96 kbps on one player and 320 kbps on another causes each player to stream at its configured bitrate independently
-  2. When a playlist ends, Don't Stop The Music automatically queues a related Spotify track and playback continues without user intervention
-  3. Placing a custom librespot binary in the designated path causes the plugin to use that binary instead of the bundled one; the `--check` version enforcement still applies
-  4. Per-player Settings page shows toggles for: Connect mode enable/disable, auto-play (DSTM), and a transcoding fallback option for players that can't handle direct PCM/OGG streams (e.g., force FLAC or MP3 transcode)
-  5. A player with transcoding fallback enabled receives audio through the custom-convert.conf pipeline instead of DirectStream, while other players continue with direct streaming
-  6. Volume normalisation setting applies to Connect mode — Daemon.pm passes `--enable-volume-normalisation` to the binary when the global `normalization` pref is enabled (currently only works in Direct/single-track mode)
-  7. The bundled Spotify Client-ID is defined in exactly one location; changing it requires editing one constant, not a search-and-replace across files
-  8. The Settings page shows a setup guide for new users explaining the required steps in order (Spotify Developer App, Client-ID, Connect with Spotify); includes credits for Herger (Spotty) and librespot
-  9. All UI strings are translated into the standard LMS language set (EN, DE, FR, NL, IT, ES, SV, NO, DA, PL, CS, minimum) with no missing-key placeholders
-  10. librespot binaries for x86_64, aarch64, armhf, and i386 are present and pass `--check` version verification
-  11. Full security review and code review completed (Opus 4.8), all HIGH/CRITICAL findings resolved
-  12. Plugin is installable via LMS custom repository URL; adding the repo URL in LMS Settings → Plugins shows SpotOn in the plugin list with correct metadata
-
-**Plans:** 5/5 plans complete
-
-Plans:
-**Wave 1** *(parallel — no file overlap)*
-
-- [x] 06-01-PLAN.md — Client-ID consolidation (D-04, SC-7) + recommendations() API method + Custom Binary verification (LMS-10)
-- [x] 06-02-PLAN.md — Per-player Settings: Bitrate Override (D-01) + Format-Dropdown (D-11/D-12) + Transcoding Engine
-
-**Wave 2** *(depends on Wave 1)*
-
-- [x] 06-03-PLAN.md — Don't Stop The Music: DSTM provider module + Plugin.pm registration (LMS-09)
-
-**Wave 3** *(depends on Wave 2)*
-
-- [x] 06-04-PLAN.md — Full i18n (11 languages, LMS-03) + Setup Guide (D-07) + Credits (D-08)
-
-**Wave 4** *(depends on all above)*
-
-- [x] 06-05-PLAN.md — Distribution: repo.xml (D-09) + install.xml v1.0.0 + Security Review + UAT checkpoint
+  1. When the last queued track ends in Connect mode, the binary emits an `endoftrack` event that Connect.pm receives within 1 second
+  2. After the grace timer (3-5s) elapses without a new track starting, Connect.pm triggers the DSTM search-fallback and injects a track via `POST /me/player/queue`
+  3. Playback continues seamlessly in Connect mode after queue exhaustion — no gap longer than 10 seconds, no user intervention required
+  4. Disabling the per-player Autoplay toggle in Settings stops Connect-DSTM for that player only; other players continue with auto-play
+  5. Browse-mode DSTM continues to work without regression after the Connect-DSTM implementation
+**Plans**: TBD
 
 ## Progress Table
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Plugin Skeleton + Binary Foundation | 0/? | Not started | - |
-| 2. Auth + API Foundation | 6/6 | Complete   | 2026-05-27 |
-| 02.1. OAuth-PKCE Browser Auth | 4/4 | Complete    | 2026-05-27 |
-| 3. Browse + Navigation | 3/3 | Complete   | 2026-05-28 |
-| 4. Single-Track Streaming | 2/2 | Complete   | 2026-05-28 |
-| 04.1. Streaming Bug Fixes + Passthrough Binary | 2/2 | Complete   | 2026-05-28 |
-| 04.2. Credentials + Made For You Fix | 2/2 | Complete   | 2026-05-29 |
-| 04.3. ZeroConf + Keymaster Auth | 4/4 | Complete   | 2026-05-29 |
-| 04.4. Dual-Token API Routing | 2/2 | Complete   | 2026-05-29 |
-| 5. Spotify Connect | 5/5 | Complete   | 2026-06-01 |
-| 05.1. Connect Audio Streaming Bugfix | 3/3 | Complete   | 2026-06-01 |
-| 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
-| 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
-| 05.4. mDNS Connect Discovery Fix | 3/3 | Complete    | 2026-06-02 |
-| 6. Polish + DSTM + Settings | 5/5 | Complete   | 2026-06-03 |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Plugin Skeleton + Binary Foundation | v1.0 | 0/? | Complete | 2026-06-03 |
+| 2. Auth + API Foundation | v1.0 | 6/6 | Complete | 2026-05-27 |
+| 02.1. OAuth-PKCE Browser Auth | v1.0 | 4/4 | Complete | 2026-05-27 |
+| 3. Browse + Navigation | v1.0 | 3/3 | Complete | 2026-05-28 |
+| 4. Single-Track Streaming | v1.0 | 2/2 | Complete | 2026-05-28 |
+| 04.1. Streaming Bug Fixes + Passthrough Binary | v1.0 | 2/2 | Complete | 2026-05-28 |
+| 04.2. Credentials + Made For You Fix | v1.0 | 2/2 | Complete | 2026-05-29 |
+| 04.3. ZeroConf + Keymaster Auth | v1.0 | 4/4 | Complete | 2026-05-29 |
+| 04.4. Dual-Token API Routing | v1.0 | 2/2 | Complete | 2026-05-29 |
+| 5. Spotify Connect | v1.0 | 5/5 | Complete | 2026-06-01 |
+| 05.1. Connect Audio Streaming Bugfix | v1.0 | 3/3 | Complete | 2026-06-01 |
+| 05.2. Connect Controls & Resume | v1.0 | 2/2 | Complete | 2026-06-01 |
+| 05.3. Player Sync Groups | v1.0 | 3/3 | Complete | 2026-06-02 |
+| 05.4. mDNS Connect Discovery Fix | v1.0 | 3/3 | Complete | 2026-06-02 |
+| 6. Polish + DSTM + Settings | v1.0 | 5/5 | Complete | 2026-06-03 |
+| 7. DE→EN Code Cleanup | v1.1 | 0/? | Not started | - |
+| 8. Multi-Arch Binary Distribution | v1.1 | 0/? | Not started | - |
+| 9. Stream Metadata | v1.1 | 0/? | Not started | - |
+| 10. Connect-DSTM | v1.1 | 0/? | Not started | - |
 
 ## Backlog
 
-Items discovered during UAT — not blocking, schedule into future phases.
+Items discovered during UAT — not blocking current milestone.
 
-1. ~~Dead Code Cleanup~~ → integriert in Phase 05.3
-2. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID (`93aac68...`). Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode für browse/categories-Zugriff. *SC-7 in Phase 6 stellt sicher, dass die ID zentral austauschbar ist.*
-3. ~~playall auf Track-Items~~ → funktioniert inzwischen (XMLBrowser verarbeitet playall korrekt)
-4. ~~Connect Session-Handover~~ → integriert in Phase 05.3
-5. **Connect-DSTM (Auto-Play im Connect-Modus)** — LMS-DSTM greift nur im Browse-Modus. Im Connect-Modus muss End-of-Queue via Spirc-Event erkannt und Tracks über `POST /me/player/queue` nachgeschoben werden (eigener Ansatz wie Spotty-NG, nicht LMS-DSTM-Provider).
-6. **Format-Dropdown mit Nicht-OGG-Playern testen** — Auto-Modus mit B&O/Chromecast verifizieren (kein OGG-Support → Auto sollte FLAC wählen). Bisher nur mit squeezelite (volles Codec-Set) getestet.
+1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID. Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode.
+2. **Format-Dropdown mit Nicht-OGG-Playern testen** — Auto-Modus mit B&O/Chromecast verifizieren (kein OGG-Support → Auto sollte FLAC wählen). Bisher nur mit squeezelite getestet.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-03 after Phase 06 planning*
+*Last updated: 2026-06-03 — v1.1 phases 7-10 added*

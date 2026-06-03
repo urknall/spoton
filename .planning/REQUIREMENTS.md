@@ -65,34 +65,34 @@ Deferred to future release. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CLEAN-01 | — | Pending |
-| CLEAN-02 | — | Pending |
-| CLEAN-03 | — | Pending |
-| ARCH-01 | — | Pending |
-| ARCH-02 | — | Pending |
-| ARCH-03 | — | Pending |
-| ARCH-04 | — | Pending |
-| ARCH-05 | — | Pending |
-| ARCH-06 | — | Pending |
-| ARCH-07 | — | Pending |
-| ARCH-08 | — | Pending |
-| ARCH-09 | — | Pending |
-| ARCH-10 | — | Pending |
-| DSTM-01 | — | Pending |
-| DSTM-02 | — | Pending |
-| DSTM-03 | — | Pending |
-| DSTM-04 | — | Pending |
-| DSTM-05 | — | Pending |
-| DSTM-06 | — | Pending |
-| META-01 | — | Pending |
-| META-02 | — | Pending |
-| META-03 | — | Pending |
+| CLEAN-01 | Phase 7 | Pending |
+| CLEAN-02 | Phase 7 | Pending |
+| CLEAN-03 | Phase 7 | Pending |
+| ARCH-01 | Phase 8 | Pending |
+| ARCH-02 | Phase 8 | Pending |
+| ARCH-03 | Phase 8 | Pending |
+| ARCH-04 | Phase 8 | Pending |
+| ARCH-05 | Phase 8 | Pending |
+| ARCH-06 | Phase 8 | Pending |
+| ARCH-07 | Phase 8 | Pending |
+| ARCH-08 | Phase 8 | Pending |
+| ARCH-09 | Phase 8 | Pending |
+| ARCH-10 | Phase 8 | Pending |
+| META-01 | Phase 9 | Pending |
+| META-02 | Phase 9 | Pending |
+| META-03 | Phase 9 | Pending |
+| DSTM-01 | Phase 10 | Pending |
+| DSTM-02 | Phase 10 | Pending |
+| DSTM-03 | Phase 10 | Pending |
+| DSTM-04 | Phase 10 | Pending |
+| DSTM-05 | Phase 10 | Pending |
+| DSTM-06 | Phase 10 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 22 total
-- Mapped to phases: 0
-- Unmapped: 22 ⚠️
+- Mapped to phases: 22
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-06-03*
-*Last updated: 2026-06-03 after initial definition*
+*Last updated: 2026-06-03 — traceability mapped to phases 7-10*
