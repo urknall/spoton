@@ -440,6 +440,7 @@ Items discovered during UAT — not blocking, schedule into future phases.
 3. ~~playall auf Track-Items~~ → funktioniert inzwischen (XMLBrowser verarbeitet playall korrekt)
 4. ~~Connect Session-Handover~~ → integriert in Phase 05.3
 5. **Connect-DSTM (Auto-Play im Connect-Modus)** — LMS-DSTM greift nur im Browse-Modus. Im Connect-Modus muss End-of-Queue via Spirc-Event erkannt und Tracks über `POST /me/player/queue` nachgeschoben werden (eigener Ansatz wie Spotty-NG, nicht LMS-DSTM-Provider).
+6. **Format-Dropdown mit Nicht-OGG-Playern testen** — Auto-Modus mit B&O/Chromecast verifizieren (kein OGG-Support → Auto sollte FLAC wählen). Bisher nur mit squeezelite (volles Codec-Set) getestet.
 
 ---
 *Roadmap created: 2026-05-26*
