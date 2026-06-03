@@ -1,0 +1,98 @@
+# Requirements: SpotOn
+
+**Defined:** 2026-06-03
+**Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
+
+## v1.1 Requirements
+
+Requirements for Milestone v1.1: Hardening & Reach.
+
+### Code Cleanup
+
+- [ ] **CLEAN-01**: Alle deutschen Kommentare in Perl-Quellcode durch englische ersetzt
+- [ ] **CLEAN-02**: Alle deutschen Log-Strings (DEBUGLOG, INFOLOG etc.) durch englische ersetzt
+- [ ] **CLEAN-03**: Verifizierung: `grep -rn` auf deutsche Sonderzeichen in Code-Kommentaren liefert null Treffer (i18n strings.txt ausgenommen)
+
+### Multi-Arch Binary Distribution
+
+- [ ] **ARCH-01**: x86_64 Linux Binary ist musl-static gelinkt (ersetzt aktuelles glibc-Binary)
+- [ ] **ARCH-02**: aarch64 Linux Binary (Pi 4/5, NAS) via cross-rs gebaut und in Bin/ abgelegt
+- [ ] **ARCH-03**: armv7 Linux Binary (Pi 2/3 32-bit) via cross-rs gebaut und in Bin/ abgelegt
+- [ ] **ARCH-04**: i386 Linux Binary via cross-rs gebaut und in Bin/ abgelegt
+- [ ] **ARCH-05**: macOS x86_64 Binary via native CI Runner gebaut und in Bin/ abgelegt
+- [ ] **ARCH-06**: macOS aarch64 Binary (Apple Silicon) via native CI Runner gebaut und in Bin/ abgelegt
+- [ ] **ARCH-07**: Windows x86_64 Binary via MinGW-w64 GNU gebaut und in Bin/ abgelegt
+- [ ] **ARCH-08**: Helper.pm erkennt alle 8 Plattformen und wählt korrektes Binary aus Bin/ Unterverzeichnis
+- [ ] **ARCH-09**: Plugin startet und streamt erfolgreich auf aarch64 Linux (verifiziert auf realer Hardware oder CI)
+- [ ] **ARCH-10**: ARMv6 Linux Binary (Pi 1/Zero) via cross-rs gebaut und in Bin/ abgelegt
+
+### Connect-DSTM
+
+- [ ] **DSTM-01**: Spike: `PlayerEvent::EndOfTrack` in librespot-spoton emittiert `spottyconnect endoftrack` Event an LMS
+- [ ] **DSTM-02**: Connect.pm empfängt `endoftrack` Event und startet Grace-Timer (3-5s kalibriert)
+- [ ] **DSTM-03**: API/Client.pm hat `addToQueue()` Methode für `POST /me/player/queue`
+- [ ] **DSTM-04**: Bei Queue-Ende im Connect-Modus wird nächster Track via Search-Fallback ermittelt und per addToQueue eingefügt
+- [ ] **DSTM-05**: Per-Player Autoplay-Toggle in Settings UI (aktiviert/deaktiviert Connect-DSTM)
+- [ ] **DSTM-06**: Browse-DSTM bleibt unverändert funktional
+
+### Stream-Metadaten
+
+- [ ] **META-01**: Songinfo zeigt "(Spotify Browse)" oder "(Spotify Connect)" je nach aktivem Modus
+- [ ] **META-02**: Songinfo zeigt aktuelles Stream-Format (OGG, FLAC, MP3, PCM)
+- [ ] **META-03**: Songinfo zeigt Bitrate wenn verfügbar (z.B. "320k, OGG Vorbis (Spotify Connect)")
+
+## v1.2+ Requirements
+
+Deferred to future release. Tracked but not in current roadmap.
+
+### Binary Distribution
+
+- **ARCH-F01**: Universal macOS Fat Binary (x86_64 + aarch64 kombiniert)
+
+### Connect-DSTM
+
+- **DSTM-F01**: LMS-side DSTM Fallback falls librespot-native Autoplay versagt
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Connect-DSTM ohne Spike | Architektur-Risiko zu hoch ohne EndOfTrack-Validierung |
+| `recommendations` Endpoint | Entfernt seit Nov 2024, `_searchFallback` stattdessen |
+| MSVC Windows Build | Nicht möglich von Linux CI, GNU-Target stattdessen |
+
+## Traceability
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| CLEAN-01 | — | Pending |
+| CLEAN-02 | — | Pending |
+| CLEAN-03 | — | Pending |
+| ARCH-01 | — | Pending |
+| ARCH-02 | — | Pending |
+| ARCH-03 | — | Pending |
+| ARCH-04 | — | Pending |
+| ARCH-05 | — | Pending |
+| ARCH-06 | — | Pending |
+| ARCH-07 | — | Pending |
+| ARCH-08 | — | Pending |
+| ARCH-09 | — | Pending |
+| ARCH-10 | — | Pending |
+| DSTM-01 | — | Pending |
+| DSTM-02 | — | Pending |
+| DSTM-03 | — | Pending |
+| DSTM-04 | — | Pending |
+| DSTM-05 | — | Pending |
+| DSTM-06 | — | Pending |
+| META-01 | — | Pending |
+| META-02 | — | Pending |
+| META-03 | — | Pending |
+
+**Coverage:**
+- v1.1 requirements: 22 total
+- Mapped to phases: 0
+- Unmapped: 22 ⚠️
+
+---
+*Requirements defined: 2026-06-03*
+*Last updated: 2026-06-03 after initial definition*
