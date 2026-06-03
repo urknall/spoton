@@ -1,79 +1,74 @@
 # Project Research Summary
 
-**Project:** SpotOn — Spotify plugin for Lyrion Music Server
-**Domain:** Streaming service plugin (Perl + Rust binary + Spotify Web API)
-**Researched:** 2026-05-26
-**Confidence:** HIGH
+**Project:** SpotOn v1.1 — Hardening & Reach
+**Domain:** LMS plugin hardening (Connect-DSTM, Multi-Arch, Code Cleanup)
+**Researched:** 2026-06-03
+**Confidence:** HIGH (cleanup + multi-arch) / MEDIUM (Connect-DSTM, spike needed)
 
 ## Executive Summary
 
-SpotOn is an LMS plugin that integrates Spotify streaming and Connect into the Lyrion Music Server ecosystem. All four research dimensions converge on the same architectural truth: the project is structurally similar to Herger's Spotty-Plugin but must diverge in three specific areas — authentication strategy (Keymaster-only via login5, no PKCE), audio transport (HTTP streaming over FIFO), and API module design (split, centralized vs. monolithic). LMS's single-threaded event loop is the dominant constraint: every design decision flows from it.
+v1.1 comprises three independent work areas with ascending risk profiles. Code cleanup (DE→EN) is zero-risk mechanical work (~25 comment/log occurrences in 4 files). Multi-Arch binary distribution is medium-risk toolchain work requiring cross-rs for Linux musl targets, native macOS CI runners, and MinGW-w64 for Windows. Connect-DSTM is the highest-risk feature requiring a spike to validate the `PlayerEvent::EndOfTrack` event path in librespot before committing to implementation.
 
-The recommended approach is a bottom-up layered build: plugin skeleton first, then auth + API foundation, then browse navigation, then single-track streaming, then Spotify Connect with FIFO transport, and finally HTTP transport as an upgrade. This order matches the dependency graph exactly.
-
-The top systemic risks are: (1) Keymaster/login5 protocol instability — the only past occurrence caused a 24-hour outage for all librespot users; (2) Spotify Development Mode restrictions expanding further — Spotify restricted the API in November 2024 and February 2026, a third wave is plausible; (3) the Connect audio transport gap — FIFO has known UX defects that HTTP streaming solves, but HTTP streaming requires non-trivial binary work.
+The critical architectural finding: LMS's DSTM framework never fires in Connect mode (`isRepeatingStream=1`). Connect-DSTM requires a new `endoftrack` binary event, a grace timer in `Connect.pm`, and queue injection via `POST /me/player/queue`. The spike must validate this before any implementation.
 
 ## Key Findings
 
-### Stack
+### Stack Additions
 
-- **LMS Plugin API is stable.** Four core modules (`OPMLBased`, `SimpleAsyncHTTP`, `Cache`, `Prefs`) with clear APIs. ALL HTTP in server context must use `SimpleAsyncHTTP` — LMS is single-threaded, blocking calls kill audio.
-- **librespot 0.8.0** is current upstream. Missing `--single-track`, `--lms`, `--get-token`, `--check` flags (Herger's fork). SpotOn requires its own fork (Plan B from AD-04).
-- **Spotify API February 2026 removals:** Artist Top Tracks, Browse Categories, Related Artists, New Releases, batch endpoints — all removed for dev-mode apps. Search limit halved to 10/request. New unified library endpoints (`PUT/DELETE/GET /me/library`).
-- **Made For You mixes accessible** via hardcoded category ID `0JQ5DAt0tbjZptfcdMSKl3` — Herger's undocumented trick, works in dev mode.
+- **cross-rs 0.2.5** (already installed): Linux musl cross-compilation for 4 targets
+- **MinGW-w64**: Windows GNU cross-compilation from Linux CI (NOT MSVC/cargo-xwin)
+- **Native macOS CI runners**: Apple SDK licensing blocks cross-rs for Darwin
+- **`SessionConfig.autoplay`**: Correct lever for librespot autoplay (NOT `ConnectConfig`)
+- **`POST /me/player/queue`**: Available in dev mode, own-token via existing me/* guard
 
-### Features
+### Feature Table Stakes
 
-- **#1 user complaint:** Playback stops randomly (every third Spotty issue)
-- **#2 user complaint:** 429 rate limit errors from parallel pagination
-- **Spotty's biggest design mistake:** Liked Songs gated behind custom Client ID. SpotOn must expose unconditionally.
-- **Connect is the emotional core:** "When Connect was disabled, my family stopped using multiroom entirely." (Spotty issue #224)
-- **`recommendations` endpoint still works** in dev-mode — DSTM survives.
+| Feature | Priority | Complexity | Risk |
+|---------|----------|------------|------|
+| Linux ARM binaries (aarch64/armv7) | P1 — must | Low | Low |
+| Linux i386 binary | P1 — must | Low | Low |
+| Helper.pm arch detection | P1 — must | Low | Low |
+| DE→EN comments + logs | P1 — must | Low | Zero |
+| macOS binaries (x86_64/aarch64) | P2 — should | Medium | Medium (CI) |
+| Windows binary | P2 — should | Medium | Low |
+| Connect-DSTM (endoftrack + grace timer) | P2 — should | High | High (spike) |
+| Per-player autoplay toggle | P2 — should | Low | Low |
 
-### Architecture
+### Architecture Changes
 
-- Build order is strictly: Helper/AccountHelper → API/Auth+Client → OPML/Browse → ProtocolHandler+Transcoding → Connect/EventHandler+Manager+Daemon → HTTP streaming upgrade
-- `API/Client.pm` as sole HTTP egress point with central throttle — non-negotiable
-- Connect IPC is HTTP POST to LMS JSON-RPC — well-established pattern
-- HTTP streaming server belongs in the binary, not Perl — from Perl's perspective it's just a standard HTTP radio URL
+| Component | Feature | Change |
+|-----------|---------|--------|
+| `connect.rs` | DSTM | New `EndOfTrack` match arm → emit `spottyconnect endoftrack` |
+| `Connect.pm` | DSTM | New `endoftrack` handler + 3-5s grace timer |
+| `API/Client.pm` | DSTM | New `addToQueue($accountId, $uri, $cb)` |
+| `Helper.pm` | Multi-arch | Extended `addFindBinPaths` for macOS/Windows |
+| `Bin/` | Multi-arch | 5 new subdirectories with static binaries |
+| CI workflow | Multi-arch | Platform-specific runners in matrix |
+| 4 Perl files | Cleanup | ~25 German comment/log lines translated |
 
-### Pitfalls (NEW — beyond P-01 through P-20)
+### Critical Pitfalls
 
-- **P-21:** Keymaster already died once (August 2025, 24h outage). Binary must be >= 0.6.0 (login5).
-- **P-22:** February 2026 API removals cripple Browse in Dev Mode. NAV-05, NAV-06 need redesign.
-- **P-25/P-30:** Multi-daemon port collisions. Manager.pm must assign unique ports from pool.
-- **P-26:** Token expiry at 1h silently degrades Connect. Proactive restart at 50 minutes.
-- **P-32:** Transcoding table race — two players starting simultaneously overwrite each other's cache path.
-
-## Top 5 Risks
-
-| # | Risk | Impact | Mitigation |
-|---|------|--------|------------|
-| 1 | Keymaster/login5 protocol change | Total plugin failure | Pin binary >= 0.6.0; design Auth.pm with PKCE stub |
-| 2 | Further Spotify API restrictions | Browse features break | Verify every endpoint against dev mode; graceful degradation |
-| 3 | Connect token expiry (1h) | Silent session degradation | Proactive daemon restart at 50 min |
-| 4 | Multi-daemon port collisions | Connect fails for multi-player | Manager.pm allocates unique ports from pool |
-| 5 | Transcoding table race condition | Wrong audio for wrong player | Encode player params in URI, not global state |
+- **P-40:** DSTM framework never fires in Connect mode — need separate binary event path
+- **P-41:** `recommendations` endpoint removed — use `_searchFallback` only
+- **P-42:** `+crt-static` on gnu targets breaks proc-macro (Rust >= 1.87) — musl only
+- **P-44:** macOS cannot use cross-rs — native CI runners required
+- **P-46:** Windows must be GNU target, not MSVC, for Linux CI
 
 ## Suggested Phase Structure
 
-| Phase | Name | Depends On | Research Needed |
-|-------|------|------------|-----------------|
-| 1 | Plugin Skeleton + Binary Foundation | — | No |
-| 2 | Auth + API Foundation | Phase 1 | Yes (Keymaster binary interface) |
-| 3 | Browse + Navigation | Phase 2 | No |
-| 4 | Single-Track Streaming | Phase 2+3 | No |
-| 5 | Spotify Connect (FIFO Transport) | Phase 4 | Yes (Connect state machine) |
-| 6 | Polish + DSTM + Settings | Phase 3-5 | No |
-| 7 | HTTP Streaming Transport (v2) | Phase 5 | Yes (binary HTTP server design) |
+| Phase | Name | Risk | Depends On |
+|-------|------|------|------------|
+| 1 | DE→EN Code Cleanup | Zero | — |
+| 2 | Multi-Arch Binary Distribution | Medium | — |
+| 3 | Connect-DSTM Spike + Implementation | High (spike-gated) | Phase 2 (binary rebuild) |
 
 ## Gaps to Address
 
-- Keymaster login5 binary interface details — verify against actual forked binary
-- Extended Quota Mode runtime detection — probe behavior needs live verification
-- librespot issue #1377 (token expiry) status — monitor for resolution
-- B&O format support matrix via UPnPBridge — needed for OGG-Direct defaults
+- Connect-DSTM: `PlayerEvent::EndOfTrack` behavior in single-track-no-queue scenario unverified
+- Grace timer calibration: 3-5s range needs empirical testing
+- macOS CI runner availability and Bin/ directory naming convention
+- Windows binary utility questionable (no Windows LMS users confirmed)
 
 ---
-*Research completed: 2026-05-26*
-*Ready for roadmap: yes*
+*Research completed: 2026-06-03*
+*Ready for requirements: yes*

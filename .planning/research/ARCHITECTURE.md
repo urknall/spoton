@@ -1,452 +1,498 @@
-# Architecture Patterns: LMS Spotify Plugin
+# Architecture Research: SpotOn v1.1
 
-**Domain:** Streaming service plugin for Lyrion Music Server
-**Researched:** 2026-05-26
-**Sources:** Spotty-Plugin (michaelherger/Spotty-Plugin, library-integration branch), LMS slimserver source (LMS-Community/slimserver public/8.3), lyrion.org/reference/music-service-plugin
-
----
-
-## How LMS Plugin Architecture Works (Enforced Patterns)
-
-### The Single-Thread Constraint
-
-LMS is single-threaded Perl. Every operation in the main server loop must be non-blocking. This is the dominant architectural constraint. All HTTP calls from plugin code must use `Slim::Networking::SimpleAsyncHTTP` (callback-based). Synchronous `LWP::UserAgent` calls are only permitted in scanner/importer context (`main::SCANNER`).
-
-### OPMLBased Base Class
-
-`Slim::Plugin::OPMLBased` is the base class for service plugins. It handles:
-- Registration in LMS menus (`menu => 'radios'`, `is_app => 1`)
-- CLI query dispatch (the `tag` maps to a CLI command, e.g. `spotty items`)
-- Jive home menu registration (for native SB hardware displays)
-- Feed function: one entry point `handleFeed(\&cb, $args)` drives the entire browse tree
-
-The plugin calls `$class->SUPER::initPlugin(feed => \&handleFeed, tag => 'spoton', menu => 'radios', is_app => 1, weight => 1)` and the framework does the rest.
-
-### What `initPlugin` Must Do
-
-Every plugin's `initPlugin` is responsible for:
-1. Preference defaults (`$prefs->init({...})`)
-2. Protocol handler registration (`Slim::Player::ProtocolHandlers->registerHandler('spotify', ...)`)
-3. Settings UI setup (if `main::WEBUI`)
-4. Importer registration (if `CAN_IMPORTER`, LMS 8.0+)
-5. Calling `$class->SUPER::initPlugin(...)` to register the feed
-
-`postinitPlugin` (called after all plugins load) is where cross-plugin integrations go (DSTM, LastMix, OnlineLibrary icons).
-
-### Protocol Handler Pattern
-
-`ProtocolHandler.pm` inherits from `Slim::Formats::RemoteStream`. It is the bridge between Spotify URIs and LMS playback. Key methods:
-
-| Method | Purpose |
-|--------|---------|
-| `contentType` | Returns `'spt'` — the custom format token |
-| `formatOverride` | Called at track start; updates transcoding table, returns `'spt'` |
-| `canSeek` / `canTranscodeSeek` | Returns true for LMS 7.9.1+ |
-| `getSeekData` | Returns `{ timeOffset => $newtime }` — seek position for `$START$` substitution |
-| `canDirectStream` | Returns 0 — always transcodes |
-| `isRepeatingStream` | Returns true when in Connect mode — prevents LMS from treating stream end as track end |
-| `getNextTrack` | Dispatcher: delegates to Connect if in Connect mode, calls `$successCb->()` otherwise |
-| `explodePlaylist` | Resolves `spotify:album:X` or `spotify:playlist:X` URIs to track list |
-| `getMetadataFor` | Returns track metadata for the Now Playing display |
-| `audioScrobblerSource` | Returns `'P'` (user-chosen) |
-
-`canDirectStream { 0 }` is critical — it tells LMS to always run the transcoding pipeline (`custom-convert.conf`) rather than streaming directly. This is what routes audio through the librespot binary.
-
-### Transcoding Pipeline (custom-convert.conf)
-
-The `spt` format is declared custom. LMS selects the pipeline based on player capability:
-
-```
-spt pcm * *    # RT:{START=--start-position %s}
-  [binary] --single-track $URL$ --bitrate 320 $START$ ...
-
-spt flc * *    # RT:{START=--start-position %s}
-  [binary] --single-track $URL$ ... | [flac] -cs ...
-
-spt mp3 * *    # RB:{BITRATE=--abr %B}T:{START=--start-position %s}
-  [binary] --single-track $URL$ ... | [lame] ...
-```
-
-`# R` = Remote Streaming (stream mode, `isRepeatingStream`). `# T:` = seek position substitution. `# B:` = bitrate selection. `$CACHE$` is injected at runtime by `updateTranscodingTable()`. `$URL$` is the `spotify:track:ID` URI (without leading `//`).
-
-`updateTranscodingTable()` in Plugin.pm does a regex replace on the live transcoding table — injecting the per-player cache directory and bitrate preference. This must happen before each track starts, not once at init.
+**Domain:** Spotify Connect DSTM, Multi-Arch Binary Selection, Code Cleanup
+**Researched:** 2026-06-03
+**Confidence:** HIGH (all findings based on direct source-code inspection + official API docs)
 
 ---
 
-## Recommended Architecture: Component Map
+## Existing Architecture (v1.0 Baseline)
+
+The codebase has the following module topology after v1.0:
 
 ```
-Plugin.pm (OPMLBased)
-  |-- initPlugin: register handlers, prefs, importer, kill-hanging timer
-  |-- postinitPlugin: cross-plugin integrations  
-  |-- updateTranscodingTable(client): inject $CACHE$ + bitrate + normalization
-  |-- killHangingProcesses(): hourly cleanup of single-track binary instances
-  |-- getAPIHandler(client): factory returning per-client API instance
-  
-ProtocolHandler.pm (Slim::Formats::RemoteStream)
-  |-- contentType/formatOverride: declares 'spt', triggers transcoding setup
-  |-- getNextTrack: dispatcher (Connect mode vs Browse mode)
-  |-- isRepeatingStream: true in Connect mode (FIFO/HTTP stream stays open)
-  |-- getMetadataFor: track info for Now Playing display
-  |-- explodePlaylist: spotify:album/playlist URI → track list
-  
-Settings.pm (Slim::Web::Settings)
-  |-- Global settings (bitrate, normalization, Connect enable)
-  |-- Per-player settings via $prefs->client($client)
-  
-API/
-  |-- Client.pm: ALL HTTP exits. getToken → build request → AsyncRequest → callback
-  |    |-- Rate limit state: 'spoton_rate_limit_exceeded' cache key
-  |    |-- Cache key: md5_hex(url + token-for-personal-endpoints)
-  |    |-- TTL: from Cache-Control header, fallback 60s, playlist special-cases
-  |-- Auth.pm: Token storage/refresh. Keymaster mode: get token from binary.
-  |-- Browse.pm: browse/*, search/*, new-releases, categories
-  |-- Library.pm: me/tracks, me/albums, me/playlists, me/artists, me/player/recently-played
-  |-- Player.pm: me/player, me/devices
-  |-- Cache.pm: Persistent cache (Slim::Utils::DbCache subtype), stores normalized items
-  
-Connect/
-  |-- Manager.pm: DaemonManager
-  |    |-- Subscribes to client new/disconnect events → debounced initHelpers()
-  |    |-- Subscribes to sync events → shutdown + deferred initHelpers()
-  |    |-- One Daemon instance per player (or sync-group master)
-  |    |-- %helperInstances: { mac => Daemon object }
-  |-- Daemon.pm: One librespot process
-  |    |-- start(): Proc::Background->new(binary, -c cache, -n name, --player-mac, --lms)
-  |    |-- _checkStartTimes(): disable discovery after 3 crashes in 5 minutes
-  |    |-- alive()/pid()/uptime(): health check
-  |-- EventHandler.pm (Connect.pm in Spotty, merged):
-  |    |-- addDispatch ['spottyconnect', '_cmd'] → _connectEvent(request)
-  |    |-- subscribe newsong → _onNewSong
-  |    |-- subscribe pause/stop → _onPause  
-  |    |-- subscribe mixer/volume → _onVolume
-  |    |-- _connectEvent: handles start/stop/change/volume events from binary
-  |    |-- getNextTrack: intercepts ProtocolHandler->getNextTrack in Connect mode
-  
-Helper.pm:
-  |-- Binary discovery: arch-specific Bin/ paths + custom override
-  |-- helperCheck($candidate): runs --check, parses "ok spoton vX.Y.Z\n{JSON}"
-  |-- getCapability($key): returns capability from --check JSON, with defaults
-  
-AccountHelper.pm:
-  |-- Credential storage: cacheFolder(account_id) → per-account temp dir
-  |-- getAccount(client) → account ID for player
-  |-- hasCredentials() / getAllCredentials()
-  |-- purgeAudioCache() / purgeAudioCacheAfterXTracks()
-  
-OPML.pm (Browse.pm equivalent):
-  |-- handleFeed(cb, args): entry point registered in SUPER::initPlugin
-  |-- Top-level menu: Home / Search / Library
-  |-- All API calls async via API/Client.pm
-  |-- Converts API responses to OPML item arrays
-  
-Importer.pm:
-  |-- startScan() (sync): populates LMS online library database
-  |-- needsUpdate() (async): checks if rescan needed
-  
-install.xml: Plugin manifest (name, version, minVersion, GUID, repo URL)
-strings.txt: i18n (EN + DE minimum)
-custom-convert.conf: spt→pcm, spt→flc, spt→mp3 pipelines
-custom-types.conf: declares 'spt' as valid LMS source format
-Bin/: Pre-compiled librespot binaries per architecture
+Plugin.pm              — Entry point, OPML menu tree, transcoding engine, orphan cleanup
+Connect.pm             — LMS event subscribers + spottyconnect JSON-RPC dispatch handler
+Connect/DaemonManager.pm — Daemon lifecycle, watchdog, sync-group election, PID registry
+Connect/Daemon.pm      — Per-player process wrapper (Proc::Background, stream_port capture)
+API/Client.pm          — Centralized HTTP client, dual-token routing, rate limiting
+API/TokenManager.pm    — ZeroConf discovery, Keymaster --get-token, token refresh
+ProtocolHandler.pm     — Protocol handler for spotify://, format detection (son/soc)
+DontStopTheMusic.pm    — DSTM provider (Browse mode only — Connect gap is the v1.1 target)
+Helper.pm              — Binary discovery, --check validation, capability parsing
+Settings.pm            — LMS Settings page (HTML + AJAX endpoints)
+librespot-spoton/      — Custom Rust binary (connect.rs + main.rs)
+  src/connect.rs       — LMS notifier, HttpStreamSink, HTTP control server, run_connect
+  src/main.rs          — CLI flag parsing, mode dispatch
+Bin/x86_64-linux/spoton — Only populated target (v1.0 shipped one arch)
+Bin/{aarch64,armhf,arm,i386}-linux/ — Directories exist with .gitkeep only
+custom-convert.conf    — 5 transcoding pipelines: son-pcm, son-flc, son-mp3, son-ogg, soc-pcm
+custom-types.conf      — soc type definition
+```
+
+### Binary Event Vocabulary (connect.rs LMS notifier)
+
+The binary sends JSON-RPC `spottyconnect` commands to LMS:
+
+| Command | Trigger | LMS handler in Connect.pm |
+|---------|---------|--------------------------|
+| `start` | TrackChanged (None→Some) | `_connectEvent` → playlist play |
+| `change` | TrackChanged (Some→Some) or Playing (diff id) | `_connectEvent` → metadata update |
+| `stop` | Paused or Stopped | `_connectEvent` → LMS pause |
+| `resume` | Playing after was_paused=true | `_connectEvent` → LMS unpause |
+| `seek` | Seeked | `_connectEvent` → startOffset adjust |
+| `volume` | VolumeChanged | `_connectEvent` → mixer volume |
+| `ready` | Spirc reconnected | `_connectEvent` → re-issue playlist play |
+
+**`EndOfTrack` is currently NOT forwarded** — it falls through to `_ => {}` in `handle_player_event`. This is the architectural gap for Connect-DSTM.
+
+---
+
+## Feature 1: Connect-DSTM
+
+### The Gap
+
+`DontStopTheMusic.pm` registers with `Slim::Plugin::DontStopTheMusic::Plugin` as a Browse-mode DSTM provider. LMS calls the registered handler when the LMS playlist empties. In Connect mode, LMS has a single-track playlist (`spotify://connect-<ts>`) that never empties via LMS — Spotify controls track progression internally via Spirc. LMS's DSTM framework never fires because the Connect pseudo-URL is a perpetual "repeating stream" (`isRepeatingStream` returns 1 for connect URLs).
+
+### Integration Path
+
+The Connect-DSTM feature requires two cooperating pieces:
+
+**Binary side (connect.rs):** Add `EndOfTrack` event handling in `handle_player_event`. When `EndOfTrack` fires and `current_track` is `Some`, emit a new `spottyconnect endoftrack <track_id>` notification to LMS.
+
+```rust
+PlayerEvent::EndOfTrack { track_id, .. } => {
+    if let Ok(id) = track_id.to_id() {
+        if current_track.is_some() {
+            self.notify("endoftrack", &id, "").await;
+        }
+    }
+}
+```
+
+**Perl side (Connect.pm `_connectEvent`):** Add an `endoftrack` command handler. When received:
+1. Check whether Spotify's context still has a next track (librespot handles this transparently — if it fires EndOfTrack and then TrackChanged immediately, no intervention needed). 
+2. If no `start`/`change` arrives within a configurable window (~3-5s), invoke the DSTM logic by calling `API::Client->addToQueue($accountId, $uri, $cb)` with a recommended track URI derived from search fallback.
+
+**New API::Client method `addToQueue`:** POST to `POST /me/player/queue?uri=spotify:track:ID`. This endpoint is available in development mode, requires `user-modify-playback-state` scope. Routes via own-token (me/* family, D-05 guard in Client.pm ensures own-token is used).
+
+### Data Flow: Connect-DSTM
+
+```
+[Spotify Context Ends]
+        ↓
+[librespot PlayerEvent::EndOfTrack]
+        ↓
+[connect.rs handle_player_event]
+   → notify("endoftrack", track_id, "")
+        ↓ JSON-RPC spottyconnect endoftrack
+[Connect.pm _connectEvent]
+   → set timer (3-5s grace for Spotify auto-advance)
+        ↓ (if no start/change arrives)
+[DontStopTheMusic.pm dontStopTheMusic-like logic]
+   → API::Client->search() for seed tracks
+   → API::Client->addToQueue() → POST /me/player/queue
+        ↓
+[Spotify app picks up queued track and plays it]
+   → binary fires TrackChanged → start/change event → normal flow
+```
+
+### Modified Components
+
+| Component | Change |
+|-----------|--------|
+| `librespot-spoton/src/connect.rs` | Add `EndOfTrack` match arm in `handle_player_event` |
+| `Connect.pm` | Add `endoftrack` cmd in `_connectEvent`; add grace timer; import DSTM logic |
+| `API/Client.pm` | Add `addToQueue($accountId, $uri, $cb)` method |
+| Binary rebuild | Required for all 6 targets (new event) |
+
+### Spike Risk
+
+The critical unknown: does librespot's `EndOfTrack` fire when Spotify's queue/context is exhausted (user played a single track with no queue), or does Spirc always auto-advance to autoplay? In the `spirc.rs` source (upstream librespot), `EndOfTrack` is fired by the player, and Spirc handles it by calling `handle_next()` — which succeeds if the context has a next track, or fires Stopped if not. In the "no next track" case, both `EndOfTrack` and `Stopped` fire in sequence. This means the Perl handler must distinguish between:
+
+- EndOfTrack followed quickly by start/change: Spotify auto-advanced, no DSTM needed
+- EndOfTrack followed by stop (no start/change in ~3s): Spotify context exhausted, DSTM needed
+
+The grace timer (3-5s) after EndOfTrack before invoking the DSTM path handles this without binary changes.
+
+### Scope Recommendation
+
+Implement as a spike: add EndOfTrack notification to binary, add minimal Perl handler with grace timer. Defer full DSTM search fallback to a follow-up if the spike reveals that `addToQueue` works reliably.
+
+---
+
+## Feature 2: Multi-Arch Binaries
+
+### Current State
+
+`Helper.pm::_findBin` discovers binaries using LMS's `Slim::Utils::Misc::findbin()`. LMS's findbin searches paths registered via `addFindBinPaths`. The Bin/ subdirectory structure maps to LMS's platform detection. Only x86_64-linux is populated.
+
+### Platform → Directory Mapping (LMS Convention)
+
+LMS plugin binary convention (derived from Spotty-Plugin reference and LMS slimserver source):
+
+| Target | Bin/ subdirectory | LMS Platform String |
+|--------|-------------------|---------------------|
+| x86_64 Linux | `x86_64-linux/` | `unix` + `archname =~ x86_64` |
+| i386/i686 Linux | `i386-linux/` | `unix` (32-bit) |
+| aarch64 Linux (Pi 4) | `aarch64-linux/` | `unix` + `osArch =~ aarch64` |
+| armv7 Linux (Pi 2/3) | `armhf-linux/` | `unix` (arm fallback path) |
+| macOS x86_64 | via `ISMAC + x86_64` | `osx` |
+| macOS aarch64 (Apple Silicon) | via `ISMAC + arm64` | `osx` |
+| Windows x86_64 | via `ISWINDOWS` | `win` |
+
+**Helper.pm current logic:** Only adds `armhf-linux` as fallback path for aarch64 hosts. Does not handle macOS or Windows with explicit Bin/ subdirectories. LMS's own `findbin` handles OS-specific extension (`.exe` on Windows) and path resolution.
+
+### Architecture of Binary Selection
+
+`Helper.pm::init()` runs once at plugin load:
+- Detects aarch64 → adds `armhf-linux/` as fallback via `addFindBinPaths`
+- Detects custom pref → validated first
+
+`Helper.pm::_findBin()` tries candidates in order:
+1. `spoton-custom` (user override, highest priority)
+2. `spoton` (base name, LMS finds in registered paths)
+3. `spoton-x86_64` (explicit x86_64 name, x86_64 unix only)
+
+### Changes Needed for Full Multi-Arch
+
+**Helper.pm modifications:**
+
+Add platform branches to `init()`:
+
+```perl
+# macOS: explicit arch detection
+if (main::ISMAC) {
+    my $arch = $Config::Config{'archname'};
+    if ($arch =~ /arm|aarch64/i) {
+        Slim::Utils::Misc::addFindBinPaths(
+            catdir($pluginDir, 'Bin', 'aarch64-macos')
+        );
+    } else {
+        Slim::Utils::Misc::addFindBinPaths(
+            catdir($pluginDir, 'Bin', 'x86_64-macos')
+        );
+    }
+}
+# Windows: LMS findbin adds .exe automatically
+if (main::ISWINDOWS) {
+    Slim::Utils::Misc::addFindBinPaths(
+        catdir($pluginDir, 'Bin', 'x86_64-win')
+    );
+}
+```
+
+**New Bin/ directory structure:**
+
+```
+Bin/
+├── x86_64-linux/spoton      (existing, statically linked musl)
+├── aarch64-linux/spoton     (new: aarch64-unknown-linux-musl)
+├── armhf-linux/spoton       (new: armv7-unknown-linux-musleabihf)
+├── arm-linux/spoton         (new: alias/copy of armhf for older Pi)
+├── i386-linux/spoton        (new: i686-unknown-linux-musl)
+├── x86_64-macos/spoton      (new: x86_64-apple-darwin)
+├── aarch64-macos/spoton     (new: aarch64-apple-darwin)
+└── x86_64-win/spoton.exe   (new: x86_64-pc-windows-msvc)
+```
+
+### Build Toolchain
+
+`cross` is already installed at `/home/sti/.cargo/bin/cross`. Cross-compilation targets:
+
+```bash
+# Linux musl targets (via cross — Docker-based)
+cross build --release --target x86_64-unknown-linux-musl
+cross build --release --target aarch64-unknown-linux-musl
+cross build --release --target armv7-unknown-linux-musleabihf
+cross build --release --target i686-unknown-linux-musl
+
+# macOS (requires macOS host or osxcross)
+# Note: macOS cross-compilation from Linux requires osxcross SDK
+cargo build --release --target x86_64-apple-darwin     # macOS host only
+cargo build --release --target aarch64-apple-darwin    # macOS host only
+
+# Windows (via cross with mingw toolchain)
+cross build --release --target x86_64-pc-windows-gnu  # or msvc with wine
+```
+
+**Important:** The current binary is dynamically linked (`ELF 64-bit LSB pie executable, dynamically linked`). Distribution requires static musl builds (`-unknown-linux-musl` targets) so binaries run on any Linux without glibc version matching. macOS and Windows have their own static linking modes.
+
+### Modified Components
+
+| Component | Change |
+|-----------|--------|
+| `Helper.pm` | Add macOS + Windows `Bin/` path registration in `init()`; add arm64 macOS detection |
+| `Bin/` directory | Populate 5 new subdirectories with built binaries |
+| Build scripts | New CI/Makefile for cross-compilation of all targets |
+
+### No Changes Required
+
+- `Daemon.pm` — already resolves binary via `Helper->get()`
+- `custom-convert.conf` — platform-agnostic (uses `[spoton]` placeholder)
+- `install.xml` — no binary paths listed (LMS resolves at runtime)
+- `API/Client.pm`, `Connect.pm`, `Plugin.pm` — no binary path dependencies
+
+---
+
+## Feature 3: Code Cleanup (DE→EN)
+
+### Scope Assessment
+
+German text found in Perl sources (exhaustive scan):
+
+**Plugin.pm:**
+- Line 21: `# Stundlicher Orphaned-Process-Cleanup (STR-10)` → English
+- Lines 342-345: German comment block for `$PERSONAL_MIX_REGEX`
+- Lines 415, 1153: `# Kontext-Queueing ...` inline comments
+
+**Helper.pm:**
+- Line 21: `# aarch64 kann als Fallback armhf-Binaries verwenden`
+- Line 71: `# KRITISCH: 'spoton' nicht 'spotty' im Regex`
+- Line 75: `# SpotOn-Erweiterung: Mindestversions-Pruefung`
+- Line 115: `# Angepasster Binary-Finder um findbin() von LMS zu nutzen`
+- Lines 123, 129: `# auf 64 bit x86 zuerst ...`, `# Custom-Override zuerst ...`
+
+**Connect/Daemon.pm:**
+- Line 177: `# CR-02: Whitelist statt Blacklist ...` (in Plugin.pm orphan cleanup — confirmed via grep)
+
+**DontStopTheMusic.pm:**
+- None found (already clean English)
+
+**Connect.pm, DaemonManager.pm, API/Client.pm, ProtocolHandler.pm, Settings.pm:**
+- No German found in comments (already clean)
+
+**connect.rs (Rust binary):**
+- No German found; Rust source is already English throughout
+
+### Implementation Pattern
+
+Pure text replacement — no logic changes. Each file can be processed independently. Verification: grep for common German function words (`kann`, `als`, `Fallback`, `nutzen`, `statt`, `zuerst`, `KRITISCH`, `Angepasst`, `Stundlicher`, `Kontext`, `Muster`, `Aufrufstellen`, `aendern`, `Verwendet`, `Pruefung`, `Erweiterung`, `Vorbereitung`) post-cleanup.
+
+### Modified Components
+
+| Component | German instances | Effort |
+|-----------|-----------------|--------|
+| `Plugin.pm` | 4 locations | Trivial |
+| `Helper.pm` | 6 locations | Trivial |
+| `Connect/Daemon.pm` | 1 location (line 177 via Plugin.pm scan) | Trivial |
+
+---
+
+## Component Interaction Map
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                      LMS Process                         │
+│                                                         │
+│  Plugin.pm ──────── initPlugin ────────────────────┐    │
+│      │                                              │    │
+│      ├── ProtocolHandler.pm (spotify:// handler)    │    │
+│      ├── DontStopTheMusic.pm (Browse DSTM)         │    │
+│      ├── Settings.pm                               │    │
+│      └── Helper.pm ─── Binary discovery ────┐      │    │
+│                                              │      │    │
+│  Connect.pm ─── _connectEvent ──────────────┤      │    │
+│      │  (spottyconnect dispatch)             │      │    │
+│      │  ┌── [v1.1 NEW] endoftrack handler   │      │    │
+│      │  │   → 3s grace timer                │      │    │
+│      │  │   → API::Client->addToQueue()     │      │    │
+│      │  └────────────────────────────────── │      │    │
+│      └── DaemonManager.pm ─── Daemon.pm ────┘      │    │
+│                │                                    │    │
+│  API/Client.pm ─────────────────────────────────── │    │
+│      │  (dual-token, rate-limit, all Spotify calls) │    │
+│      └── [v1.1 NEW] addToQueue()                   │    │
+│                                                     │    │
+│  API/TokenManager.pm (ZeroConf + Keymaster tokens)  │    │
+└─────────────────────────────────────────────────────────┘
+         │ JSON-RPC spottyconnect             │ HTTP /control/*
+         │                                   │
+┌────────────────────────────────────────────────────────┐
+│              librespot-spoton binary                    │
+│                                                         │
+│  connect.rs::run_connect()                              │
+│      ├── LMS::handle_player_event()                     │
+│      │   ├── TrackChanged  → "start"/"change"           │
+│      │   ├── Playing       → "resume" / position sync   │
+│      │   ├── Paused/Stopped → "stop"                    │
+│      │   ├── VolumeChanged → "volume"                   │
+│      │   ├── Seeked        → "seek"                     │
+│      │   └── [v1.1 NEW] EndOfTrack → "endoftrack"       │
+│      └── http_stream_server()                           │
+│          ├── GET /stream   → S16LE PCM relay            │
+│          └── POST /control/* → Spirc commands           │
+└────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Component Boundaries
+## Data Flows
 
-| Component | Owns | Does NOT Touch |
-|-----------|------|----------------|
-| Plugin.pm | Initialization, transcoding table, API factory | HTTP requests, audio pipeline |
-| ProtocolHandler.pm | URI→stream routing, metadata, seek data | API calls (delegates to API/), daemon management |
-| OPML.pm | Browse tree construction, UI strings | Daemon management, transcoding table |
-| API/Client.pm | All outbound HTTP, token injection, rate limit, response cache | LMS player state, Connect state |
-| API/Auth.pm | Token storage/refresh only | Browse logic, player control |
-| API/Browse.pm | Spotify browse/search endpoints | Library, player endpoints |
-| API/Library.pm | me/* personal library endpoints | Browse, player endpoints |
-| API/Player.pm | me/player state, devices | Browse, library, streaming |
-| Connect/Manager.pm | Daemon lifecycle, sync group logic | Event handling, API calls |
-| Connect/Daemon.pm | One process: start/stop/monitor | Anything outside its process lifecycle |
-| Connect/EventHandler.pm | LMS event subscriptions, event→action dispatch | Daemon lifecycle (delegates to Manager) |
-| Helper.pm | Binary path resolution, capability detection | Everything else |
-| AccountHelper.pm | Credential/cache directory management | API calls, UI |
-
-**The critical boundary:** `API/Client.pm` is the only module that calls `Slim::Networking::SimpleAsyncHTTP`. No other module makes HTTP requests. Rate limiting state lives here.
-
----
-
-## Data Flow: Browse
+### Connect-DSTM Flow (New)
 
 ```
-User navigates in LMS app
-  → OPMLBased framework calls handleFeed(cb, {client, ...})
-    → OPML.pm builds top-level menu or fetches sub-menu
-      → API/Browse.pm (or Library.pm) called with callback
-        → API/Client.pm checks cache (Slim::Utils::Cache)
-          → Cache hit: cb->($cached) immediately
-          → Cache miss: getToken from Auth.pm
-            → AsyncRequest->get(API_URL, headers=[Bearer token])
-              → LMS event loop handles HTTP response
-                → _gotResponse: parse JSON, cache result, cb->($result)
-                  → API/Browse.pm transforms result to OPML items
-                    → OPML.pm returns items array to handleFeed cb
-                      → LMS renders menu to user
+Spotify context ends
+    ↓
+PlayerEvent::EndOfTrack fires in librespot-spoton
+    ↓
+LMS::handle_player_event → notify("endoftrack", track_id, "")
+    ↓ (JSON-RPC spottyconnect endoftrack)
+Connect.pm::_connectEvent cmd=endoftrack
+    ↓
+Set grace timer (3-5s) via Slim::Utils::Timers
+    ↓ (if "start"/"change" arrives within window → cancel timer, no DSTM)
+    ↓ (if timer fires → context really ended)
+Invoke _connectDSTM($client)
+    ↓
+API::Client->search(seed=lastTrackId) → get track suggestions
+    ↓
+API::Client->addToQueue(accountId, uri) → POST /me/player/queue?uri=spotify:track:ID
+    ↓
+Spotify plays the queued track → binary fires TrackChanged → normal connect flow resumes
 ```
 
-Key properties:
-- Every arrow is a callback, never a blocking call
-- Cache sits at Client.pm level — entire response objects cached
-- TTL strategy: 60s default, 3600s for artist/album metadata, playlist-specific logic
-
----
-
-## Data Flow: Browse Streaming (Single Track)
+### Multi-Arch Binary Selection Flow (Enhanced)
 
 ```
-User selects a track in LMS
-  → ProtocolHandler::getNextTrack(song, successCb, errorCb)
-    → Not in Connect mode → successCb->() immediately
-      → LMS calls formatOverride(song)
-        → Plugin::updateTranscodingTable(client) [injects $CACHE$, bitrate]
-        → returns 'spt'
-          → LMS looks up transcoding rule: spt→flc (or pcm, mp3)
-            → Spawns: [binary] --single-track spotify:track:ID --start-position N
-              → binary writes PCM to stdout
-                → [flac] reads stdin, writes FLAC to stdout
-                  → LMS reads stdout, distributes to player(s)
+Plugin.pm::initPlugin()
+    ↓
+Helper::init()
+    ├── ISWINDOWS? → addFindBinPaths(Bin/x86_64-win/)
+    ├── ISMAC + arm? → addFindBinPaths(Bin/aarch64-macos/)
+    ├── ISMAC + x86? → addFindBinPaths(Bin/x86_64-macos/)
+    └── unix + aarch64? → addFindBinPaths(Bin/armhf-linux/) [existing]
+    ↓
+Helper::get() → _findBin()
+    ├── try "spoton-custom" (user override)
+    ├── try "spoton" (LMS findbin resolves via registered paths)
+    └── try "spoton-x86_64" (explicit fallback, unix x86_64 only)
+    ↓
+helperCheck(candidate) → binary --check → parse "ok spoton vX.Y.Z\n{json}"
+    ↓
+Helper::getCapability('passthrough') → controls son-ogg availability
 ```
 
-Seeking:
-```
-User seeks to position N
-  → ProtocolHandler::getSeekData returns { timeOffset => N }
-    → LMS substitutes $START$=N in convert.conf command
-      → binary respawned with --start-position N
-```
+### Code Cleanup Flow
 
-Multiroom: LMS's `Slim::Player::Source::nextChunk` reads from the sync master's stream and pushes chunks to sync slaves natively. No plugin action needed.
-
----
-
-## Data Flow: Spotify Connect
-
-### Subsystem Initialization
 ```
-Plugin.pm::initPlugin (at server start)
-  → Connect/EventHandler.pm::init()
-    → addDispatch(['spottyconnect','_cmd'], \&_connectEvent)
-    → subscribe newsong, pause/stop, mixer/volume
-    → Connect/Manager.pm::init()
-      → subscribe client new/disconnect → debounced initHelpers()
-      → subscribe sync events → shutdown + deferred initHelpers()
-        → for each player with Connect enabled:
-            Connect/Daemon.pm::new(mac) → start() → Proc::Background
-              → binary running: -n name -c cache --player-mac mac --lms host:port
-```
-
-### Connect Playback Event
-```
-User presses Play in Spotify app
-  → binary receives Spirc message from Spotify cloud
-    → binary sends HTTP POST to LMS: 
-        {"method":"slim.request","params":["mac",["spottyconnect","start","trackID"]]}
-          → LMS dispatches to _connectEvent(request)
-            → _connectEvent calls API/Player.pm::player(cb) to get current state
-              → API returns current track + position
-                → if new track: 
-                    client->pluginData(newTrack => 1)
-                    Queue spotify:track:ID for playback:
-                      Slim::Control::Request(['playlist','play','spotify://track:ID'])
-                        → ProtocolHandler::getNextTrack called
-                          → isSpotifyConnect == true
-                            → Connect::getNextTrack called
-                              → pluginData(newTrack) == 1:
-                                  song->streamUrl(track_uri)
-                                  setSpotifyConnect(client, state)
-                                  successCb->()
-                → isRepeatingStream returns true (FIFO stays open)
-                → LMS starts playback via transcoding pipeline
-                  → [binary running in daemon mode] writes audio
-```
-
-### Connect Volume Event
-```
-Spotify app changes volume
-  → binary sends: ["spottyconnect","volume","N"]
-    → _connectEvent: cmd eq 'volume'
-      → suppress if within VOLUME_GRACE_PERIOD (5s) of daemon start
-      → Slim::Control::Request ['mixer','volume',N]
-        → request source = Connect (prevents echo-back loop)
-```
-
-### Connect Stop Event
-```
-User pauses in Spotify app
-  → binary sends: ["spottyconnect","stop"]
-    → _connectEvent → cmd eq 'stop'
-      → API::player(cb) confirms stopped
-        → Slim::Control::Request ['playlist','pause']
-```
-
-### LMS Pause → Spotify Sync
-```
-User pauses in LMS
-  → _onPause subscription fires
-    → isSpotifyConnect? → API/Player.pm::pause()
-```
-
-### Sync Group Connect
-```
-Two players synced, user plays on Spotify
-  → Manager::initHelpers called
-    → isSlave($client)? → find sync master
-      → only ONE daemon for the group master
-        → name = concat of all player names: "player1 & player2"
-          → single binary announces group to Spotify
+Identify all German text (grep) per file
+    ↓
+Replace in-place (no logic changes)
+    ↓
+Verify: grep for German function words returns zero matches
+    ↓
+Run existing tests / LMS startup to confirm no regressions
 ```
 
 ---
 
-## Data Flow: HTTP Streaming (Connect Audio Transport)
+## Build Order (Suggested Phase Sequence)
 
-SpotOn targets HTTP streaming over FIFO. The architecture difference:
+**Rationale:** Connect-DSTM has a spike risk (binary event behavior needs validation). Code cleanup is pure text and has zero risk. Multi-Arch needs the final binary but can be built independently.
 
-**FIFO (Spotty current approach, SpotOn fallback):**
-```
-binary daemon --fifo /tmp/spoton-stream-MAC.pcm
-  → Shell redirect: binary stdout > FIFO file
-    → LMS reads FIFO via custom-convert.conf: [cat] $FIFO$
-      → LMS treats as repeating internet-radio stream
-```
+### Recommended Order
 
-**HTTP Streaming (SpotOn primary target):**
-```
-binary daemon --http-port 57xxx
-  → Binary serves http://127.0.0.1:57xxx/stream.pcm (chunked)
-    → LMS fetches via standard HTTP radio infrastructure
-      → ProtocolHandler for Connect mode returns http://127.0.0.1:57xxx/stream.pcm
-        → LMS's existing HTTP stream handling takes over
-          → Content-Range headers enable position sync
-          → Clean connection semantics on track change (no FIFO flush problem)
-```
+**Phase 1: Code Cleanup** (lowest risk, pure text, validates CI pipeline)
+- Modify Plugin.pm, Helper.pm, Connect/Daemon.pm
+- Zero functional impact; easiest verification
+- Can run in parallel with binary work
 
-The HTTP approach requires the binary to embed an HTTP server. Until that is built, FIFO is the fallback with `isRepeatingStream(1)` and `startOffset` position sync.
+**Phase 2: Multi-Arch Binaries** (independent of Connect-DSTM, high value for users)
+- Modify Helper.pm (arch detection for macOS/Windows)
+- Build binaries for all 6 targets using cross
+- Deploy to Bin/ directories and verify --check on each
+- IMPORTANT: all 6 binaries must include the EndOfTrack notification if Phase 3 precedes Phase 2; sequence accordingly
 
----
+**Phase 3: Connect-DSTM Spike** (highest risk, binary + Perl changes)
+- Binary: add EndOfTrack arm in connect.rs, rebuild all 6 targets
+- Perl: add addToQueue to Client.pm, add endoftrack handler in Connect.pm
+- UAT: verify EndOfTrack fires correctly, grace timer cancels on auto-advance, addToQueue enqueues track in Spotify app
 
-## Suggested Build Order
+**If spike fails:** Connect-DSTM is scoped out, Multi-Arch + Cleanup ship as v1.1.
 
-Dependencies flow upward: lower layers must exist before higher layers can be tested.
+**If spike succeeds:** All three features ship together.
 
-### Layer 0: Skeleton (prerequisite for everything)
-- `install.xml`, `strings.txt`, `Plugin.pm` (minimal initPlugin)
-- `Helper.pm` (binary discovery + `--check`)
-- `AccountHelper.pm` (credential + cache dir management)
-- `custom-types.conf` (declares `spt`)
-- Result: Plugin loads and appears in LMS menu
+### Dependency Table
 
-### Layer 1: Auth + API Foundation
-- `API/Auth.pm` (Keymaster token: get token from binary, cache it)
-- `API/Client.pm` (central HTTP outlet: token injection, rate limit guard, cache, async)
-- `API/Cache.pm` (persistent cache for normalized items)
-- Result: Can make authenticated Spotify API calls
-
-### Layer 2: Browse
-- `API/Browse.pm`, `API/Library.pm`
-- `OPML.pm` (handleFeed, browse tree)
-- `Settings.pm` (basic global prefs)
-- Result: Full navigation tree works — Home, Search, Library
-
-### Layer 3: Single-Track Streaming
-- `ProtocolHandler.pm` (contentType, formatOverride, getSeekData, getMetadataFor)
-- `custom-convert.conf` (spt pipelines)
-- `Plugin.pm::updateTranscodingTable` (runtime injection)
-- `Plugin.pm::killHangingProcesses` (hourly cleanup)
-- Result: Tracks play, metadata shows, seeking works
-
-### Layer 4: Connect Core
-- `Connect/Daemon.pm` (Proc::Background wrapper, start/stop/alive)
-- `Connect/Manager.pm` (lifecycle management, sync groups)
-- `Connect/EventHandler.pm` (addDispatch spottyconnect, subscriptions)
-- `ProtocolHandler.pm::getNextTrack` extended (isSpotifyConnect branch)
-- `ProtocolHandler.pm::isRepeatingStream` (true in Connect mode)
-- `API/Player.pm` (me/player, me/devices — needed by EventHandler)
-- Result: Connect works with FIFO audio transport
-
-### Layer 5: HTTP Streaming Transport (Connect audio upgrade)
-- Binary HTTP server implementation
-- ProtocolHandler Connect mode returns `http://127.0.0.1:PORT/` URL
-- Remove FIFO paths (or retain as fallback)
-- Result: Clean seek, no white noise, accurate position sync
-
-### Layer 6: Polish
-- `Importer.pm` (online library scan)
-- `Settings/Player.pm` (per-player prefs)
-- `DontStopTheMusic.pm`
-- `API/Browse.pm` extended (recommendations, related artists, etc.)
-- Result: Full feature set
+| Feature | Depends On | Blocks |
+|---------|-----------|--------|
+| Code Cleanup | Nothing | Nothing |
+| Multi-Arch Binaries | Code Cleanup (clean source in builds) | Nothing |
+| Connect-DSTM | Code Cleanup, new binary build | Nothing |
 
 ---
 
-## Spotty vs SpotOn: Key Architectural Differences
+## Architectural Anti-Patterns to Avoid
 
-| Aspect | Spotty (Herger) | SpotOn (planned) |
-|--------|-----------------|-----------------|
-| API module | Monolithic API.pm (1488 lines) | Split: Browse/Library/Player/Client |
-| Rate limiting | Cache key check, dispersed | Centralized in Client.pm, sliding window |
-| Connect code | Connect.pm + Connect/DaemonManager.pm + Connect/Daemon.pm | Connect/Manager.pm + Daemon.pm + EventHandler.pm |
-| Auth | PKCE OAuth + keymaster fallback | Keymaster primary only |
-| Audio transport | FIFO (repeating stream) | HTTP streaming primary, FIFO fallback |
-| Binary namespace | `spotty` | `spoton` (own binary, own name) |
-| Config key | `spotty_rate_limit_exceeded` | `spoton_rate_limit_exceeded` |
-| Sync restart | Full shutdown+restart | Differential restart (P-17) |
-| Binary in repo | Separate (michaelherger/spotty) | Decision deferred, likely Bin/ subdir |
+### Anti-Pattern 1: Using LMS DSTM Framework for Connect-DSTM
 
-The main architectural insight from studying Spotty: **Connect.pm is the most complex module** — it handles the state machine between Connect mode and Browse-streaming mode. In SpotOn, `Connect/EventHandler.pm` absorbs that responsibility, keeping it separate from daemon lifecycle (Manager.pm).
+**What people might try:** Register a second DSTM handler that checks `isSpotifyConnect` and pushes tracks.
+**Why wrong:** LMS DSTM fires when the LMS playlist empties. Connect mode uses `isRepeatingStream=1` — LMS never considers the playlist empty. The DSTM framework will never fire in Connect mode regardless of handler registration.
+**Do this instead:** Detect EndOfTrack at the binary level, add dedicated `endoftrack` spottyconnect command, handle in Connect.pm independently.
 
----
+### Anti-Pattern 2: Parallelizing Binary Builds
 
-## Critical Invariants (Architecture Enforces)
+**What people might try:** Build all 6 targets simultaneously.
+**Why wrong:** `cross` uses Docker; multiple simultaneous cross builds can exhaust memory on typical development hardware (each musl target pulls ~1GB Docker image). Build sequentially or with 2-parallel max.
+**Do this instead:** Sequential builds with `cross build --release --target <triple>` one at a time. Cache Docker images between runs.
 
-1. **Only `API/Client.pm` calls `SimpleAsyncHTTP`** — rate limit guard and token injection are impossible to enforce otherwise.
+### Anti-Pattern 3: Dynamic Binary in x86_64-linux/
 
-2. **`updateTranscodingTable` runs before each track** — the transcoding table is global and mutable (P-09). The only safe pattern is per-track injection in `formatOverride`.
+**What people might try:** Use the development binary (current dynamically linked x86_64).
+**Why wrong:** Current binary is dynamically linked against glibc. Users on older LMS appliances or different distros may have incompatible glibc versions.
+**Do this instead:** Build all Linux targets with `*-unknown-linux-musl` for static linking. Replace the existing x86_64-linux/spoton with the musl build.
 
-3. **`isRepeatingStream` must return true in Connect mode** — otherwise LMS treats stream-end as track-end and stops the FIFO/HTTP connection.
+### Anti-Pattern 4: Clearing `current_track` on EndOfTrack
 
-4. **Progress stored before `playlist play`** — `_onNewSong` fires synchronously from `playlist play` (P-15). Any state the new-song handler needs must be in `pluginData` before the play command.
+**What people might try:** In the binary, set `current_track = None` when EndOfTrack fires.
+**Why wrong:** If Spotify auto-advances, a TrackChanged fires immediately after EndOfTrack. If `current_track` is cleared, the TrackChanged produces a `start` instead of `change`, causing Connect.pm to re-issue `playlist play` and interrupt streaming.
+**Do this instead:** Keep `current_track` unchanged in EndOfTrack handler. Only notify `endoftrack`; let TrackChanged handle state transitions normally.
 
-5. **`['time', N]` never in stream mode** — triggers `_Stop + _Stream` → audio pipeline restart → white noise (P-13). Use `$song->startOffset` only.
+### Anti-Pattern 5: `addToQueue` Without Own-Token
 
-6. **Connect daemon PIDs excluded from `killHangingProcesses`** — single-track binary cleanup must not kill daemon-mode binaries (P-03). Guard by checking daemon PID list before pkill.
-
-7. **Daemon uses `Proc::Background` with `die_upon_destroy`** — ensures daemon stops when the Perl object goes out of scope, preventing zombies.
-
-8. **Sink rate-limits at wall-clock** — binary must not decode faster than realtime. Spirc position reports must be accurate. No end-of-track premature fire.
+**What people might try:** Use bundled token for `POST /me/player/queue`.
+**Why wrong:** `/me/player/queue` is in the me/* family. The me/* guard in `_request` (`$_meFamilyRegex`) already forces own-token for all me/* endpoints. No change needed in addToQueue — the guard handles it.
+**Do this instead:** Use the standard `_request('post', 'me/player/queue', ...)` pattern; me/* guard applies automatically.
 
 ---
 
-## Where the HTTP Streaming Server Fits
+## Integration Points Summary
 
-The HTTP streaming server lives **inside the binary** (librespot/Rust side), not in Perl. From Perl's perspective, it appears as a standard HTTP radio stream URL.
-
-Architecture impact:
-- `Connect/Daemon.pm::start()` passes an HTTP port to the binary: `--http-port 57xxx`
-- Port is deterministic (based on player MAC or daemon index) to survive restarts
-- `Connect/EventHandler.pm` constructs the stream URL: `http://127.0.0.1:57xxx/stream`
-- In `ProtocolHandler::getNextTrack` (Connect mode): `$song->streamUrl("http://127.0.0.1:57xxx/stream")`
-- LMS fetches it as an internet radio stream — no FIFO, no `[cat]` in convert.conf
-- `isRepeatingStream` still returns true (stream is continuous across track changes)
-- Track changes signaled via `change` event from binary, not by HTTP stream ending
-
-This means Connect mode with HTTP transport bypasses `custom-convert.conf` entirely — no transcoding binary spawned per track. Audio comes pre-decoded from the HTTP server. LMS's existing HTTP radio PCM handling takes over.
+| Integration | Direction | Mechanism | Notes |
+|-------------|-----------|-----------|-------|
+| EndOfTrack → LMS | Binary → Perl | JSON-RPC spottyconnect | New command: `endoftrack` |
+| DSTM → Spotify | Perl → Spotify | POST /me/player/queue | New Client.pm method |
+| Binary discovery | Perl → Filesystem | Helper.pm::_findBin + addFindBinPaths | Add macOS/Win paths |
+| Arch detection | Perl → LMS API | Slim::Utils::OSDetect, main::ISMAC/ISWINDOWS | In Helper::init() |
+| German → English | In-file | Direct text replacement | No cross-module impact |
 
 ---
 
-## Sources
+## Confidence Assessment
 
-- [Spotty-Plugin source (library-integration branch)](https://github.com/michaelherger/Spotty-Plugin) — Connect.pm, Connect/DaemonManager.pm, Connect/Daemon.pm, API/Pipeline.pm, Plugin.pm, ProtocolHandler.pm
-- [LMS slimserver source](https://github.com/LMS-Community/slimserver) — Slim/Plugin/OPMLBased.pm
-- [Music Service Plugin reference](https://lyrion.org/reference/music-service-plugin/) — official LMS plugin architecture docs
-- [Spotty→LMS communication commit](https://github.com/michaelherger/librespot/commit/9a8214340646dbd270cee3b91361b08abeeaa6d5) — JSON-RPC event format
-- REQUIREMENTS.md (project) — P-01 through P-20, AD-01 through AD-07
+| Area | Confidence | Reason |
+|------|-----------|--------|
+| Connect-DSTM architecture | MEDIUM | EndOfTrack behavior in upstream librespot confirmed; grace timer approach sound; addToQueue API confirmed available in dev mode. Spike needed to validate librespot EndOfTrack fires in correct scenarios. |
+| Multi-Arch binary selection | HIGH | Helper.pm code read directly; LMS OSDetect API confirmed; cross toolchain installed. |
+| Code cleanup scope | HIGH | All files scanned directly; German text inventoried precisely. |
+| `addToQueue` API availability | HIGH | Endpoint confirmed in CLAUDE.md endpoint status table as "Working in Development Mode". |
+
+---
+
+## Open Questions for Phase Planning
+
+1. **Connect-DSTM spike gate:** Does `PlayerEvent::EndOfTrack` fire when Spotify's queue is exhausted (single track played, no queue), or does librespot always suppress it and fire `Stopped`? This determines whether the endoftrack notification is reliably triggerable.
+
+2. **macOS binary distribution:** macOS cross-compilation from Linux requires `osxcross` or a macOS CI runner. Is a macOS build environment available? If not, macOS binaries must be built separately and committed to the repo.
+
+3. **Windows scope:** Is Windows binary distribution in-scope for v1.1? No Windows LMS users have been reported in the test environment. Deferring Windows to v1.2 is a reasonable option.
+
+4. **Static x86_64 regression:** Replacing the dynamically-linked x86_64 binary with a musl-static build should be regression-free, but requires UAT on the primary squeezelite test environment.
+
+5. **Grace timer duration:** 3-5s window for EndOfTrack grace period — needs empirical calibration based on how quickly Spotify auto-advances in practice. Too short risks false DSTM triggers; too long means slow response when context genuinely ends.
+
+---
+
+*Architecture research for: SpotOn v1.1 — Connect-DSTM, Multi-Arch, Code Cleanup*
+*Researched: 2026-06-03*

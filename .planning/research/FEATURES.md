@@ -1,233 +1,300 @@
-# Feature Landscape: LMS Spotify Plugin (SpotOn)
+# Feature Landscape: SpotOn v1.1 — Connect-DSTM, Multi-Arch Binaries, Code Cleanup
 
-**Domain:** Spotify integration plugin for Lyrion Music Server
-**Researched:** 2026-05-26
-**Sources:** Herger's Spotty-Plugin source (OPML.pm, API.pm, Plugin.pm, DontStopTheMusic.pm, Importer.pm), GitHub issues #35 #62 #88 #97 #115 #125 #182 #223 #224, Spotify Web API docs, February 2026 API migration guide
-
----
-
-## Table Stakes
-
-Features users expect. Missing = product feels incomplete or users stay on Spotty.
-
-### Browse & Navigation
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Search (text query → tracks/albums/artists/playlists) | Core Spotify action; first thing users try | Low | API: `search?q=...&type=track,album,artist,playlist`. Feb 2026: limit now 10 per request (was 50), implement pagination |
-| Liked Songs list | Repeatedly requested in Spotty issues (#80, #92); users expect their collection | Medium | API: `me/tracks`. Requires own Client ID (dev-mode scope: `user-library-read`). Herger gated this behind "advanced features" toggle — SpotOn should expose it unconditionally |
-| Saved Albums | Part of "Your Library" experience | Medium | API: `me/albums`. Sorting: recency default, alphabetical option |
-| Followed Artists | "Your Library" → Artists | Medium | API: `me/following?type=artist` |
-| User Playlists | Core Spotify collection feature | Medium | API: `me/playlists`. Must handle pagination (users can have 200+ playlists) |
-| Album detail page | Track list, release year, artist links | Low | API: `albums/{id}` |
-| Artist detail page | Top tracks, Albums, Singles, Compilations | Medium | Artists endpoint. **CRITICAL:** Feb 2026 removed `artists/{id}/top-tracks` for dev-mode apps — only Extended Quota mode retains it. SpotOn must handle graceful absence |
-| Playlist detail page | Paginated track list with metadata | Medium | API: `playlists/{id}/tracks`. Large playlists (1000+ tracks) need sequential pagination |
-| Basic playback (play track, play album, play playlist) | Fundamental music playing | Low | Via `spotify://` URI + ProtocolHandler |
-
-### Spotify Connect
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Connect receiver visibility in Spotify app | The #1 reason LMS users want a Spotify plugin; Spotty issue #224 shows how critical it is | High | One librespot daemon per LMS player. mDNS/ZeroConf announces it |
-| Play/Pause/Skip from Spotify app | Expected of any Connect endpoint | High | librespot event dispatch → LMS `playlist` commands |
-| Volume control from Spotify app | Expected; Spotty issue #59 shows volume-jump bugs when missing | Medium | Volume suppression window on Connect start (P-05) |
-| Transfer to Connect device from Spotify app | "Tap the speaker icon and it plays" — the core Connect UX promise | High | `_doTransferPlaylist` equivalent: pull current context from `me/player`, inject into LMS queue |
-| Connect with sync groups (multiroom) | LMS multiroom is a core feature; users expect Spotify to respect it | High | One daemon on master, name = concat of player names. P-17 differential restart is required |
-
-### Authentication
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Login without browser (Keymaster/login5) | Decided in PROJECT.md; any auth flow must Just Work | High | login5 flow via librespot binary. Zero user-visible OAuth redirect |
-| Token persistence across LMS restarts | Users don't want to log in after every restart | Low | Cache credentials to disk, auto-refresh |
-| Multi-account support | Families/households share one LMS with multiple Spotify accounts | Medium | Per-player account assignment |
-
-### Audio Streaming
-
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| Reliable playback (no random stops) | Spotty issues #82, #49, #69, #76, #103 are all "playback stops" — the #1 complaint category | Medium | Correct daemon lifecycle, rate-limit guard, no parallel pagination |
-| Bitrate selection (96/160/320 kbps) | Advanced users tune for bandwidth/quality; Spotty issue #27 shows users notice when ignored | Low | `--quality` flag to librespot, per-player pref |
-| FLAC output for network efficiency | Squeezebox/piCorePlayer users expect FLAC; raw PCM wastes bandwidth | Low | `custom-convert.conf` FLAC pipeline via `flac -cs` |
-| Seeking | Users expect scrubbing; Spotty issue #81/#102 show seek bugs cause frustration | Medium | P-13: NEVER use `['time', N]` in stream mode. Use `startOffset` |
+**Domain:** Spotify integration plugin for Lyrion Music Server — v1.1 Hardening & Reach milestone
+**Researched:** 2026-06-03
+**Confidence:** HIGH (based on live librespot 0.8.0 source, existing SpotOn codebase, GitHub Actions workflow)
 
 ---
 
-## Differentiators
+## Context: What v1.0 Already Ships
 
-Features that set SpotOn apart from Herger's Spotty. These are where SpotOn wins or loses users who already know Spotty.
+v1.0 is complete. The three features in scope for v1.1 are additions and cleanup, not rewrites:
 
-### Home Feed (Personalized, Not Editorial)
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| "Made For You" mixes (Daily Mix 1–6) | Users love Daily Mixes — Spotty issue #1644426 shows users engaging daily with them | Medium | Accessible via category ID `0JQ5DAt0tbjZptfcdMSKl3` — Herger's trick. These are real playlists on the user account, discoverable via `me/playlists` or the category endpoint. HIGH confidence this works |
-| Recently Played | Explicitly requested in Spotty issue #88; 13 comments, obvious user demand | Low | API: `me/player/recently-played`. Scope: `user-read-recently-played`. Simple |
-| Top Tracks (personal, not chart) | Users want "what I actually listen to" not "what's popular in Germany" | Low | API: `me/top/tracks?time_range=medium_term`. Scope: `user-top-read` |
-| Release Radar + Discover Weekly | Named directly in REQUIREMENTS.md; these are real user playlists | Low | These are normal playlists findable in `me/playlists` — filter by Spotify's known names or surface via "Made For You" category |
-| Sorted home feed (Daily Mixes first, then Release Radar, then Discover Weekly) | Mirrors Spotify app priority | Low | Herger has `sortHomeItems` with this logic — replicate it |
-
-**API note:** Herger's `home()` calls `categoryPlaylists` with the "Made For You" category ID. This still works as of 2026. Featured playlists (`browse/featured-playlists`) returns 404 intermittently (P-12) and is not personalized — deprioritize it.
-
-### Connect Quality Improvements
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| HTTP-streaming audio transport (vs FIFO) | Eliminates seek latency (P-19), white noise on reconnect (P-20), SIGPIPE risk (P-14) | Very High | This is the architecture decision from AD-06. Requires HTTP server in librespot binary. FIFO as fallback during development |
-| No seek latency in Connect mode | Spotty issue #81 shows incorrect time after pause/seek is a real complaint | Very High | Depends on HTTP transport. With FIFO: startOffset workaround only |
-| Position-accurate progress bar during Connect | "Seek bar on Spotify incorrectly shows time" — Spotty issue #102 | High | P-13 + P-15 pattern: store startOffset BEFORE `playlist play` call |
-| No volume jumps on Connect start | Spotty issue #59, #33 — volume resets are disruptive | Medium | P-05: suppress first N volume events after Connect start |
-| Gapless Connect playback | Users notice gaps between tracks in playlists | High | P-16: sink-level rate limiting instead of EndOfTrack suppression hack |
-
-### Library Management Write-Back
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| "Like" track from LMS context menu | Spotty issues #62, #97 — two separate requests, explicitly asked for | Low | API: `PUT /me/library` (new unified endpoint post-Feb 2026). Scope: `user-library-modify` |
-| Save album from album detail page | Herger has it; users expect it | Low | Same API, album URI |
-| Follow artist from artist page | Herger has it; completes the "bookmark" feature set | Low | `PUT /me/library` with artist URI (new endpoint) |
-| Add track to playlist from context menu | Herger has it; power users use it constantly | Medium | API: `POST /playlists/{id}/tracks` |
-
-### Browse Depth
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Genre/Mood browse categories | Users want to explore by feel, not just library | Medium | API: `categories` endpoint + playlists per category. **CRITICAL:** Feb 2026 removed category endpoints for dev-mode apps. Extended Quota Mode required to keep this. In dev-mode, gracefully hide this menu |
-| Artist Radio | "Play more like this artist" — logical action after finding a new artist | Medium | Herger uses `recommendations` endpoint (still available). Requires `seed_artists` parameter |
-| Track Radio | "Play more like this song" | Medium | Same `recommendations` endpoint with `seed_tracks` |
-| Related Artists | Explore the genre graph | Low | Herger has `relatedArtists`. **CRITICAL:** Feb 2026 removed `artists/{id}/related-artists` for dev-mode. Extended Quota required |
-| Recent searches (search history) | Convenience; Herger has it | Low | Client-side cache, no API call needed |
-| Spotify URI / URL paste as search | Power-user shortcut; Herger has `parseUri` | Low | Parse `spotify:album:xxx` or `open.spotify.com/...` format |
-
-### Rate-Limit Robustness
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Central throttle (no 429 bursts) | Spotty issues #55, #196, #200, #213 — 429 is the #2 complaint category after playback stops | Medium | Single `API::Client.pm` through which ALL requests flow. Sequential pagination with backpressure (P-01) |
-| Graceful degradation when API unavailable | Users don't want a blank screen when Spotify is temporarily unreachable | Medium | Show cached data with staleness indicator. Continue playing current track |
-
-### Online Library Importer
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Import Spotify library into LMS database | Enables LMS-native search of Spotify collection; Herger's `Importer.pm` is heavily used | High | `Slim::Plugin::OnlineLibraryBase`. Scans albums, artists, playlists. LMS 8.0+ only (already our floor) |
-
-### Don't Stop The Music (DSTM)
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| DSTM integration via `recommendations` | Auto-play continues after queue ends; Herger's `DontStopTheMusic.pm`; mentioned in forums | Medium | Uses `recommendations` endpoint (seed_tracks/seed_artists from current queue). This endpoint is still available in dev-mode post-Feb 2026 |
-
-### Settings Quality of Life
-
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| Per-player settings (bitrate, Connect on/off, normalization) | Power users tune each room differently | Low | `$prefs->client($client)` pattern |
-| Sort options for library (recency / alphabetical) | Herger has it; users with large libraries need it | Low | Pref flags + sort logic in API response handling |
-| Configurable pagination limit | Spotty issue #115 — users with large libraries explicitly requested this | Low | `SPOTIFY_LIMIT` constant → settings-configurable |
+| Area | v1.0 State | v1.1 Goal |
+|------|-----------|-----------|
+| DSTM | Browse-mode only (LMS framework, `Slim::Plugin::DontStopTheMusic::Plugin`) | Add Connect-mode DSTM (Spirc-native autoplay OR LMS-side fallback) |
+| Binaries | x86_64-linux only (1 of 6 targets built) | All 6 targets (+ macOS x86_64/aarch64, Windows x86_64) |
+| Code language | Mixed DE/EN comments and log strings (282 occurrences identified) | English only, throughout all Perl and Rust files |
 
 ---
 
-## Anti-Features
+## Feature Area 1: Connect-DSTM
 
-Features to explicitly NOT build in v1.
+### What "Connect-DSTM" Means
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Podcast / Show support | Scope exclusion in PROJECT.md. Adds significant complexity (different playback rules, seek behavior, episode ordering). Herger has it but it's a common source of bugs. | Defer to v2. Add capability detection so it can be added cleanly later |
-| Lossless / HiFi audio | PlayPlay DRM blocks it for librespot. Attempting it risks the entire project (DMCA exposure). Herger issue #180 is open because it cannot be done | Architecture must not hardcode OGG/Vorbis limitations, but do not expose UI knobs for "lossless" |
-| PKCE / Browser OAuth flow | Decided in PROJECT.md. Keymaster-only is simpler, requires no Developer App registration per user, and aligns with librespot's own auth | Keymaster via librespot binary only |
-| Spotify charts / "Top 50 Germany" hardcoded playlists | Herger has a hardcoded `%topuri` hash of country chart playlist URIs. Fragile (URIs change), editorial (not personalized), and duplicates what Browse Categories already provide | Surface charts via Browse Categories if Extended Quota available, else omit |
-| Concurrent Browse + Connect streaming (dual-session) | Spotify enforces one active session per account. Two simultaneous sessions cause credential invalidation (P-04, CON-08) | Implement explicit state machine: Connect takes priority, Browse-streaming pauses during Connect sessions |
-| Playlist folder hierarchy | Herger has `PlaylistFolders.pm` — complex, requires scraping internal Spotify desktop client data, not a public API. Fragile | Flat playlist list. Folder support if Spotify ever exposes it via official API |
-| Spotify Free tier support | Plugin requires Premium for streaming (hard Spotify requirement). Free tier has skip/seek restrictions that would complicate every UX decision | Document "Premium required" clearly, fail gracefully with a message if non-Premium account detected |
+When playback happens via Spotify Connect (the user controls LMS from the Spotify app), the
+existing Browse-DSTM (`DontStopTheMusic.pm`) does not fire — it is registered as an LMS
+framework handler and only triggers when LMS's own playlist queue runs out in Browse mode.
+In Connect mode, audio comes from librespot's Spirc loop. The queue end happens inside the
+binary, not inside LMS.
 
----
+### How librespot 0.8.0 Handles Autoplay Natively
 
-## Feature Dependencies
+librespot-connect 0.8.0 has built-in autoplay support controlled by `SessionConfig.autoplay`:
+
+```rust
+// librespot-core 0.8.0 SessionConfig
+pub autoplay: Option<bool>
+// None = read from Spotify user attribute "autoplay" (account setting)
+// Some(true)  = force on
+// Some(false) = force off
+```
+
+The autoplay resolution is implemented entirely inside `spirc.rs`:
+
+- `add_autoplay_resolving_when_required()` is called whenever Spirc processes an
+  `EndOfTrack` event (via `handle_next()`), after context changes, and after context loads
+- It calls `spclient.get_autoplay_context()` to fetch Spotify's server-side radio/seed
+  context for the currently playing context URI (album, playlist, artist)
+- Tracks from this autoplay context are appended to `connect_state.autoplay_context`
+- The `Stopped`/`EndOfTrack` → `handle_next()` path advances into the autoplay context
+  seamlessly without any LMS or plugin involvement
+
+**Critical finding:** The current `connect.rs` in SpotOn creates `SessionConfig::default()`
+which sets `autoplay: None`, meaning autoplay follows the user's Spotify account setting.
+If the user has autoplay enabled in their Spotify account, it works now. The only missing
+piece is: (1) a flag `--autoplay true/false` to force it regardless of account setting,
+and (2) verifying the binary actually handles it correctly in practice.
+
+The `ConnectConfig` struct in librespot-connect 0.8.0 has NO `autoplay` field — this was
+confirmed by reading the struct definition directly. Autoplay is controlled via `SessionConfig`,
+not `ConnectConfig`. The v1.0 comment in `connect.rs` line 959 ("No `autoplay` field") refers
+to the old `ConnectConfig` but misses that `SessionConfig.autoplay` is the correct lever.
+
+### Table Stakes (for Connect-DSTM)
+
+| Feature | Why Expected | Complexity | Notes |
+|---------|--------------|------------|-------|
+| Verify librespot autoplay works with current binary | Users expect queue to continue like the Spotify app does | LOW | `session_config.autoplay = Some(true)` in `run_connect()`. Requires build + test |
+| Expose `--autoplay` flag in binary | Perl side needs to control this per-player | LOW | One arg parse addition in `main.rs`, pass through to `run_connect()` |
+| Connect daemon restart with autoplay flag | Daemon.pm passes `--autoplay` to binary | LOW | Follow same pattern as `--bitrate`, `--disable-discovery` flags |
+
+### Differentiators (for Connect-DSTM)
+
+| Feature | Value Proposition | Complexity | Notes |
+|---------|-------------------|------------|-------|
+| LMS-side fallback when librespot autoplay fails | Robust: if Spirc autoplay returns nothing, LMS can queue via DSTM | MEDIUM | Detect `Stopped` event with empty autoplay context; call `DontStopTheMusic.pm` logic |
+| Per-player autoplay toggle | Power users who want different behavior per room | LOW | Per-player pref `connectAutoplay`, passed as `--autoplay 0/1` to binary |
+| Seamless transition: Browse DSTM and Connect DSTM use same seeds | Consistent behavior regardless of mode | MEDIUM | Share seed extraction logic |
+
+### Anti-Features (for Connect-DSTM)
+
+| Anti-Feature | Why Avoid | Alternative |
+|--------------|-----------|-------------|
+| Reimplementing autoplay context resolution in Perl | librespot 0.8.0 already does this via spclient; duplicating it means two implementations to maintain and different result sets | Use librespot native autoplay via `SessionConfig.autoplay`. LMS-side is a fallback only |
+| Using `GET /recommendations` for Connect-DSTM | Deprecated since Nov 27, 2024 — returns 404 in dev mode | librespot native autoplay uses `context-resolve/v1/autoplay` which is still active |
+| Polling `GET /me/player` to detect queue end | Race-prone, wastes API quota, 30s rate window pressure | React to `Stopped` event from binary (already wired in Connect.pm) |
+
+### Dependencies for Connect-DSTM
 
 ```
-Keymaster Auth → everything (no auth = no API calls, no Connect)
-librespot binary → Connect, Streaming
-Connect daemon lifecycle → Connect receiver, Transfer Playback, Sync-group handling
-HTTP-streaming transport → Seek accuracy, No white noise (optional; FIFO fallback)
-Extended Quota Mode → Genre/Mood categories, Related Artists, Artist Top Tracks
-  (dev-mode: these three features must gracefully degrade to hidden/empty)
-Liked Songs → requires user-library-read scope (unconditional in SpotOn; Herger gated it)
-Like/Save write-back → requires user-library-modify scope
-DSTM → requires recommendations endpoint + DSTM plugin enabled in LMS
-Online Library Importer → LMS 8.0+, OnlineLibraryBase framework
-Sync-group Connect → differential daemon restart (P-17), master detection
+Existing Connect daemon (DaemonManager, Daemon.pm) — already built
+    └── requires: librespot binary with --autoplay flag support (new)
+    └── requires: session_config.autoplay set in run_connect() (new)
+
+LMS-side fallback path (optional):
+    Existing DontStopTheMusic.pm ──enhances──> Connect-DSTM
+    Requires: detect Connect Stopped with empty queue (via connect event)
+    Conflicts: Browse-DSTM fires simultaneously if both are active — guard needed
 ```
 
 ---
 
-## MVP Feature Prioritization
+## Feature Area 2: Multi-Arch Binaries
 
-### Ship First (table stakes, no SpotOn without these)
+### What Exists and What's Missing
 
-1. Keymaster authentication + token persistence
-2. Search (tracks, albums, artists, playlists)
-3. Liked Songs + Saved Albums + Followed Artists + User Playlists
-4. Album/Artist/Playlist detail pages
-5. Reliable playback via FLAC pipeline with bitrate selection
-6. Seeking (startOffset method, not `['time', N]`)
-7. Central API throttle (sequential pagination, no 429 bursts)
+The GitHub Actions workflow (`build-librespot.yml`) already defines all 5 Linux targets:
+- x86_64-linux — BUILT (binary present in `Plugins/SpotOn/Bin/x86_64-linux/spoton`)
+- aarch64-linux — directory with `.gitkeep` only (not built)
+- armhf-linux — directory with `.gitkeep` only (not built)
+- arm-linux — directory with `.gitkeep` only (not built)
+- i386-linux — directory with `.gitkeep` only (not built)
 
-### Ship in Connect phase (core differentiator)
+Missing entirely:
+- macOS x86_64 (`darwin-x86_64`) — no directory, not in workflow
+- macOS aarch64 (`darwin-aarch64`) — no directory, not in workflow
+- Windows x86_64 (`MSWin32-x86_64`) — no directory, not in workflow
 
-8. Connect daemon per player with mDNS
-9. Play/Pause/Skip/Volume from Spotify app
-10. Transfer playback to LMS player
-11. Sync-group Connect (one daemon on master)
-12. Volume suppression on Connect start
-13. Progress bar accuracy in Connect mode
+The current `Helper.pm` binary search only handles Linux and `x86_64` arch explicitly.
+macOS and Windows paths are handled generically via `Slim::Utils::Misc::findbin()` but with
+no platform-specific binary name mapping. The Spotty-Plugin uses directory names like
+`darwin-thread-multi-2level` matching Perl's `$Config{archname}`.
 
-### Ship in Polish phase (differentiation over Spotty)
+### Table Stakes (for Multi-Arch)
 
-14. Home feed: Recently Played, Made For You mixes, sorted home items
-15. Like/Save/Follow write-back from context menu
-16. Artist Radio + Track Radio (via recommendations)
-17. DSTM integration
-18. Per-player settings UI
-19. Graceful degradation when Extended Quota endpoints unavailable
+| Feature | Why Expected | Complexity | Notes |
+|---------|--------------|------------|-------|
+| aarch64 binary (Raspberry Pi 4, NAS devices) | Most common LMS-on-ARM platform; Pi 4 is the dominant install target | LOW | CI workflow already configured; `cross build --target aarch64-unknown-linux-musl`. Trigger workflow |
+| armhf binary (Pi 2/3, 32-bit ARM) | armhf-linux is the fallback for aarch64 per existing Helper.pm logic | LOW | `armv7-unknown-linux-musleabihf`. Already in workflow matrix |
+| arm-linux (ARMv5/ARMv6, older NAS, Synology) | Spotty supports it; users on older hardware expect same | LOW | `arm-unknown-linux-musleabi`. Already in workflow matrix |
+| i386 binary (32-bit x86, old NAS, VM) | Spotty supports it; some LMS installations on legacy x86 hardware | LOW | `i686-unknown-linux-musl`. Already in workflow matrix |
+| Helper.pm correctly selects arch-appropriate binary | Without correct selection, users get "no helper found" error | LOW | Extend `_findBin` to map more arch patterns; test on real hosts |
 
-### Defer to v2
+### Differentiators (for Multi-Arch)
 
-- Podcast support
-- Online Library Importer (high complexity, not core)
-- HTTP-streaming transport (FIFO for v1 with documented limitations)
-- OGG-direct passthrough (optimization, not correctness)
+| Feature | Value Proposition | Complexity | Notes |
+|---------|-------------------|------------|-------|
+| macOS binary (x86_64 + aarch64) | LMS runs natively on Mac; plugin useless without binary | MEDIUM | Requires macOS runner in CI (`runs-on: macos-latest`); `cargo build` native (no cross needed). Different binary suffix convention |
+| Windows binary (x86_64) | LMS runs on Windows; small but non-zero user segment | MEDIUM | `runs-on: windows-latest`; `x86_64-pc-windows-msvc`; binary is `spoton.exe` |
+| `spoton-custom` override path | Power users who build their own binary or want a non-standard path | LOW | Already in `_findBin` candidates list as first entry; just document it |
+| Checksum file in release | Security-conscious NAS users verify downloads | LOW | Already in `build-librespot.yml` release job (SHA256SUMS.txt) |
+
+### Anti-Features (for Multi-Arch)
+
+| Anti-Feature | Why Avoid | Alternative |
+|--------------|-----------|-------------|
+| Shipping binaries in the git repo | Large binary blobs bloat clone time and LMS plugin download; Spotty does this but it was a historical decision | Binaries as GitHub Release assets, downloaded by plugin installer or manually |
+| ARMv5 musl static binary for very old Synology (DSM 4.x) | Marginal platform; `ring` crate (TLS) has linker issues with ARMv5 musl | Document as unsupported; cross-compile for ARMv5 is notoriously fragile with Rust TLS deps |
+| Universal macOS binary (lipo fat binary) | Extra step, extra CI complexity; LMS runs on either arch natively | Separate x86_64 and aarch64 macOS binaries in separate directories |
+
+### Dependencies for Multi-Arch
+
+```
+Existing GitHub Actions workflow (build-librespot.yml)
+    └── Add: macOS runner job (separate from Linux matrix)
+    └── Add: Windows runner job
+    └── Add: darwin-x86_64/ and darwin-aarch64/ and MSWin32-x86_64/ Bin dirs
+
+Helper.pm _findBin
+    └── Add: darwin arch detection (ISMAC + arch → select binary dir)
+    └── Add: Windows detection (ISWINDOWS → select MSWin32-x86_64 binary)
+    └── Note: LMS uses Perl's $Config{archname} which is e.g. "darwin-thread-multi-2level"
+             or "MSWin32-x86-multi-thread" — map these to our dir names
+```
 
 ---
 
-## Critical API Constraints for Features (post-Feb 2026)
+## Feature Area 3: Code Language Cleanup (DE→EN)
 
-These affect which features are available in development mode vs require Extended Quota:
+### Scope of the Problem
 
-| Feature | Dev Mode | Extended Quota | Notes |
-|---------|----------|---------------|-------|
-| Search | Yes, limit 10/request | Full limit | Must paginate more aggressively |
-| Liked Songs / Library | Yes | Yes | New unified `PUT/DELETE /me/library` |
-| Artist Top Tracks | NO | Yes | Removed for dev-mode |
-| Browse Categories | NO | Yes | Removed for dev-mode |
-| Related Artists | NO | Yes | Removed for dev-mode |
-| New Releases | NO | Yes | Removed for dev-mode |
-| recommendations | Yes | Yes | Still available in dev-mode |
-| Recently Played | Yes | Yes | `me/player/recently-played` |
-| Made For You mixes | Yes (via category ID) | Yes | Category endpoint + hardcoded PERSONAL_MIX_CATEGORY ID |
-| me/playlists | Yes | Yes | Library access intact |
-| me/top/tracks, me/top/artists | Yes | Yes | Personal top items intact |
+German-language content found in codebase (as of 2026-06-03):
 
-**Architectural implication:** SpotOn must test quota mode on startup (or on first 403/404 from a browse endpoint) and hide/show features accordingly. Artist page degrades gracefully (no top tracks section) in dev-mode. Browse menu omits "Genres & Moods" in dev-mode.
+**Helper.pm** (5 German comments):
+- Line 21: `# aarch64 kann als Fallback armhf-Binaries verwenden`
+- Line 71: `# KRITISCH: 'spoton' nicht 'spotty' im Regex`
+- Line 75: `# SpotOn-Erweiterung: Mindestversions-Pruefung`
+- Line 115: `# Angepasster Binary-Finder um findbin() von LMS zu nutzen`
+- Line 129: `# Custom-Override zuerst (LMS-10 Vorbereitung)`
+
+**Settings.pm** (6 German comments):
+- Line 70: checkbox browser behavior explanation in German
+- Line 74: `# Client-ID pref speichern (D-02, T-04.4-01)`
+- Lines 75-77: input validation comment in German
+- Line 81: inline truncation comment in German
+- Line 196: `# Client-ID und Degraded-Mode-Status fuer Template`
+- Lines 307-309: `_isDegradedMode` function header in German
+
+**Plugin.pm** (1 German comment):
+- Line 345: `# nutzen _isMadeForYou — nur diese Funktion aendern reicht (RESEARCH.md Pitfall 4).`
+
+**librespot-spoton Rust source** (not yet searched; likely contains some German inline
+comments from rapid development — requires grep check on first pass of cleanup phase):
+
+Total estimate: ~15-25 Perl comment lines, unknown Rust lines. Mechanical task.
+
+### Table Stakes (for Code Cleanup)
+
+| Feature | Why Expected | Complexity | Notes |
+|---------|--------------|------------|-------|
+| All Perl comment lines in English | Standard for an open-source project; contributors can't read German | LOW | ~25 occurrences, all in Helper.pm, Settings.pm, Plugin.pm, Connect/Daemon.pm |
+| All log strings (`$log->info/warn/debug/error`) in English | Log output is the primary debugging tool; German makes it unusable for non-German speakers | LOW | ~13 German log lines, scattered; easily found with grep |
+| Rust comment lines in English | Same open-source contributor expectation | LOW | Full grep of librespot-spoton/src/ needed; estimate 5-15 lines |
+
+### Differentiators (for Code Cleanup)
+
+| Feature | Value Proposition | Complexity | Notes |
+|---------|-------------------|------------|-------|
+| Technical reference codes preserved (D-01, P-13, CON-11, etc.) | These cross-references into RESEARCH.md and REQUIREMENTS.md are valuable — replacing them with prose loses traceability | LOW | Keep all `(D-XX)`, `(P-XX)`, `(CON-XX)`, `(T-XX-YY)` codes in translated comments |
+| German-origin RESEARCH.md pitfall labels unchanged | RESEARCH.md is not code; users don't read it; leave it for history | LOW | Only translate `.pm` and `.rs` source files |
+| Consistent English style (imperative, present tense) | Matches LMS codebase style and Perl community norms | LOW | "Validates input" not "This validates" or "We validate" |
+
+### Anti-Features (for Code Cleanup)
+
+| Anti-Feature | Why Avoid | Alternative |
+|--------------|-----------|-------------|
+| Automated translation without human review | Machine-translated code comments are often awkward or miss technical nuance | Translate manually; the volume is small (~25-40 lines total) |
+| Changing variable/function names | `_isDegradedMode`, `_isMadeForYou` etc. are fine in English already; renaming breaks call sites | Only translate comments and string literals, not identifiers |
+| Removing comments in favor of "self-documenting code" | The German comments often contain critical context (validation rules, pitfall references) | Translate; never delete unless the comment truly adds nothing |
+| Translating i18n string files (language/*.strings) | Those files are intentionally multi-language | Skip all `language/` files entirely |
+
+### Dependencies for Code Cleanup
+
+```
+No code dependencies — purely textual changes to comments and log strings.
+
+Risk: none (comments are not executable; log strings have no semantic effect on behavior)
+
+Order: can be done in any phase; does not block or depend on Connect-DSTM or Multi-Arch work.
+       Best done as a single atomic pass rather than mixed with feature changes.
+```
+
+---
+
+## Feature Prioritization Matrix (v1.1)
+
+| Feature | User Value | Implementation Cost | Priority |
+|---------|------------|---------------------|----------|
+| aarch64/armhf/arm/i386 Linux binaries | HIGH (most LMS users on ARM NAS/Pi) | LOW (CI already configured) | P1 |
+| librespot autoplay via SessionConfig | HIGH (Connect queue continues naturally) | LOW (one line change + test) | P1 |
+| Helper.pm arch detection (Linux complete) | HIGH (required to use new binaries) | LOW (pattern matching) | P1 |
+| Code cleanup: Perl comments/logs | MEDIUM (contributor accessibility) | LOW (mechanical, ~40 lines) | P1 |
+| macOS binaries (x86_64 + aarch64) | MEDIUM (Mac LMS installs) | MEDIUM (new CI runner, binary naming) | P2 |
+| Windows binary | LOW (Windows LMS rare in practice) | MEDIUM (MSVC toolchain, .exe suffix) | P2 |
+| Connect-DSTM via `--autoplay` flag | HIGH (users expect queue to continue) | LOW (flag + daemon restart) | P1 |
+| Per-player autoplay toggle (UI) | MEDIUM (power users) | LOW (settings pref + pass-through) | P2 |
+| LMS-side fallback for Connect-DSTM | LOW (librespot native handles it) | MEDIUM (event detection logic) | P3 |
+| Rust source comment cleanup | MEDIUM (Rust contributors) | LOW (grep + replace) | P2 |
+
+**Priority key:** P1 = must have in v1.1, P2 = should have, P3 = future consideration
+
+---
+
+## Reference Implementation Comparison
+
+### Connect-DSTM: How Spotty-Plugin Handles It
+
+Herger's Spotty-Plugin does NOT implement Connect-DSTM as a distinct feature. The
+`DontStopTheMusic.pm` registers a single handler regardless of mode. This means in Connect
+mode, when the Spirc loop ends a context and the `recommendations` endpoint returns results,
+LMS attempts to re-inject tracks into the Spirc queue — an approach that is architecturally
+unsound because LMS does not control the Spirc queue in Connect mode.
+
+The clean approach (SpotOn v1.1) is: let librespot handle it natively via `SessionConfig.autoplay`.
+
+### Multi-Arch: How Spotty-Plugin Distributes Binaries
+
+Spotty uses directory names matching Perl's `$Config{archname}`:
+- `MSWin32-x86-multi-thread` — Windows
+- `darwin-thread-multi-2level` — macOS
+- `aarch64-linux`, `arm-linux`, `i386-linux` — Linux variants
+
+SpotOn's current `Helper.pm` only handles `x86_64` explicitly; all others fall through to
+`Slim::Utils::Misc::findbin()` which scans `$serverPrefs->get('binPath')`. The fix: add
+explicit arch detection for each platform, mapping to our Bin directory names.
+
+### Code Cleanup: Standard Practice
+
+No comparable reference — this is basic open-source hygiene. The Spotty-Plugin (by a German
+speaker) has similar German comments in places; no other LMS plugin has this issue.
 
 ---
 
 ## Sources
 
-- Spotty-Plugin source: https://github.com/michaelherger/Spotty-Plugin
-- Spotty GitHub issues (feature requests and complaints): https://github.com/michaelherger/Spotty-Plugin/issues
-- Spotify Web API February 2026 changes: https://developer.spotify.com/documentation/web-api/references/changes/february-2026
-- Spotify Feb 2026 migration guide: https://developer.spotify.com/documentation/web-api/tutorials/february-2026-migration-guide
-- Spotify recently played endpoint: https://developer.spotify.com/documentation/web-api/reference/get-recently-played
-- Lyrion forums Spotty discussions: https://forums.lyrion.org/forum/user-forums/3rd-party-software/
+- librespot-connect 0.8.0 source (local): `~/.cargo/registry/src/.../librespot-connect-0.8.0/src/state.rs` — ConnectConfig struct, no autoplay field (HIGH)
+- librespot-core 0.8.0 source (local): `~/.cargo/registry/src/.../librespot-core-0.8.0/src/config.rs` — SessionConfig.autoplay: Option<bool> (HIGH)
+- librespot-connect 0.8.0 spirc.rs (local): `add_autoplay_resolving_when_required()` implementation (HIGH)
+- librespot CHANGELOG: "Add support for `seek_to`, `repeat_track` and `autoplay` for `Spirc` loading" in 0.8.0 (HIGH)
+- SpotOn `connect.rs` (local): `SessionConfig::default()` with no autoplay override — confirmed gap (HIGH)
+- SpotOn GitHub Actions `build-librespot.yml` (local): 5 Linux targets already configured, macOS/Windows missing (HIGH)
+- SpotOn `Helper.pm` (local): only x86_64 Linux explicit; macOS/Windows fallback is generic (HIGH)
+- SpotOn `Plugins/SpotOn/Bin/` (local): x86_64-linux/spoton present, others `.gitkeep` only (HIGH)
+- Spotty-Plugin `Helper.pm` (WebFetch): platform detection pattern using `$Config{archname}` (MEDIUM)
+- Spotty-Plugin `Bin/` directory structure (WebFetch): MSWin32, darwin, aarch64, arm, i386 dirs (MEDIUM)
+- German comment grep results (local): 5 in Helper.pm, 6 in Settings.pm, 1 in Plugin.pm (HIGH)
+
+---
+*Feature research for: SpotOn v1.1 — Connect-DSTM, Multi-Arch Binaries, Code Cleanup*
+*Researched: 2026-06-03*
