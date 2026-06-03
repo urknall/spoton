@@ -37,7 +37,7 @@
 **Milestone Goal:** Connect-DSTM, Multi-Arch Binaries for all 6 platforms, and full DE→EN code cleanup.
 
 - [x] **Phase 7: DE→EN Code Cleanup** - All German comments and log strings replaced with English; codebase is language-clean (completed 2026-06-03)
-- [ ] **Phase 8: Multi-Arch Binary Distribution** - librespot binary available for all 8 platform targets; Helper.pm selects the correct binary automatically
+- [x] **Phase 8: Multi-Arch Binary Distribution** - librespot binary available for all 8 platform targets; Helper.pm selects the correct binary automatically (completed 2026-06-03)
 - [ ] **Phase 9: Stream Metadata** - Songinfo shows active mode, format, and bitrate for every playing track
 - [ ] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via queue injection when the Spotify queue is exhausted
 
@@ -70,7 +70,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 08-01-PLAN.md — Cross-compile all 6 platform binaries (5 Linux musl-static + 1 Windows GNU)
-- [ ] 08-02-PLAN.md — Helper.pm platform detection cleanup + aarch64 live verification
+- [x] 08-02-PLAN.md — Helper.pm platform detection cleanup + aarch64 live verification
 
 ### Phase 9: Stream Metadata
 
@@ -122,7 +122,7 @@ Plans:
 | 05.4. mDNS Connect Discovery Fix | v1.0 | 3/3 | Complete | 2026-06-02 |
 | 6. Polish + DSTM + Settings | v1.0 | 5/5 | Complete | 2026-06-03 |
 | 7. DE→EN Code Cleanup | v1.1 | 1/1 | Complete   | 2026-06-03 |
-| 8. Multi-Arch Binary Distribution | v1.1 | 1/2 | In Progress|  |
+| 8. Multi-Arch Binary Distribution | v1.1 | 2/2 | Complete   | 2026-06-03 |
 | 9. Stream Metadata | v1.1 | 0/? | Not started | - |
 | 10. Connect-DSTM | v1.1 | 0/? | Not started | - |
 
