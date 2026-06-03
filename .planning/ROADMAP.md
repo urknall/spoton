@@ -371,22 +371,45 @@ Plans:
 **Wave 2** *(depends on Wave 1)*
 - [x] 05.4-03-PLAN.md — UAT: Deploy binary, verify mDNS discovery, Spirc stability, Settings UI
 
-### Phase 6: Polish + DSTM + Settings
+### Phase 6: Polish + Release Readiness
 
-**Goal**: Player-specific preferences are applied per player, auto-play continues music after a queue ends, power users can supply their own librespot binary, and incompatible players can fall back to transcoding
+**Goal**: Feature polish (per-player prefs, DSTM, normalization), release preparation (full i18n, all binaries, setup guide, security review), and distribution as LMS custom repository for early adopter feedback
 **Depends on**: Phase 3, Phase 4, Phase 5
-**Requirements**: LMS-08, LMS-09, LMS-10
+**Requirements**: LMS-03, LMS-06, LMS-08, LMS-09, LMS-10
 **Success Criteria** (what must be TRUE):
 
   1. Setting bitrate to 96 kbps on one player and 320 kbps on another causes each player to stream at its configured bitrate independently
   2. When a playlist ends, Don't Stop The Music automatically queues a related Spotify track and playback continues without user intervention
   3. Placing a custom librespot binary in the designated path causes the plugin to use that binary instead of the bundled one; the `--check` version enforcement still applies
-  4. Tapping a single track in an album or playlist queues all visible tracks and starts at the tapped track (playall fix from Phase 04.1 UAT backlog)
-  5. Per-player Settings page shows toggles for: Connect mode enable/disable, auto-play (DSTM), and a transcoding fallback option for players that can't handle direct PCM/OGG streams (e.g., force FLAC or MP3 transcode)
-  6. A player with transcoding fallback enabled receives audio through the custom-convert.conf pipeline instead of DirectStream, while other players continue with direct streaming
-  7. Volume normalisation setting applies to Connect mode — Daemon.pm passes `--enable-volume-normalisation` to the binary when the global `normalization` pref is enabled (currently only works in Direct/single-track mode)
+  4. Per-player Settings page shows toggles for: Connect mode enable/disable, auto-play (DSTM), and a transcoding fallback option for players that can't handle direct PCM/OGG streams (e.g., force FLAC or MP3 transcode)
+  5. A player with transcoding fallback enabled receives audio through the custom-convert.conf pipeline instead of DirectStream, while other players continue with direct streaming
+  6. Volume normalisation setting applies to Connect mode — Daemon.pm passes `--enable-volume-normalisation` to the binary when the global `normalization` pref is enabled (currently only works in Direct/single-track mode)
+  7. The bundled Spotify Client-ID is defined in exactly one location; changing it requires editing one constant, not a search-and-replace across files
+  8. The Settings page shows a setup guide for new users explaining the required steps in order (Spotify Developer App, Client-ID, Connect with Spotify); includes credits for Herger (Spotty) and librespot
+  9. All UI strings are translated into the standard LMS language set (EN, DE, FR, NL, IT, ES, SV, NO, DA, PL, CS, minimum) with no missing-key placeholders
+  10. librespot binaries for x86_64, aarch64, armhf, and i386 are present and pass `--check` version verification
+  11. Full security review and code review completed (Opus 4.8), all HIGH/CRITICAL findings resolved
+  12. Plugin is installable via LMS custom repository URL; adding the repo URL in LMS Settings → Plugins shows SpotOn in the plugin list with correct metadata
 
-**Plans**: TBD
+**Plans:** 5 plans
+
+Plans:
+**Wave 1** *(parallel — no file overlap)*
+
+- [ ] 06-01-PLAN.md — Client-ID consolidation (D-04, SC-7) + recommendations() API method + Custom Binary verification (LMS-10)
+- [ ] 06-02-PLAN.md — Per-player Settings: Bitrate Override (D-01) + Format-Dropdown (D-11/D-12) + Transcoding Engine
+
+**Wave 2** *(depends on Wave 1)*
+
+- [ ] 06-03-PLAN.md — Don't Stop The Music: DSTM provider module + Plugin.pm registration (LMS-09)
+
+**Wave 3** *(depends on Wave 2)*
+
+- [ ] 06-04-PLAN.md — Full i18n (11 languages, LMS-03) + Setup Guide (D-07) + Credits (D-08)
+
+**Wave 4** *(depends on all above)*
+
+- [ ] 06-05-PLAN.md — Distribution: repo.xml (D-09) + install.xml v1.0.0 + Security Review + UAT checkpoint
 
 ## Progress Table
 
@@ -406,17 +429,17 @@ Plans:
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
 | 05.4. mDNS Connect Discovery Fix | 3/3 | Complete    | 2026-06-02 |
-| 6. Polish + DSTM + Settings | 0/? | Not started | - |
+| 6. Polish + DSTM + Settings | 0/5 | Planned | - |
 
 ## Backlog
 
 Items discovered during UAT — not blocking, schedule into future phases.
 
 1. ~~Dead Code Cleanup~~ → integriert in Phase 05.3
-2. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID (`93aac68...`). Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode für browse/categories-Zugriff.
-3. **playall auf Track-Items** — XMLBrowser ignoriert playall; muss in Phase 6 oder eigener Phase gefixt werden (aus Phase 04.1 UAT).
+2. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID (`93aac68...`). Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode für browse/categories-Zugriff. *SC-7 in Phase 6 stellt sicher, dass die ID zentral austauschbar ist.*
+3. ~~playall auf Track-Items~~ → funktioniert inzwischen (XMLBrowser verarbeitet playall korrekt)
 4. ~~Connect Session-Handover~~ → integriert in Phase 05.3
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-02 after Phase 05.4 planning*
+*Last updated: 2026-06-03 after Phase 06 planning*
