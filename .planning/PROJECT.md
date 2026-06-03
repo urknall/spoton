@@ -8,28 +8,35 @@ A from-scratch Spotify plugin for Lyrion Music Server (LMS), built on lessons le
 
 Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
+## Current State
+
+**v1.0 shipped** (2026-06-03) — 15 phases, 50 plans, 62 requirements, 6.502 LOC in 9 days.
+
+Features:
+- Browse (Home, Search, Library) via OPML menus
+- Single-track streaming with 5 format modes (Auto/OGG/PCM/FLAC/MP3) per player
+- Spotify Connect with bidirectional controls, sync groups, mDNS discovery
+- ZeroConf + Dual-Token Auth (one-click setup via Spotify app)
+- DSTM auto-play (Browse mode) with recommendations + search fallback
+- Per-player settings (bitrate override, format dropdown, Connect toggle)
+- 11-language i18n, Setup Guide, Credits, repo.xml distribution template
+
+Known gaps (Backlog):
+- Connect-DSTM (Auto-Play im Connect-Modus)
+- Multi-arch binaries (only x86_64 present)
+- Format-Dropdown mit B&O/Chromecast verifizieren
+- Eigene SpotOn Client-ID bei Spotify registrieren
+
 ## Requirements
 
-### Validated
+### v1.0 (archived)
 
-- [x] OAuth 2.0 PKCE browser authentication via per-user Spotify Developer App — Validated in Phase 02.1
-
-### Active
-
-- [ ] Spotify navigation (Home, Search, Library) via OPML menu trees
-- [ ] Audio streaming via librespot single-track mode with FLAC/PCM/MP3 transcoding
-- [ ] Spotify Connect with per-player daemons and HTTP-streaming audio transport
-- [ ] OAuth 2.0 PKCE authentication with guided Setup Wizard
-- [ ] Central API throttle preventing 429 bursts
-- [ ] OGG-Direct passthrough for capable players
-- [ ] Sync-group handling for Connect (one daemon on master)
-- [ ] Player-specific preferences (bitrate, normalization, connect on/off)
+All 62 v1 requirements complete. See `.planning/milestones/v1.0-REQUIREMENTS.md`.
 
 ### Out of Scope
 
 - Lossless/HiFi streaming — blocked by PlayPlay DRM, architecturally prepared but not implementable (HIF-04)
 - PlayPlay DRM reverse engineering — explicit prohibition, legal + ethical
-- Podcast support — defer to v2, not core to music playback use case
 - Mobile app — LMS plugin only
 
 ## Context
@@ -58,31 +65,17 @@ Reliable Spotify playback and Connect integration on LMS — Browse, stream, and
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| OAuth 2.0 PKCE auth (replaced Keymaster) | Keymaster/login5 auth proved non-functional. PKCE browser flow via per-user Spotify Developer App provides reliable auth. Setup Wizard guides users through Client-ID entry. | Phase 02.1 — Complete |
-| HTTP-streaming for Connect audio | FIFO has architectural limitations (seek lag, white noise on reconnect, no safe flush from Perl). HTTP gives clean connection semantics. FIFO as fallback until HTTP is ready. | — Pending |
-| LMS 8.0+ floor | Only 1-2 test environments available. Higher floor = less legacy code. Most active installations are 8.0+. | — Pending |
-| Sliding Window or Adaptive pipeline | Research phase to evaluate. Central throttle is MUST regardless. | — Pending |
-| OGG-Direct as option | Saves CPU on weak devices. Player capability decides automatically. FLAC as default pipeline. | — Pending |
-| Binary strategy deferred | Start with Perl plugin only. librespot binary sourcing (monorepo vs separate) decided when Connect phase begins. | — Pending |
-| Separate namespace, coexistence possible | `Slim::Plugin::SpotOn` — own GUID, own prefs. Can exist alongside Spotty but not tested together. | — Pending |
-| DSTM is SHOULD | Don't Stop The Music is nice-to-have, not critical for v1. | — Pending |
+| OAuth 2.0 PKCE + ZeroConf hybrid auth | Keymaster/login5 non-functional. ZeroConf for librespot credentials, Keymaster --get-token for Web API. | Phase 04.3 — Complete |
+| HTTP-streaming for Connect audio | FIFO has architectural limitations (seek lag, white noise). HTTP gives clean connection semantics. | Phase 05 — Complete |
+| Dual-Token API routing | Own Client-ID for me/* endpoints, bundled ID for browse/categories. Distributes rate-limit pressure. | Phase 04.4 — Complete |
+| 5-option Format-Dropdown | Auto/OGG/PCM/FLAC/MP3 per player. Pipeline deletion forces format; snapshot-restore enables clean switching. | Phase 06 — Complete |
+| OGG Passthrough as Auto default | Best format for capable players (no transcoding). Passthrough-Guard removes OGG when binary lacks support. | Phase 06 — Complete |
+| DSTM via LMS framework (Browse only) | Connect-DSTM needs Spirc event hook — different architecture, deferred to backlog. | Phase 06 — Browse complete |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
-**After each phase transition** (via `/gsd-transition`):
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
-
-**After each milestone** (via `/gsd:complete-milestone`):
-1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state
-
 ---
-*Last updated: 2026-05-27 after Phase 02.1 completion — auth switched from Keymaster to OAuth PKCE*
+*Created: 2026-05-26*
+*Last updated: 2026-06-03 — Milestone v1.0 complete*
