@@ -15,16 +15,16 @@ Requirements for Milestone v1.1: Hardening & Reach.
 
 ### Multi-Arch Binary Distribution
 
-- [ ] **ARCH-01**: x86_64 Linux Binary ist musl-static gelinkt (ersetzt aktuelles glibc-Binary)
-- [ ] **ARCH-02**: aarch64 Linux Binary (Pi 4/5, NAS) via cross-rs gebaut und in Bin/ abgelegt
-- [ ] **ARCH-03**: armv7 Linux Binary (Pi 2/3 32-bit) via cross-rs gebaut und in Bin/ abgelegt
-- [ ] **ARCH-04**: i386 Linux Binary via cross-rs gebaut und in Bin/ abgelegt
+- [x] **ARCH-01**: x86_64 Linux Binary ist musl-static gelinkt (ersetzt aktuelles glibc-Binary)
+- [x] **ARCH-02**: aarch64 Linux Binary (Pi 4/5, NAS) via cross-rs gebaut und in Bin/ abgelegt
+- [x] **ARCH-03**: armv7 Linux Binary (Pi 2/3 32-bit) via cross-rs gebaut und in Bin/ abgelegt
+- [x] **ARCH-04**: i386 Linux Binary via cross-rs gebaut und in Bin/ abgelegt
 - [ ] **ARCH-05**: macOS x86_64 Binary via native CI Runner gebaut und in Bin/ abgelegt
 - [ ] **ARCH-06**: macOS aarch64 Binary (Apple Silicon) via native CI Runner gebaut und in Bin/ abgelegt
-- [ ] **ARCH-07**: Windows x86_64 Binary via MinGW-w64 GNU gebaut und in Bin/ abgelegt
+- [x] **ARCH-07**: Windows x86_64 Binary via MinGW-w64 GNU gebaut und in Bin/ abgelegt
 - [ ] **ARCH-08**: Helper.pm erkennt alle 8 Plattformen und wählt korrektes Binary aus Bin/ Unterverzeichnis
 - [ ] **ARCH-09**: Plugin startet und streamt erfolgreich auf aarch64 Linux (verifiziert auf realer Hardware oder CI)
-- [ ] **ARCH-10**: ARMv6 Linux Binary (Pi 1/Zero) via cross-rs gebaut und in Bin/ abgelegt
+- [x] **ARCH-10**: ARMv6 Linux Binary (Pi 1/Zero) via cross-rs gebaut und in Bin/ abgelegt
 
 ### Connect-DSTM
 
@@ -68,16 +68,16 @@ Deferred to future release. Tracked but not in current roadmap.
 | CLEAN-01 | Phase 7 | Pending |
 | CLEAN-02 | Phase 7 | Pending |
 | CLEAN-03 | Phase 7 | Pending |
-| ARCH-01 | Phase 8 | Pending |
-| ARCH-02 | Phase 8 | Pending |
-| ARCH-03 | Phase 8 | Pending |
-| ARCH-04 | Phase 8 | Pending |
+| ARCH-01 | Phase 8 | Complete |
+| ARCH-02 | Phase 8 | Complete |
+| ARCH-03 | Phase 8 | Complete |
+| ARCH-04 | Phase 8 | Complete |
 | ARCH-05 | Phase 8 | Pending |
 | ARCH-06 | Phase 8 | Pending |
-| ARCH-07 | Phase 8 | Pending |
+| ARCH-07 | Phase 8 | Complete |
 | ARCH-08 | Phase 8 | Pending |
 | ARCH-09 | Phase 8 | Pending |
-| ARCH-10 | Phase 8 | Pending |
+| ARCH-10 | Phase 8 | Complete |
 | META-01 | Phase 9 | Pending |
 | META-02 | Phase 9 | Pending |
 | META-03 | Phase 9 | Pending |

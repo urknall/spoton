@@ -69,7 +69,7 @@ Plans:
   5. The x86_64 Linux binary replaces the previous glibc-linked binary and passes `--check` version verification
 **Plans**: 2 plans
 Plans:
-- [ ] 08-01-PLAN.md — Cross-compile all 6 platform binaries (5 Linux musl-static + 1 Windows GNU)
+- [x] 08-01-PLAN.md — Cross-compile all 6 platform binaries (5 Linux musl-static + 1 Windows GNU)
 - [ ] 08-02-PLAN.md — Helper.pm platform detection cleanup + aarch64 live verification
 
 ### Phase 9: Stream Metadata
@@ -122,7 +122,7 @@ Plans:
 | 05.4. mDNS Connect Discovery Fix | v1.0 | 3/3 | Complete | 2026-06-02 |
 | 6. Polish + DSTM + Settings | v1.0 | 5/5 | Complete | 2026-06-03 |
 | 7. DE→EN Code Cleanup | v1.1 | 1/1 | Complete   | 2026-06-03 |
-| 8. Multi-Arch Binary Distribution | v1.1 | 0/2 | Planning | - |
+| 8. Multi-Arch Binary Distribution | v1.1 | 1/2 | In Progress|  |
 | 9. Stream Metadata | v1.1 | 0/? | Not started | - |
 | 10. Connect-DSTM | v1.1 | 0/? | Not started | - |
 
