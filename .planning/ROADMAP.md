@@ -439,6 +439,7 @@ Items discovered during UAT — not blocking, schedule into future phases.
 2. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID (`93aac68...`). Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode für browse/categories-Zugriff. *SC-7 in Phase 6 stellt sicher, dass die ID zentral austauschbar ist.*
 3. ~~playall auf Track-Items~~ → funktioniert inzwischen (XMLBrowser verarbeitet playall korrekt)
 4. ~~Connect Session-Handover~~ → integriert in Phase 05.3
+5. **Connect-DSTM (Auto-Play im Connect-Modus)** — LMS-DSTM greift nur im Browse-Modus. Im Connect-Modus muss End-of-Queue via Spirc-Event erkannt und Tracks über `POST /me/player/queue` nachgeschoben werden (eigener Ansatz wie Spotty-NG, nicht LMS-DSTM-Provider).
 
 ---
 *Roadmap created: 2026-05-26*
