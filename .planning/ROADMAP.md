@@ -67,9 +67,10 @@ Plans:
   3. On an aarch64 Linux system (Pi 4, NAS), the plugin loads the aarch64 binary, starts the Connect daemon, and streams a track successfully
   4. All Linux binaries are musl-statically linked — no glibc dependency, confirmed by `ldd` returning "not a dynamic executable"
   5. The x86_64 Linux binary replaces the previous glibc-linked binary and passes `--check` version verification
-**Plans**: 1 plan
+**Plans**: 2 plans
 Plans:
-- [x] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
+- [ ] 08-01-PLAN.md — Cross-compile all 6 platform binaries (5 Linux musl-static + 1 Windows GNU)
+- [ ] 08-02-PLAN.md — Helper.pm platform detection cleanup + aarch64 live verification
 
 ### Phase 9: Stream Metadata
 
@@ -121,7 +122,7 @@ Plans:
 | 05.4. mDNS Connect Discovery Fix | v1.0 | 3/3 | Complete | 2026-06-02 |
 | 6. Polish + DSTM + Settings | v1.0 | 5/5 | Complete | 2026-06-03 |
 | 7. DE→EN Code Cleanup | v1.1 | 1/1 | Complete   | 2026-06-03 |
-| 8. Multi-Arch Binary Distribution | v1.1 | 0/? | Not started | - |
+| 8. Multi-Arch Binary Distribution | v1.1 | 0/2 | Planning | - |
 | 9. Stream Metadata | v1.1 | 0/? | Not started | - |
 | 10. Connect-DSTM | v1.1 | 0/? | Not started | - |
 
