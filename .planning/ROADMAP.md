@@ -22,7 +22,7 @@
 - [x] **Phase 05.2: Connect Controls & Resume** - Fix Connect Resume, verify/fix bidirectional Volume/Pause/Resume, semi-bidirectional Skip, unidirectional Seek (completed 2026-06-01)
 - [x] **Phase 05.3: Sync Groups + Connect Robustness** - Sync-group audio and Connect session-handover fix (completed 2026-06-02)
 - [x] **Phase 05.4: mDNS Connect Discovery Fix** - mDNS discovery works reliably, devices connect via discovery, crash-loop protection auto-resets (completed 2026-06-02)
-- [ ] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional
+- [x] **Phase 6: Polish + DSTM + Settings** - Player-specific preferences, auto-play continuation, and custom binary override functional (completed 2026-06-03)
 
 ## Phase Details
 
@@ -391,7 +391,7 @@ Plans:
   11. Full security review and code review completed (Opus 4.8), all HIGH/CRITICAL findings resolved
   12. Plugin is installable via LMS custom repository URL; adding the repo URL in LMS Settings → Plugins shows SpotOn in the plugin list with correct metadata
 
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans complete
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
@@ -409,7 +409,7 @@ Plans:
 
 **Wave 4** *(depends on all above)*
 
-- [ ] 06-05-PLAN.md — Distribution: repo.xml (D-09) + install.xml v1.0.0 + Security Review + UAT checkpoint
+- [x] 06-05-PLAN.md — Distribution: repo.xml (D-09) + install.xml v1.0.0 + Security Review + UAT checkpoint
 
 ## Progress Table
 
@@ -429,7 +429,7 @@ Plans:
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
 | 05.4. mDNS Connect Discovery Fix | 3/3 | Complete    | 2026-06-02 |
-| 6. Polish + DSTM + Settings | 4/5 | In Progress|  |
+| 6. Polish + DSTM + Settings | 5/5 | Complete   | 2026-06-03 |
 
 ## Backlog
 
