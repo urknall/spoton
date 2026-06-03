@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-06-03T09:08:03.832Z"
+last_updated: "2026-06-03T09:09:37.852Z"
 progress:
   total_phases: 15
   completed_phases: 14
@@ -22,15 +22,15 @@ progress:
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 6 — polish + dstm + settings
+**Current Focus:** Phase 06 — polish-release-readiness
 
 ## Current Position
 
-Phase: 05.4 (mdns-connect-discovery-fix) — EXECUTING
-Plan: 1 of 3
+Phase: 06 (polish-release-readiness) — EXECUTING
+Plan: 1 of 5
 **Phase:** 6
 **Plan:** Not started
-**Status:** Ready to execute
+**Status:** Executing Phase 06
 
 ```
 Progress: Phase 1 of 6

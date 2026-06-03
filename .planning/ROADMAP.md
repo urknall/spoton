@@ -391,13 +391,13 @@ Plans:
   11. Full security review and code review completed (Opus 4.8), all HIGH/CRITICAL findings resolved
   12. Plugin is installable via LMS custom repository URL; adding the repo URL in LMS Settings → Plugins shows SpotOn in the plugin list with correct metadata
 
-**Plans:** 5 plans
+**Plans:** 2/5 plans executed
 
 Plans:
 **Wave 1** *(parallel — no file overlap)*
 
-- [ ] 06-01-PLAN.md — Client-ID consolidation (D-04, SC-7) + recommendations() API method + Custom Binary verification (LMS-10)
-- [ ] 06-02-PLAN.md — Per-player Settings: Bitrate Override (D-01) + Format-Dropdown (D-11/D-12) + Transcoding Engine
+- [x] 06-01-PLAN.md — Client-ID consolidation (D-04, SC-7) + recommendations() API method + Custom Binary verification (LMS-10)
+- [x] 06-02-PLAN.md — Per-player Settings: Bitrate Override (D-01) + Format-Dropdown (D-11/D-12) + Transcoding Engine
 
 **Wave 2** *(depends on Wave 1)*
 
@@ -429,7 +429,7 @@ Plans:
 | 05.2. Connect Controls & Resume | 2/2 | Complete   | 2026-06-01 |
 | 05.3. Player Sync Groups | 3/3 | Complete   | 2026-06-02 |
 | 05.4. mDNS Connect Discovery Fix | 3/3 | Complete    | 2026-06-02 |
-| 6. Polish + DSTM + Settings | 0/5 | Planned | - |
+| 6. Polish + DSTM + Settings | 2/5 | In Progress|  |
 
 ## Backlog
 
