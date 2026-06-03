@@ -22,7 +22,7 @@ Requirements for Milestone v1.1: Hardening & Reach.
 - [ ] **ARCH-05**: macOS x86_64 Binary via native CI Runner gebaut und in Bin/ abgelegt
 - [ ] **ARCH-06**: macOS aarch64 Binary (Apple Silicon) via native CI Runner gebaut und in Bin/ abgelegt
 - [x] **ARCH-07**: Windows x86_64 Binary via MinGW-w64 GNU gebaut und in Bin/ abgelegt
-- [ ] **ARCH-08**: Helper.pm erkennt alle 8 Plattformen und wählt korrektes Binary aus Bin/ Unterverzeichnis
+- [x] **ARCH-08**: Helper.pm erkennt alle 8 Plattformen und wählt korrektes Binary aus Bin/ Unterverzeichnis
 - [ ] **ARCH-09**: Plugin startet und streamt erfolgreich auf aarch64 Linux (verifiziert auf realer Hardware oder CI)
 - [x] **ARCH-10**: ARMv6 Linux Binary (Pi 1/Zero) via cross-rs gebaut und in Bin/ abgelegt
 
@@ -75,7 +75,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | ARCH-05 | Phase 8 | Pending |
 | ARCH-06 | Phase 8 | Pending |
 | ARCH-07 | Phase 8 | Complete |
-| ARCH-08 | Phase 8 | Pending |
+| ARCH-08 | Phase 8 | Complete |
 | ARCH-09 | Phase 8 | Pending |
 | ARCH-10 | Phase 8 | Complete |
 | META-01 | Phase 9 | Pending |
