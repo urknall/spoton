@@ -69,7 +69,7 @@ Plans:
   5. The x86_64 Linux binary replaces the previous glibc-linked binary and passes `--check` version verification
 **Plans**: 1 plan
 Plans:
-- [ ] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
+- [x] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
 
 ### Phase 9: Stream Metadata
 
