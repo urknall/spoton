@@ -52,7 +52,9 @@
   1. Running `grep -rn` for German special characters (ä, ö, ü, ß, Ä, Ö, Ü) against all Perl and Rust source files (excluding strings.txt and i18n files) returns zero matches
   2. Every `# Kommentar`-style comment block in Plugin.pm, Connect.pm, Client.pm, and Helper.pm is readable in English without ambiguity
   3. Every DEBUGLOG, INFOLOG, WARNLOG, and ERRORLOG call emits an English string — no German words in any log line visible at runtime
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
 
 ### Phase 8: Multi-Arch Binary Distribution
 
@@ -65,7 +67,9 @@
   3. On an aarch64 Linux system (Pi 4, NAS), the plugin loads the aarch64 binary, starts the Connect daemon, and streams a track successfully
   4. All Linux binaries are musl-statically linked — no glibc dependency, confirmed by `ldd` returning "not a dynamic executable"
   5. The x86_64 Linux binary replaces the previous glibc-linked binary and passes `--check` version verification
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
 
 ### Phase 9: Stream Metadata
 
@@ -77,7 +81,9 @@
   2. Songinfo for a track playing through Spotify Connect shows "(Spotify Connect)" in the source line
   3. Songinfo shows the active stream format (e.g., "OGG Vorbis", "FLAC", "MP3", "PCM") for the currently playing track
   4. When bitrate information is available, Songinfo shows it alongside the format (e.g., "320k, OGG Vorbis (Spotify Connect)")
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
 **UI hint**: yes
 
 ### Phase 10: Connect-DSTM
@@ -91,7 +97,9 @@
   3. Playback continues seamlessly in Connect mode after queue exhaustion — no gap longer than 10 seconds, no user intervention required
   4. Disabling the per-player Autoplay toggle in Settings stops Connect-DSTM for that player only; other players continue with auto-play
   5. Browse-mode DSTM continues to work without regression after the Connect-DSTM implementation
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
 
 ## Progress Table
 
@@ -112,7 +120,7 @@
 | 05.3. Player Sync Groups | v1.0 | 3/3 | Complete | 2026-06-02 |
 | 05.4. mDNS Connect Discovery Fix | v1.0 | 3/3 | Complete | 2026-06-02 |
 | 6. Polish + DSTM + Settings | v1.0 | 5/5 | Complete | 2026-06-03 |
-| 7. DE→EN Code Cleanup | v1.1 | 0/? | Not started | - |
+| 7. DE→EN Code Cleanup | v1.1 | 0/1 | Planned | - |
 | 8. Multi-Arch Binary Distribution | v1.1 | 0/? | Not started | - |
 | 9. Stream Metadata | v1.1 | 0/? | Not started | - |
 | 10. Connect-DSTM | v1.1 | 0/? | Not started | - |
