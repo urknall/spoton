@@ -27,6 +27,15 @@ Known gaps (Backlog):
 - Format-Dropdown mit B&O/Chromecast verifizieren
 - Eigene SpotOn Client-ID bei Spotify registrieren
 
+## Current Milestone: v1.1 Hardening & Reach
+
+**Goal:** Connect-DSTM erforschen, Multi-Arch Binaries für alle 6 Plattformen bereitstellen, und den gesamten Code sprachlich bereinigen (DE→EN).
+
+**Target features:**
+- Connect-DSTM Spike — erforschen was mit aktuellem librespot-Fork möglich ist, dann Implementierungsentscheidung
+- Multi-Arch Binaries — alle 6 Targets (x86_64/i386/aarch64/armv7 Linux, macOS x86_64/aarch64, Windows)
+- Code-Bereinigung — alle deutschen Kommentare und Log-Ausgaben durch englische ersetzen
+
 ## Requirements
 
 ### v1.0 (archived)
@@ -77,5 +86,23 @@ All 62 v1 requirements complete. See `.planning/milestones/v1.0-REQUIREMENTS.md`
 This document evolves at phase transitions and milestone boundaries.
 
 ---
+## Evolution
+
+This document evolves at phase transitions and milestone boundaries.
+
+**After each phase transition** (via `/gsd-transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
+**After each milestone** (via `/gsd:complete-milestone`):
+1. Full review of all sections
+2. Core Value check — still the right priority?
+3. Audit Out of Scope — reasons still valid?
+4. Update Context with current state
+
+---
 *Created: 2026-05-26*
-*Last updated: 2026-06-03 — Milestone v1.0 complete*
+*Last updated: 2026-06-03 — Milestone v1.1 started*
