@@ -551,22 +551,19 @@ if ($client) {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Normalisierung im Connect-Modus**
+1. **Normalisierung im Connect-Modus** (RESOLVED)
    - Was wir wissen: `Daemon.pm` soll `--enable-volume-normalisation` übergeben wenn der globale Pref gesetzt ist. Das ist in CONTEXT.md D-02 als Anforderung gelistet ("muss auch für Connect-Modus gelten").
-   - Was unklar ist: Ob `Daemon.pm` das bereits tut (CONTEXT.md sagt "Daemon.pm übergibt bereits") oder ob es noch fehlt.
-   - Empfehlung: `Connect/Daemon.pm` oder `Connect/DaemonManager.pm` nach `normalization`-Pref-Lese-Code suchen. Wenn vorhanden: nur verifizieren. Wenn fehlend: als Task hinzufügen.
+   - Lösung: Plan 06-02 Task 2 verifiziert ob Daemon.pm die Normalisierung bereits übergibt. Wenn ja: nur Verifikation. Wenn nein: Ergänzung als Subtask.
 
-2. **Binary-Build-Pipeline**
+2. **Binary-Build-Pipeline** (RESOLVED — DEFERRED TO PHASE 6.1)
    - Was wir wissen: Cross.toml + cross-rs ist vorhanden. Das aarch64-musl-Target wurde bereits gebaut (Target-Verzeichnis vorhanden). Die anderen Targets (armhf, i386) sind noch nicht gebaut.
-   - Was unklar ist: Ob ein CI-basierter Build (GitHub Actions) für die Release-Pipeline geplant ist oder ob der User manuell baut.
-   - Empfehlung: Dokumentierten Build-Befehl als Task anlegen. GitHub Actions für Multi-Arch-Builds ist für Early Adopter noch nicht zwingend — manueller Build via `cross build --target armv7-unknown-linux-musleabihf` reicht.
+   - Lösung: Phase-Split entschieden. Phase 6 liefert Software-Features. Separate Phase 6.1 liefert Multi-Arch-Binaries + finale repo.xml SHA1.
 
-3. **Security Review Scope**
+3. **Security Review Scope** (RESOLVED)
    - Was wir wissen: "Full security review" ist als Success Criterion gelistet. Keine konkreten Funde bekannt.
-   - Was unklar ist: Welche Module und welche Tiefe (Code Review nur, oder auch Penetration-Test-Szenarien?).
-   - Empfehlung: Code Review aller Module mit User-Input-Verarbeitung: Settings.pm (Form-Inputs), TokenManager.pm (Credentials), Helper.pm (Binary-Path), API/Client.pm (URL-Konstruktion). Priorität: Shell-Injection-Vektoren (binary path, bitrate injection) und Pref-Validierung.
+   - Lösung: Plan 06-05 definiert Code Review Scope: Settings.pm (Form-Inputs), TokenManager.pm (Credentials), Helper.pm (Binary-Path), API/Client.pm (URL-Konstruktion). Priorität: Shell-Injection-Vektoren und Pref-Validierung.
 
 ---
 
