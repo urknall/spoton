@@ -41,6 +41,14 @@ Requirements for Milestone v1.1: Hardening & Reach.
 - [ ] **META-02**: Songinfo zeigt aktuelles Stream-Format (OGG, FLAC, MP3, PCM)
 - [ ] **META-03**: Songinfo zeigt Bitrate wenn verfügbar (z.B. "320k, OGG Vorbis (Spotify Connect)")
 
+### Deployment
+
+- [ ] **DEPLOY-01**: GitHub Repo stiefenm/spoton ist öffentlich; interne Dateien (.planning/, .claude/, CLAUDE.md) via .gitignore ausgeschlossen
+- [ ] **DEPLOY-02**: install.xml existiert mit korrekter Version, Creator und Modulpfaden
+- [ ] **DEPLOY-03**: repo.xml hat echte SHA1 und Download-URL; LMS zeigt SpotOn in der Plugin-Liste wenn die URL als Custom Repo hinterlegt wird
+- [ ] **DEPLOY-04**: SpotOn ist auf dem Pi (192.168.13.5) installiert und läuft über den LMS Plugin Manager
+- [ ] **DEPLOY-05**: SpotOn-Monitor ist aktiv auf dem Pi (Cron-Job, tägliche Log-Rotation); alte Spotty-Artefakte aufgeräumt
+
 ## v1.2+ Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
@@ -87,10 +95,15 @@ Deferred to future release. Tracked but not in current roadmap.
 | DSTM-04 | Phase 10 | Pending |
 | DSTM-05 | Phase 10 | Pending |
 | DSTM-06 | Phase 10 | Pending |
+| DEPLOY-01 | Phase 9.5 | Pending |
+| DEPLOY-02 | Phase 9.5 | Pending |
+| DEPLOY-03 | Phase 9.5 | Pending |
+| DEPLOY-04 | Phase 9.5 | Pending |
+| DEPLOY-05 | Phase 9.5 | Pending |
 
 **Coverage:**
-- v1.1 requirements: 22 total
-- Mapped to phases: 22
+- v1.1 requirements: 27 total
+- Mapped to phases: 27
 - Unmapped: 0 ✓
 
 ---
