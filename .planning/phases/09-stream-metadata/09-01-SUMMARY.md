@@ -24,6 +24,7 @@ key_files:
     - "Plugins/SpotOn/Plugin.pm"
     - "Plugins/SpotOn/Connect.pm"
     - "Plugins/SpotOn/DontStopTheMusic.pm"
+    - "Plugins/SpotOn/ProtocolHandler.pm"
 decisions:
   - "D-04 bitrate guard: _typeString reads raw pref value (no || 320 fallback) so absent bitrate produces format-only string"
   - "D-05 auto resolution: passthrough capability check via Helper->getCapability('passthrough') — OGG if true, PCM if false"
@@ -109,9 +110,25 @@ Dynamic type string for Songinfo -- `_typeString` helper in Plugin.pm builds "{b
 - **Files modified:** Plugins/SpotOn/Plugin.pm
 - **Commit:** 65b4e8d
 
+## UAT Fixes (post-checkpoint)
+
+### Fix 1: Duplicate bitrate display (d2ffe47)
+- LMS shows `bitrate` and `type` fields together — including bitrate in `_typeString` caused "320k, 320k, OGG"
+- Extracted bitrate logic into new `_bitrateForClient` class method
+- `_typeString` now returns only format+mode: "OGG (Spotify Browse)"
+- Added `bitrate` field to Connect.pm pluginData (was missing, showed "0")
+
+### Fix 2: Per-player bitrate override ignored in Browse (7306b6b)
+- Browse cache-set used `$prefs->get('bitrate')` (global only), ignoring per-player `bitrateOverride`
+- Changed to `_bitrateForClient($client)` for both `_trackItem` and `_albumTrackItem`
+
+### Fix 3: Stale format after pref change (f5f857b)
+- Browse metadata cached at browse-time, not at playback-time — changing streamFormat showed old value
+- `getMetadataFor` in ProtocolHandler.pm now overlays `type` and `bitrate` from current prefs on each call
+
 ## Pending Verification
 
-Task 3 (checkpoint:human-verify) requires live LMS testing to confirm Songinfo displays dynamic metadata for both Browse and Connect tracks.
+None -- all human verification items passed during UAT session (2026-06-04).
 
 ## Known Stubs
 
@@ -124,6 +141,7 @@ None -- no new trust boundaries, network endpoints, or auth paths introduced.
 ## Self-Check: PASSED
 
 - All 5 key files exist on disk
-- Both task commits (4be6f9e, 65b4e8d) found in git history
-- `_typeString` sub present in Plugin.pm (1 match)
+- Task commits (4be6f9e, 65b4e8d) + UAT fix commits (d2ffe47, 7306b6b, f5f857b) in git history
+- `_typeString` and `_bitrateForClient` subs present in Plugin.pm
 - Zero stale hardcoded type literals in all 3 production files
+- Human UAT passed: Browse + Connect display correct, per-player override works, format change reflected on skip
