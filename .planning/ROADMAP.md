@@ -80,12 +80,11 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. Songinfo for a track played via LMS Browse menus shows "(Spotify Browse)" in the source line
   2. Songinfo for a track playing through Spotify Connect shows "(Spotify Connect)" in the source line
-  3. Songinfo shows the active stream format (e.g., "OGG Vorbis", "FLAC", "MP3", "PCM") for the currently playing track
-  4. When bitrate information is available, Songinfo shows it alongside the format (e.g., "320k, OGG Vorbis (Spotify Connect)")
+  3. Songinfo shows the active stream format (e.g., "OGG", "FLAC", "MP3", "PCM") for the currently playing track
+  4. When bitrate information is available, Songinfo shows it alongside the format (e.g., "320k, OGG (Spotify Connect)")
 **Plans**: 1 plan
 Plans:
-- [ ] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
-**UI hint**: yes
+- [ ] 09-01-PLAN.md — TDD: _typeString helper + update all 4 metadata call sites
 
 ### Phase 10: Connect-DSTM
 
@@ -98,9 +97,7 @@ Plans:
   3. Playback continues seamlessly in Connect mode after queue exhaustion — no gap longer than 10 seconds, no user intervention required
   4. Disabling the per-player Autoplay toggle in Settings stops Connect-DSTM for that player only; other players continue with auto-play
   5. Browse-mode DSTM continues to work without regression after the Connect-DSTM implementation
-**Plans**: 1 plan
-Plans:
-- [ ] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
+**Plans**: 0 plans (not yet planned)
 
 ## Progress Table
 
@@ -123,7 +120,7 @@ Plans:
 | 6. Polish + DSTM + Settings | v1.0 | 5/5 | Complete | 2026-06-03 |
 | 7. DE→EN Code Cleanup | v1.1 | 1/1 | Complete   | 2026-06-03 |
 | 8. Multi-Arch Binary Distribution | v1.1 | 2/2 | Complete   | 2026-06-03 |
-| 9. Stream Metadata | v1.1 | 0/? | Not started | - |
+| 9. Stream Metadata | v1.1 | 0/1 | Not started | - |
 | 10. Connect-DSTM | v1.1 | 0/? | Not started | - |
 
 ## Backlog
@@ -135,4 +132,4 @@ Items discovered during UAT — not blocking current milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-03 — v1.1 phases 7-10 added*
+*Last updated: 2026-06-04 — Phase 9 plan created*
