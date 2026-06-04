@@ -41,6 +41,7 @@
 - [x] **Phase 9: Stream Metadata** - Songinfo shows active mode, format, and bitrate for every playing track (completed 2026-06-04)
 - [x] **Phase 9.5: Prod Deployment & Monitoring** - GitHub repo public, LMS custom repo XML, plugin deployed on Pi, SpotOn monitoring replaces Spotty (completed 2026-06-04)
 - [x] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via Spirc-native autoplay when the Spotify queue is exhausted (completed 2026-06-04)
+- [ ] **Phase 11: Track History Metadata** - "Was lief da eben?" shows correct artwork, format, and bitrate; Connect tracks translate to playable Browse URLs (completed 2026-06-04)
 
 ## Phase Details
 
@@ -163,6 +164,7 @@ Plans:
 | 9. Stream Metadata | v1.1 | 1/1 | Complete   | 2026-06-04 |
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
 | 10. Connect-DSTM | v1.1 | 3/3 | Complete    | 2026-06-04 |
+| 11. Track History Metadata | v1.1 | 0/0 | Not started | - |
 
 ## Backlog
 
@@ -170,6 +172,23 @@ Items discovered during UAT — not blocking current milestone.
 
 1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID. Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode.
 2. **Format-Dropdown mit Nicht-OGG-Playern testen** — Auto-Modus mit B&O/Chromecast verifizieren (kein OGG-Support → Auto sollte FLAC wählen). Bisher nur mit squeezelite getestet.
+
+### Phase 11: Track History Metadata
+
+**Goal**: "Was lief da eben?" shows correct artwork, format, and bitrate for Browse tracks; Connect tracks translate to playable Browse URLs
+**Depends on**: Phase 10
+**Requirements**: HIST-01, HIST-02, HIST-03, HIST-04
+**Success Criteria** (what must be TRUE):
+
+  1. Browse-mode tracks replayed from history show correct album artwork (not generic icon)
+  2. Browse-mode tracks replayed from history show correct streaming format and bitrate in Songinfo
+  3. Connect-mode tracks in history are translatable to Browse URLs and can be replayed
+  4. Cache-miss in getMetadataFor triggers async API re-fetch and populates metadata for expired entries
+
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 11 to break down)
 
 ---
 *Roadmap created: 2026-05-26*
