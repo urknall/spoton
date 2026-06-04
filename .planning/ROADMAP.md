@@ -34,11 +34,12 @@
 
 ### 🚧 v1.1 Hardening & Reach (In Progress)
 
-**Milestone Goal:** Connect-DSTM, Multi-Arch Binaries for all 6 platforms, and full DE→EN code cleanup.
+**Milestone Goal:** Connect-DSTM, Multi-Arch Binaries for all 6 platforms, full DE→EN code cleanup, and production deployment.
 
 - [x] **Phase 7: DE→EN Code Cleanup** - All German comments and log strings replaced with English; codebase is language-clean (completed 2026-06-03)
 - [x] **Phase 8: Multi-Arch Binary Distribution** - librespot binary available for all 8 platform targets; Helper.pm selects the correct binary automatically (completed 2026-06-03)
 - [x] **Phase 9: Stream Metadata** - Songinfo shows active mode, format, and bitrate for every playing track (completed 2026-06-04)
+- [ ] **Phase 9.5: Prod Deployment & Monitoring** - GitHub repo public, LMS custom repo XML, plugin deployed on Pi, SpotOn monitoring replaces Spotty
 - [ ] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via queue injection when the Spotify queue is exhausted
 
 ## Phase Details
@@ -86,6 +87,19 @@ Plans:
 Plans:
 - [x] 09-01-PLAN.md — TDD: _typeString helper + update all 4 metadata call sites
 
+### Phase 9.5: Prod Deployment & Monitoring
+
+**Goal**: SpotOn is installable from a public GitHub repo via LMS custom repository, deployed on the production Pi, with live monitoring replacing the old Spotty setup
+**Depends on**: Phase 9 (all code changes complete before public release)
+**Requirements**: DEPLOY-01, DEPLOY-02, DEPLOY-03, DEPLOY-04, DEPLOY-05
+**Success Criteria** (what must be TRUE):
+  1. GitHub repo stiefenm/spoton is public; .planning/, .claude/, CLAUDE.md and other internal files are excluded via .gitignore and git rm --cached
+  2. install.xml exists with correct version, creator, and module paths
+  3. repo.xml has correct SHA and download URL; adding the raw GitHub URL as LMS custom repo shows SpotOn in the plugin list
+  4. SpotOn is installed and running on the Pi (192.168.13.5) via the LMS plugin manager
+  5. SpotOn monitor is active on the Pi (cron job, daily log rotation); old Spotty monitoring and Spotty-Plugin directory cleaned up
+**Plans**: 0 plans (not yet planned)
+
 ### Phase 10: Connect-DSTM
 
 **Goal**: When the Spotify queue runs out during a Connect session, the plugin automatically queues a new track so playback continues uninterrupted — matching the auto-play behavior already present in Browse mode
@@ -121,6 +135,7 @@ Plans:
 | 7. DE→EN Code Cleanup | v1.1 | 1/1 | Complete   | 2026-06-03 |
 | 8. Multi-Arch Binary Distribution | v1.1 | 2/2 | Complete   | 2026-06-03 |
 | 9. Stream Metadata | v1.1 | 1/1 | Complete   | 2026-06-04 |
+| 9.5. Prod Deployment & Monitoring | v1.1 | 0/? | Not started | - |
 | 10. Connect-DSTM | v1.1 | 0/? | Not started | - |
 
 ## Backlog
