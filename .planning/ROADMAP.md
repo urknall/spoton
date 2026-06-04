@@ -41,7 +41,7 @@
 - [x] **Phase 9: Stream Metadata** - Songinfo shows active mode, format, and bitrate for every playing track (completed 2026-06-04)
 - [x] **Phase 9.5: Prod Deployment & Monitoring** - GitHub repo public, LMS custom repo XML, plugin deployed on Pi, SpotOn monitoring replaces Spotty (completed 2026-06-04)
 - [x] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via Spirc-native autoplay when the Spotify queue is exhausted (completed 2026-06-04)
-- [ ] **Phase 11: Track History Metadata** - "Was lief da eben?" shows correct artwork, format, and bitrate; Connect tracks translate to playable Browse URLs (completed 2026-06-04)
+- [x] **Phase 11: Track History Metadata** - "Was lief da eben?" shows correct artwork, format, and bitrate; Connect tracks translate to playable Browse URLs (completed 2026-06-04) (completed 2026-06-04)
 
 ## Phase Details
 
@@ -160,7 +160,7 @@ Plans:
   
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 11-02-PLAN.md — Async re-fetch with debounce + Connect-to-Browse URL translation + live verification
+- [x] 11-02-PLAN.md — Async re-fetch with debounce + Connect-to-Browse URL translation + live verification
 
 ## Progress Table
 
@@ -186,7 +186,7 @@ Plans:
 | 9. Stream Metadata | v1.1 | 1/1 | Complete   | 2026-06-04 |
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
 | 10. Connect-DSTM | v1.1 | 3/3 | Complete    | 2026-06-04 |
-| 11. Track History Metadata | v1.1 | 1/2 | In Progress|  |
+| 11. Track History Metadata | v1.1 | 2/2 | Complete   | 2026-06-04 |
 
 ## Backlog
 
