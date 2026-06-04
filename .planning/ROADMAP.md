@@ -50,11 +50,14 @@
 **Depends on**: Nothing (v1.1 start)
 **Requirements**: CLEAN-01, CLEAN-02, CLEAN-03
 **Success Criteria** (what must be TRUE):
+
   1. Running `grep -rn` for German special characters (ä, ö, ü, ß, Ä, Ö, Ü) against all Perl and Rust source files (excluding strings.txt and i18n files) returns zero matches
   2. Every `# Kommentar`-style comment block in Plugin.pm, Connect.pm, Client.pm, and Helper.pm is readable in English without ambiguity
   3. Every DEBUGLOG, INFOLOG, WARNLOG, and ERRORLOG call emits an English string — no German words in any log line visible at runtime
+
 **Plans**: 1 plan
 Plans:
+
 - [x] 07-01-PLAN.md — Translate all German comments to English + full codebase verification
 
 ### Phase 8: Multi-Arch Binary Distribution
@@ -63,13 +66,16 @@ Plans:
 **Depends on**: Nothing (independent of Phase 7, can run in parallel)
 **Requirements**: ARCH-01, ARCH-02, ARCH-03, ARCH-04, ARCH-05, ARCH-06, ARCH-07, ARCH-08, ARCH-09, ARCH-10
 **Success Criteria** (what must be TRUE):
+
   1. The Bin/ directory contains subdirectories for all 8 targets (x86_64-linux, aarch64-linux, armv7-linux, i386-linux, armv6-linux, x86_64-darwin, aarch64-darwin, x86_64-win64) each holding a static librespot binary
   2. Helper.pm correctly identifies all 8 platform/arch combinations and returns the matching binary path without falling back to an incorrect binary
   3. On an aarch64 Linux system (Pi 4, NAS), the plugin loads the aarch64 binary, starts the Connect daemon, and streams a track successfully
   4. All Linux binaries are musl-statically linked — no glibc dependency, confirmed by `ldd` returning "not a dynamic executable"
   5. The x86_64 Linux binary replaces the previous glibc-linked binary and passes `--check` version verification
+
 **Plans**: 2 plans
 Plans:
+
 - [x] 08-01-PLAN.md — Cross-compile all 6 platform binaries (5 Linux musl-static + 1 Windows GNU)
 - [x] 08-02-PLAN.md — Helper.pm platform detection cleanup + aarch64 live verification
 
@@ -79,12 +85,15 @@ Plans:
 **Depends on**: Phase 7 (cleanup complete before adding new code)
 **Requirements**: META-01, META-02, META-03
 **Success Criteria** (what must be TRUE):
+
   1. Songinfo for a track played via LMS Browse menus shows "(Spotify Browse)" in the source line
   2. Songinfo for a track playing through Spotify Connect shows "(Spotify Connect)" in the source line
   3. Songinfo shows the active stream format (e.g., "OGG", "FLAC", "MP3", "PCM") for the currently playing track
   4. When bitrate information is available, Songinfo shows it alongside the format (e.g., "320k, OGG (Spotify Connect)")
+
 **Plans**: 1 plan
 Plans:
+
 - [x] 09-01-PLAN.md — TDD: _typeString helper + update all 4 metadata call sites
 
 ### Phase 9.5: Prod Deployment & Monitoring
@@ -93,13 +102,16 @@ Plans:
 **Depends on**: Phase 9 (all code changes complete before public release)
 **Requirements**: DEPLOY-01, DEPLOY-02, DEPLOY-03, DEPLOY-04, DEPLOY-05
 **Success Criteria** (what must be TRUE):
+
   1. GitHub repo stiefenm/spoton is public; .planning/, .claude/, CLAUDE.md and other internal files are excluded via .gitignore and git rm --cached
   2. install.xml exists with correct version, creator, and module paths
   3. repo.xml has correct SHA and download URL; adding the raw GitHub URL as LMS custom repo shows SpotOn in the plugin list
   4. SpotOn is installed and running on the Pi (192.168.13.5) via the LMS plugin manager
   5. SpotOn monitor is active on the Pi (cron job, daily log rotation); old Spotty monitoring and Spotty-Plugin directory cleaned up
+
 **Plans**: 2 plans
 Plans:
+
 - [x] 09.5-01-PLAN.md — Repo preparation: exclude internal files, version bump, release zip, finalize repo.xml, make public
 - [x] 09.5-02-PLAN.md — Pi deployment: install SpotOn via LMS, monitoring setup, Spotty cleanup
 
@@ -109,15 +121,22 @@ Plans:
 **Depends on**: Phase 8 (binary rebuild required), Phase 9
 **Requirements**: DSTM-01, DSTM-02, DSTM-03, DSTM-04, DSTM-05, DSTM-06
 **Success Criteria** (what must be TRUE):
+
   1. The binary accepts `--autoplay on/off` and reports `autoplay: true` in `--check` JSON — Spirc's `add_autoplay_resolving_when_required()` handles queue continuation natively
   2. `SessionConfig.autoplay` is set from the CLI flag before `Session::new()`, overriding Spotify user settings when explicitly configured
   3. Playback continues seamlessly in Connect mode after queue exhaustion — no gap longer than 10 seconds, no user intervention required
   4. Disabling the per-player Autoplay toggle in Settings stops Connect-DSTM for that player only; other players continue with auto-play
   5. Browse-mode DSTM continues to work without regression after the Connect-DSTM implementation
+
 **Plans**: 3 plans
 Plans:
-- [ ] 10-01-PLAN.md — Binary source: --autoplay flag parsing, --check capability, SessionConfig override
-- [ ] 10-02-PLAN.md — Perl plugin: enableAutoplay pref, daemon flag, Settings UI toggle, DSTM sync, i18n strings
+**Wave 1**
+
+- [x] 10-01-PLAN.md — Binary source: --autoplay flag parsing, --check capability, SessionConfig override
+- [x] 10-02-PLAN.md — Perl plugin: enableAutoplay pref, daemon flag, Settings UI toggle, DSTM sync, i18n strings
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 10-03-PLAN.md — Binary rebuild for all 6 platforms + end-to-end verification checkpoint
 
 ## Progress Table
@@ -143,7 +162,7 @@ Plans:
 | 8. Multi-Arch Binary Distribution | v1.1 | 2/2 | Complete   | 2026-06-03 |
 | 9. Stream Metadata | v1.1 | 1/1 | Complete   | 2026-06-04 |
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
-| 10. Connect-DSTM | v1.1 | 0/3 | Not started | - |
+| 10. Connect-DSTM | v1.1 | 2/3 | In Progress|  |
 
 ## Backlog
 

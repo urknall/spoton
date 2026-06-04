@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Hardening & Reach
-status: planning
+status: executing
 stopped_at: Phase 10 context gathered
-last_updated: "2026-06-04T12:22:34.520Z"
-last_activity: 2026-06-04
+last_updated: "2026-06-04T12:59:37.161Z"
+last_activity: 2026-06-04 -- Phase 10 execution started
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 6
+  total_plans: 9
   completed_plans: 6
-  percent: 80
+  percent: 67
 ---
 
 # Project State: SpotOn
@@ -26,14 +26,14 @@ See: .planning/PROJECT.md (updated 2026-06-03)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 10 — connect dstm
+**Current Focus:** Phase 10 — connect-dstm
 
 ## Current Position
 
-Phase: 10
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-06-04
+Phase: 10 (connect-dstm) — EXECUTING
+Plan: 1 of 3
+Status: Executing Phase 10
+Last activity: 2026-06-04 -- Phase 10 execution started
 
 Progress: [███████░░░] 67%
 
