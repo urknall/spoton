@@ -348,17 +348,17 @@ No external API changes relevant. This phase is entirely internal to the plugin.
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **`originalType` field in Connect pluginData**
    - What we know: `_fetchTrackMetadata` sets both `originalType` and `type` to the same value.
    - What's unclear: `originalType` is set but never read by `getMetadataFor` (which just returns the hash as-is). LMS may or may not use `originalType` internally.
-   - Recommendation: Update both `type` and `originalType` to the dynamic string. No harm in keeping them consistent. If LMS uses `originalType` for anything, it should also get the enriched value.
+   - RESOLVED: Update both `type` and `originalType` to the dynamic string. No harm in keeping them consistent. If LMS uses `originalType` for anything, it should also get the enriched value. Plan 09-01 Task 2 Step D explicitly covers both fields.
 
 2. **Connect `$client` availability at `_fetchTrackMetadata` call site**
    - What we know: `_fetchTrackMetadata` receives `$client` and `$song` as parameters (visible at line ~800 in Connect.pm). The function is always called with a live player context.
-   - What's unclear: Whether `$client->master` needs to be called before passing to `_buildTypeString`.
-   - Recommendation: Apply `$client = $client->master if $client->can('master')` as a guard inside `_buildTypeString`, consistent with all other Connect.pm patterns.
+   - What's unclear: Whether `$client->master` needs to be called before passing to `_typeString`.
+   - RESOLVED: Apply `$client = $client->master if $client && $client->can('master')` as a guard inside `_typeString`, consistent with ProtocolHandler.pm `getMetadataFor` and all Connect.pm pref-read patterns. Plan 09-01 Task 2 Step A includes this guard.
 
 ---
 
