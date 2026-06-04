@@ -40,7 +40,7 @@
 - [x] **Phase 8: Multi-Arch Binary Distribution** - librespot binary available for all 8 platform targets; Helper.pm selects the correct binary automatically (completed 2026-06-03)
 - [x] **Phase 9: Stream Metadata** - Songinfo shows active mode, format, and bitrate for every playing track (completed 2026-06-04)
 - [x] **Phase 9.5: Prod Deployment & Monitoring** - GitHub repo public, LMS custom repo XML, plugin deployed on Pi, SpotOn monitoring replaces Spotty (completed 2026-06-04)
-- [ ] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via Spirc-native autoplay when the Spotify queue is exhausted
+- [x] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via Spirc-native autoplay when the Spotify queue is exhausted (completed 2026-06-04)
 
 ## Phase Details
 
@@ -137,7 +137,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 10-03-PLAN.md — Binary rebuild for all 6 platforms + end-to-end verification checkpoint
+- [x] 10-03-PLAN.md — Binary rebuild for all 6 platforms + end-to-end verification checkpoint
 
 ## Progress Table
 
@@ -162,7 +162,7 @@ Plans:
 | 8. Multi-Arch Binary Distribution | v1.1 | 2/2 | Complete   | 2026-06-03 |
 | 9. Stream Metadata | v1.1 | 1/1 | Complete   | 2026-06-04 |
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
-| 10. Connect-DSTM | v1.1 | 2/3 | In Progress|  |
+| 10. Connect-DSTM | v1.1 | 3/3 | Complete   | 2026-06-04 |
 
 ## Backlog
 
