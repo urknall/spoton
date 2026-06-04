@@ -98,7 +98,10 @@ Plans:
   3. repo.xml has correct SHA and download URL; adding the raw GitHub URL as LMS custom repo shows SpotOn in the plugin list
   4. SpotOn is installed and running on the Pi (192.168.13.5) via the LMS plugin manager
   5. SpotOn monitor is active on the Pi (cron job, daily log rotation); old Spotty monitoring and Spotty-Plugin directory cleaned up
-**Plans**: 0 plans (not yet planned)
+**Plans**: 2 plans
+Plans:
+- [ ] 09.5-01-PLAN.md — Repo preparation: exclude internal files, version bump, release zip, finalize repo.xml, make public
+- [ ] 09.5-02-PLAN.md — Pi deployment: install SpotOn via LMS, monitoring setup, Spotty cleanup
 
 ### Phase 10: Connect-DSTM
 
@@ -135,7 +138,7 @@ Plans:
 | 7. DE→EN Code Cleanup | v1.1 | 1/1 | Complete   | 2026-06-03 |
 | 8. Multi-Arch Binary Distribution | v1.1 | 2/2 | Complete   | 2026-06-03 |
 | 9. Stream Metadata | v1.1 | 1/1 | Complete   | 2026-06-04 |
-| 9.5. Prod Deployment & Monitoring | v1.1 | 0/? | Not started | - |
+| 9.5. Prod Deployment & Monitoring | v1.1 | 0/2 | Not started | - |
 | 10. Connect-DSTM | v1.1 | 0/? | Not started | - |
 
 ## Backlog
@@ -147,4 +150,4 @@ Items discovered during UAT — not blocking current milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-04 — Phase 9 plan created*
+*Last updated: 2026-06-04 — Phase 9.5 plans created*
