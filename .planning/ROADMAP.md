@@ -162,7 +162,7 @@ Plans:
 | 8. Multi-Arch Binary Distribution | v1.1 | 2/2 | Complete   | 2026-06-03 |
 | 9. Stream Metadata | v1.1 | 1/1 | Complete   | 2026-06-04 |
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
-| 10. Connect-DSTM | v1.1 | 3/3 | Complete   | 2026-06-04 |
+| 10. Connect-DSTM | v1.1 | 3/3 | Complete    | 2026-06-04 |
 
 ## Backlog
 
