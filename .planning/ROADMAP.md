@@ -140,6 +140,28 @@ Plans:
 
 - [x] 10-03-PLAN.md — Binary rebuild for all 6 platforms + end-to-end verification checkpoint
 
+### Phase 11: Track History Metadata
+
+**Goal**: "Was lief da eben?" shows correct artwork, format, and bitrate for Browse tracks; Connect tracks translate to playable Browse URLs
+**Depends on**: Phase 10
+**Requirements**: HIST-01, HIST-02, HIST-03, HIST-04
+**Success Criteria** (what must be TRUE):
+
+  1. Browse-mode tracks replayed from history show correct album artwork (not generic icon)
+  2. Browse-mode tracks replayed from history show correct streaming format and bitrate in Songinfo
+  3. Connect-mode tracks in history are translatable to Browse URLs and can be replayed
+  4. Cache-miss in getMetadataFor triggers async API re-fetch and populates metadata for expired entries
+
+**Plans**: 2 plans
+Plans:
+**Wave 1**
+
+- [ ] 11-01-PLAN.md — TTL bump to 7 days + Connect cache persistence with spotifyUri + test scaffold
+  
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 11-02-PLAN.md — Async re-fetch with debounce + Connect-to-Browse URL translation + live verification
+
 ## Progress Table
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -164,7 +186,7 @@ Plans:
 | 9. Stream Metadata | v1.1 | 1/1 | Complete   | 2026-06-04 |
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
 | 10. Connect-DSTM | v1.1 | 3/3 | Complete    | 2026-06-04 |
-| 11. Track History Metadata | v1.1 | 0/0 | Not started | - |
+| 11. Track History Metadata | v1.1 | 0/2 | In Progress | - |
 
 ## Backlog
 
@@ -172,24 +194,8 @@ Items discovered during UAT — not blocking current milestone.
 
 1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID. Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode.
 2. **Format-Dropdown mit Nicht-OGG-Playern testen** — Auto-Modus mit B&O/Chromecast verifizieren (kein OGG-Support → Auto sollte FLAC wählen). Bisher nur mit squeezelite getestet.
-
-### Phase 11: Track History Metadata
-
-**Goal**: "Was lief da eben?" shows correct artwork, format, and bitrate for Browse tracks; Connect tracks translate to playable Browse URLs
-**Depends on**: Phase 10
-**Requirements**: HIST-01, HIST-02, HIST-03, HIST-04
-**Success Criteria** (what must be TRUE):
-
-  1. Browse-mode tracks replayed from history show correct album artwork (not generic icon)
-  2. Browse-mode tracks replayed from history show correct streaming format and bitrate in Songinfo
-  3. Connect-mode tracks in history are translatable to Browse URLs and can be replayed
-  4. Cache-miss in getMetadataFor triggers async API re-fetch and populates metadata for expired entries
-
-**Plans**: 0 plans
-
-Plans:
-- [ ] TBD (run /gsd-plan-phase 11 to break down)
+3. **Connect-Mode Lautstärke-Diskrepanz** — Bei gleichem %-Setting ist Connect deutlich lauter als Browse. Ursache: librespot nutzt eigene Volume-Kurve (Spirc-Protokoll, 0–65535 logarithmisch), während Browse die LMS/squeezelite-Kurve verwendet. Unabhängig von Normalisation-Settings. Mögliche Ansätze: `--volume-ctrl` Flag, Volume-Scaling im PCM-Relay, oder pragmatisch akzeptieren.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-04 — Phase 10 plans created*
+*Last updated: 2026-06-04 — Phase 11 plans created*
