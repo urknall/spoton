@@ -181,7 +181,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 12-01-PLAN.md — Test scaffold + rename spotify:// to spoton:// in all Perl/Rust sources + named cache namespace
+- [x] 12-01-PLAN.md — Test scaffold + rename spotify:// to spoton:// in all Perl/Rust sources + named cache namespace
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -212,7 +212,7 @@ Plans:
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
 | 10. Connect-DSTM | v1.1 | 3/3 | Complete    | 2026-06-04 |
 | 11. Track History Metadata | v1.1 | 2/2 | Complete   | 2026-06-05 |
-| 12. Protocol Handler Rename | v1.1 | 0/2 | Not Started | - |
+| 12. Protocol Handler Rename | v1.1 | 1/2 | In Progress|  |
 
 ## Backlog
 

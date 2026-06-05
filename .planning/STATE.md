@@ -4,14 +4,14 @@ milestone: v1.1
 milestone_name: Hardening & Reach
 status: executing
 stopped_at: Phase 12 context gathered
-last_updated: "2026-06-05T12:14:24.021Z"
-last_activity: 2026-06-04 -- Phase 11 execution started
+last_updated: "2026-06-05T12:43:07.757Z"
+last_activity: 2026-06-05 -- Phase 12 execution started
 progress:
   total_phases: 7
   completed_phases: 6
-  total_plans: 11
+  total_plans: 13
   completed_plans: 11
-  percent: 86
+  percent: 85
 ---
 
 # Project State: SpotOn
@@ -26,14 +26,14 @@ See: .planning/PROJECT.md (updated 2026-06-03)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 11 — track-history-metadata
+**Current Focus:** Phase 12 — protocol-handler-rename
 
 ## Current Position
 
-Phase: 11 (track-history-metadata) — EXECUTING
+Phase: 12 (protocol-handler-rename) — EXECUTING
 Plan: 1 of 2
-Status: Executing Phase 11
-Last activity: 2026-06-04 -- Phase 11 execution started
+Status: Executing Phase 12
+Last activity: 2026-06-05 -- Phase 12 execution started
 
 Progress: [██████████] 100%
 
