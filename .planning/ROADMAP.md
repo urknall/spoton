@@ -42,7 +42,7 @@
 - [x] **Phase 9.5: Prod Deployment & Monitoring** - GitHub repo public, LMS custom repo XML, plugin deployed on Pi, SpotOn monitoring replaces Spotty (completed 2026-06-04)
 - [x] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via Spirc-native autoplay when the Spotify queue is exhausted (completed 2026-06-04)
 - [x] **Phase 11: Track History Metadata** - "Was lief da eben?" shows correct artwork, format, and bitrate; Connect tracks translate to playable Browse URLs (completed 2026-06-05)
-- [ ] **Phase 12: Protocol Handler Rename** - SpotOn uses spoton:// URI scheme for coexistence with Spotty
+- [x] **Phase 12: Protocol Handler Rename** - SpotOn uses spoton:// URI scheme for coexistence with Spotty (completed 2026-06-05)
 
 ## Phase Details
 
@@ -185,7 +185,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 12-02-PLAN.md — Binary rebuild for all 6 platforms + Spotty coexistence verification on raspi
+- [x] 12-02-PLAN.md — Binary rebuild for all 6 platforms + Spotty coexistence verification on raspi
 
 ## Progress Table
 
@@ -212,7 +212,7 @@ Plans:
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
 | 10. Connect-DSTM | v1.1 | 3/3 | Complete    | 2026-06-04 |
 | 11. Track History Metadata | v1.1 | 2/2 | Complete   | 2026-06-05 |
-| 12. Protocol Handler Rename | v1.1 | 1/2 | In Progress|  |
+| 12. Protocol Handler Rename | v1.1 | 2/2 | Complete   | 2026-06-05 |
 
 ## Backlog
 
