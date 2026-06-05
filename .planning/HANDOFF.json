@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-05T14:04:31Z",
+  "phase": "12",
+  "phase_name": "protocol-handler-rename",
+  "phase_dir": ".planning/phases/12-protocol-handler-rename",
+  "plan": 2,
+  "task": 2,
+  "total_tasks": 2,
+  "status": "complete",
+  "completed_tasks": [
+    {"id": 1, "name": "12-01: Rename spotify:// to spoton:// in all source files + test scaffold + cache namespace", "status": "done", "commit": "512b22f"},
+    {"id": 2, "name": "12-02: Rebuild all 6 platform binaries + Spotty coexistence verified", "status": "done", "commit": "a932bbc"}
+  ],
+  "remaining_tasks": [],
+  "blockers": [],
+  "human_actions_pending": [],
+  "decisions": [
+    {"decision": "v1.1 milestone complete — all 7 phases (7-12) shipped", "rationale": "Phases 7-12 all verified and released as v1.2.9", "phase": "12"},
+    {"decision": "Herger's protocol handler rename request implemented same day", "rationale": "Spotty-Plugin#224 comment — enables Spotty+SpotOn coexistence", "phase": "12"},
+    {"decision": "Pre-existing test failures (t/07, t/08, t/09) fixed", "rationale": "Stale mocks from dual-flavor token API changes in Phase 04.4", "phase": "12"}
+  ],
+  "uncommitted_files": [
+    ".planning/phases/10-connect-dstm/10-VERIFICATION.md",
+    ".planning/phases/11-track-history-metadata/11-02-PLAN.md",
+    ".planning/phases/12-protocol-handler-rename/12-01-PLAN.md",
+    ".planning/phases/12-protocol-handler-rename/12-02-PLAN.md"
+  ],
+  "next_action": "/gsd:complete-milestone to archive v1.1, then /gsd:new-milestone for v1.3 (Extended Quota ID, Like Button, Repo Maintenance)",
+  "context_notes": "v1.0 (15 Phasen) + v1.1 (7 Phasen) both shipped. 230 tests all passing. Herger responded positively on Spotty-Plugin#224. Next milestone: Extended Quota ID for public distribution, Like Button for feature completeness, repo maintenance framework for external contributors. Also open: playall backlog, debug logging cleanup."
+}
