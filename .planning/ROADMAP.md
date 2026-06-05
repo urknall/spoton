@@ -41,7 +41,8 @@
 - [x] **Phase 9: Stream Metadata** - Songinfo shows active mode, format, and bitrate for every playing track (completed 2026-06-04)
 - [x] **Phase 9.5: Prod Deployment & Monitoring** - GitHub repo public, LMS custom repo XML, plugin deployed on Pi, SpotOn monitoring replaces Spotty (completed 2026-06-04)
 - [x] **Phase 10: Connect-DSTM** - Auto-play continues in Connect mode via Spirc-native autoplay when the Spotify queue is exhausted (completed 2026-06-04)
-- [x] **Phase 11: Track History Metadata** - "Was lief da eben?" shows correct artwork, format, and bitrate; Connect tracks translate to playable Browse URLs (completed 2026-06-04) (completed 2026-06-04)
+- [x] **Phase 11: Track History Metadata** - "Was lief da eben?" shows correct artwork, format, and bitrate; Connect tracks translate to playable Browse URLs (completed 2026-06-05)
+- [ ] **Phase 12: Protocol Handler Rename** - SpotOn uses spoton:// URI scheme for coexistence with Spotty
 
 ## Phase Details
 
@@ -187,15 +188,32 @@ Plans:
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
 | 10. Connect-DSTM | v1.1 | 3/3 | Complete    | 2026-06-04 |
 | 11. Track History Metadata | v1.1 | 2/2 | Complete   | 2026-06-05 |
+| 12. Protocol Handler Rename | v1.1 | 0/? | Not Started | - |
 
 ## Backlog
 
 Items discovered during UAT — not blocking current milestone.
 
-1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token Hergers Spotty-NG App-ID. Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode.
+1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Aktuell nutzt bundled-Token ncspot's App-ID (Extended Quota bestätigt). Langfristig braucht SpotOn eine eigene registrierte App mit Extended Quota Mode.
 2. **Format-Dropdown mit Nicht-OGG-Playern testen** — Auto-Modus mit B&O/Chromecast verifizieren (kein OGG-Support → Auto sollte FLAC wählen). Bisher nur mit squeezelite getestet.
 3. **Connect-Mode Lautstärke-Diskrepanz** — Bei gleichem %-Setting ist Connect deutlich lauter als Browse. Ursache: librespot nutzt eigene Volume-Kurve (Spirc-Protokoll, 0–65535 logarithmisch), während Browse die LMS/squeezelite-Kurve verwendet. Unabhängig von Normalisation-Settings. Mögliche Ansätze: `--volume-ctrl` Flag, Volume-Scaling im PCM-Relay, oder pragmatisch akzeptieren.
 4. **~~Online-Musiksammlung (Importer.pm / OnlineLibraryBase)~~** — Evaluiert und bewusst abgelehnt. Spotty-NG importiert Spotify-Playlists/Alben in die LMS-Bibliothek via `Slim::Plugin::OnlineLibraryBase`. Qobuz, TIDAL und Deezer machen das auch. Für SpotOn abgelehnt wegen: (a) API-Quota im Dev Mode macht Library-Scan extrem teuer (keine Batch-Endpoints, jeder Track einzeln), (b) Browse > Library deckt den Use Case on-demand ab, (c) hohe Wartungslast (~300 Zeilen Importer-Code) für fraglichen Mehrwert, (d) Sync-Drift (lokale DB immer hinter Live-State). Kann bei eigener App mit Extended Quota neu evaluiert werden.
+
+### Phase 12: Protocol Handler Rename
+
+**Goal**: SpotOn uses its own URI scheme (spoton://) instead of spotify:// so both plugins can coexist without conflict
+**Depends on**: Phase 11
+**Requirements**: PROTO-01, PROTO-02, PROTO-03, PROTO-04, PROTO-05, PROTO-06
+**Success Criteria** (what must be TRUE):
+
+  1. All URL constructions in Plugin.pm, ProtocolHandler.pm, Connect.pm use `spoton://` scheme instead of `spotify://`
+  2. ProtocolHandler is registered as `spoton` not `spotify` in LMS
+  3. custom-convert.conf uses new content types matching the `spoton://` scheme
+  4. Connect URLs use `spoton://connect-` prefix
+  5. Spotty and SpotOn can be enabled simultaneously in LMS without URI handler conflict
+  6. Existing cached metadata under old `spotify://` keys is invalidated or migrated on first start
+
+**Plans**: 0 plans
 
 ---
 *Roadmap created: 2026-05-26*
