@@ -163,6 +163,30 @@ Plans:
 
 - [x] 11-02-PLAN.md — Async re-fetch with debounce + Connect-to-Browse URL translation + live verification
 
+### Phase 12: Protocol Handler Rename
+
+**Goal**: SpotOn uses its own URI scheme (spoton://) instead of spotify:// so both plugins can coexist without conflict
+**Depends on**: Phase 11
+**Requirements**: PROTO-01, PROTO-02, PROTO-03, PROTO-04, PROTO-05, PROTO-06
+**Success Criteria** (what must be TRUE):
+
+  1. All URL constructions in Plugin.pm, ProtocolHandler.pm, Connect.pm use `spoton://` scheme instead of `spotify://`
+  2. ProtocolHandler is registered as `spoton` not `spotify` in LMS
+  3. custom-convert.conf uses new content types matching the `spoton://` scheme
+  4. Connect URLs use `spoton://connect-` prefix
+  5. Spotty and SpotOn can be enabled simultaneously in LMS without URI handler conflict
+  6. Existing cached metadata under old `spotify://` keys is invalidated or migrated on first start
+
+**Plans**: 2 plans
+Plans:
+**Wave 1**
+
+- [ ] 12-01-PLAN.md — Test scaffold + rename spotify:// to spoton:// in all Perl/Rust sources + named cache namespace
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 12-02-PLAN.md — Binary rebuild for all 6 platforms + Spotty coexistence verification on raspi
+
 ## Progress Table
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -188,7 +212,7 @@ Plans:
 | 9.5. Prod Deployment & Monitoring | v1.1 | 2/2 | Complete   | 2026-06-04 |
 | 10. Connect-DSTM | v1.1 | 3/3 | Complete    | 2026-06-04 |
 | 11. Track History Metadata | v1.1 | 2/2 | Complete   | 2026-06-05 |
-| 12. Protocol Handler Rename | v1.1 | 0/? | Not Started | - |
+| 12. Protocol Handler Rename | v1.1 | 0/2 | Not Started | - |
 
 ## Backlog
 
@@ -199,22 +223,6 @@ Items discovered during UAT — not blocking current milestone.
 3. **Connect-Mode Lautstärke-Diskrepanz** — Bei gleichem %-Setting ist Connect deutlich lauter als Browse. Ursache: librespot nutzt eigene Volume-Kurve (Spirc-Protokoll, 0–65535 logarithmisch), während Browse die LMS/squeezelite-Kurve verwendet. Unabhängig von Normalisation-Settings. Mögliche Ansätze: `--volume-ctrl` Flag, Volume-Scaling im PCM-Relay, oder pragmatisch akzeptieren.
 4. **~~Online-Musiksammlung (Importer.pm / OnlineLibraryBase)~~** — Evaluiert und bewusst abgelehnt. Spotty-NG importiert Spotify-Playlists/Alben in die LMS-Bibliothek via `Slim::Plugin::OnlineLibraryBase`. Qobuz, TIDAL und Deezer machen das auch. Für SpotOn abgelehnt wegen: (a) API-Quota im Dev Mode macht Library-Scan extrem teuer (keine Batch-Endpoints, jeder Track einzeln), (b) Browse > Library deckt den Use Case on-demand ab, (c) hohe Wartungslast (~300 Zeilen Importer-Code) für fraglichen Mehrwert, (d) Sync-Drift (lokale DB immer hinter Live-State). Kann bei eigener App mit Extended Quota neu evaluiert werden.
 
-### Phase 12: Protocol Handler Rename
-
-**Goal**: SpotOn uses its own URI scheme (spoton://) instead of spotify:// so both plugins can coexist without conflict
-**Depends on**: Phase 11
-**Requirements**: PROTO-01, PROTO-02, PROTO-03, PROTO-04, PROTO-05, PROTO-06
-**Success Criteria** (what must be TRUE):
-
-  1. All URL constructions in Plugin.pm, ProtocolHandler.pm, Connect.pm use `spoton://` scheme instead of `spotify://`
-  2. ProtocolHandler is registered as `spoton` not `spotify` in LMS
-  3. custom-convert.conf uses new content types matching the `spoton://` scheme
-  4. Connect URLs use `spoton://connect-` prefix
-  5. Spotty and SpotOn can be enabled simultaneously in LMS without URI handler conflict
-  6. Existing cached metadata under old `spotify://` keys is invalidated or migrated on first start
-
-**Plans**: 0 plans
-
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-04 — Phase 11 plans created*
+*Last updated: 2026-06-05 — Phase 12 plans created*
