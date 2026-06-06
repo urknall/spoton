@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Hardening & Reach
-status: executing
-stopped_at: Phase 12 context gathered
-last_updated: "2026-06-05T12:43:07.757Z"
-last_activity: 2026-06-05 -- Phase 12 execution started
+status: complete
+stopped_at: Milestone v1.1 archived
+last_updated: "2026-06-06T10:00:00.000Z"
+last_activity: 2026-06-06 — Milestone v1.1 archived
 progress:
   total_phases: 7
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 13
-  completed_plans: 11
-  percent: 85
+  completed_plans: 13
+  percent: 100
 ---
 
 # Project State: SpotOn
@@ -22,18 +22,18 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-03)
+See: .planning/PROJECT.md (updated 2026-06-06)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 12 — protocol-handler-rename
+**Current Focus:** Awaiting next milestone
 
 ## Current Position
 
-Phase: 12 (protocol-handler-rename) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 12
-Last activity: 2026-06-05 -- Phase 12 execution started
+Phase: —
+Plan: —
+Status: v1.1 archived, ready for next milestone
+Last activity: 2026-06-06 — Milestone v1.1 archived
 
 Progress: [██████████] 100%
 
@@ -41,47 +41,33 @@ Progress: [██████████] 100%
 
 **v1.1 velocity:**
 
-- Plans completed: 0 / TBD
-- Average duration: — (no data yet)
+- 7 phases, 13 plans in 3 days (2026-06-03 → 2026-06-06)
+- Avg ~4 plans/day
 
 **v1.0 reference velocity:**
 
-- 50 plans across 15 phases, ~9 days
-- Avg ~2-3 plans/day
+- 15 phases, 50 plans in 9 days
+- Avg ~5-6 plans/day
 
-## Accumulated Context
+## Deferred Items
 
-### Key Decisions (v1.1)
+Items acknowledged and deferred at milestone close on 2026-06-06:
 
-| Decision | Rationale |
-|----------|-----------|
-| Phase 7 before Phase 8 | Cleanup first — no risk, no dependencies, clean slate for new code |
-| Phase 8 independent of Phase 7 | ARCH work has no Perl code overlap; could run in parallel but sequential keeps focus |
-| Phase 9 before Phase 10 | META is small, low-risk; slots cleanly before the spike-gated DSTM work |
-| Phase 10 depends on Phase 8 | Connect-DSTM requires binary rebuild for EndOfTrack event path |
-| Phase 08 P01 | 28 | 2 tasks | 11 files |
-
-### Critical Pitfalls for v1.1
-
-- **P-40:** LMS DSTM framework never fires in Connect mode — EndOfTrack event path required (Phase 10)
-- **P-42:** `+crt-static` on GNU targets breaks proc-macro (Rust >= 1.87) — musl only (Phase 8)
-- **P-44:** macOS cannot use cross-rs — native CI runners required (Phase 8)
-- **P-46:** Windows must be GNU target, not MSVC, for Linux CI (Phase 8)
-
-### Blockers
-
-- Phase 10 (Connect-DSTM): Spike-gated. `PlayerEvent::EndOfTrack` behavior in single-track-no-queue scenario unverified. Must validate before implementing grace timer.
-
-### Todos
-
-- [ ] Begin Phase 7 planning (`/gsd:plan-phase 7`)
+| Category | Item | Status |
+|----------|------|--------|
+| debug | sync-group-audio | fixed |
+| verification | Phase 08 (08-VERIFICATION.md) | human_needed |
+| verification | Phase 11 (11-VERIFICATION.md) | human_needed |
+| verification | Phase 12 (12-VERIFICATION.md) | human_needed |
+| todo | callback-stats-service | low priority |
+| todo | callback-url-docs | medium priority |
 
 ## Session Continuity
 
-**Last session:** 2026-06-05T12:14:24.016Z
-**Stopped at:** Phase 12 context gathered
-**Next action:** `/gsd:plan-phase 7`
+**Last session:** 2026-06-06
+**Stopped at:** Milestone v1.1 archived
+**Next action:** `/gsd:new-milestone`
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-03 — v1.1 roadmap created*
+*Last updated: 2026-06-06 — v1.1 milestone archived*

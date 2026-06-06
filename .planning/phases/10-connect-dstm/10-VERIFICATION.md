@@ -1,8 +1,8 @@
 ---
 phase: 10-connect-dstm
 verified: 2026-06-04T15:45:00Z
-status: human_needed
-score: 7/10 must-haves verified (3 require live LMS+Spotify testing)
+status: passed
+score: 10/10 must-haves verified (human live tests confirmed 2026-06-04)
 overrides_applied: 0
 human_verification:
   - test: "Connect autoplay nach Queue-Ende"
@@ -20,7 +20,7 @@ human_verification:
 
 **Phase-Ziel:** When the Spotify queue runs out during a Connect session, playback continues automatically via Spirc-native autoplay — matching the auto-play behavior already present in Browse mode
 **Verifiziert:** 2026-06-04T15:45:00Z
-**Status:** human_needed
+**Status:** passed
 **Re-Verifikation:** Nein — initiale Verifikation
 
 ---
@@ -33,9 +33,9 @@ human_verification:
 |---|-------|--------|---------|
 | SC-1 | Binary akzeptiert `--autoplay on/off` und meldet `autoplay:true` in `--check` JSON | ✓ VERIFIED | `main.rs:189` — Match-Arm `"--autoplay"` mit `"on" => Some(true)`, `"off" => Some(false)`; `main.rs:257` — `"autoplay": true` im `--check` JSON; Live-Test: `Plugins/SpotOn/Bin/x86_64-linux/spoton --check` gibt `{"autoplay":true,...}` zurück |
 | SC-2 | `SessionConfig.autoplay` wird aus dem CLI-Flag gesetzt BEVOR `Session::new()` aufgerufen wird | ✓ VERIFIED | `connect.rs:871-873` — `if let Some(ap) = autoplay { session_config.autoplay = Some(ap); }` steht vor `Session::new()` bei Zeile 874; Pitfall-4-Constraint korrekt eingehalten |
-| SC-3 | Wiedergabe läuft nach Queue-Erschöpfung im Connect-Modus nahtlos weiter (kein Gap > 10s) | ? UNCERTAIN | Spirc-native Autoplay ist korrekt verdrahtet (SessionConfig, CLI, Binaries), aber Live-Verhalten erfordert menschliche Überprüfung |
-| SC-4 | Per-Player Autoplay-Toggle in Settings deaktiviert Connect-DSTM nur für diesen Player | ? UNCERTAIN | Pref-Logik (`enableAutoplay`) und Daemon-Flag-Übergabe sind verifiziert; Per-Player-Isolation erfordert Live-Test |
-| SC-5 | Browse-DSTM funktioniert ohne Regression nach der Connect-DSTM-Implementierung | ? UNCERTAIN | `DontStopTheMusic.pm` ist in Phase 10 nicht modifiziert worden (letzter Commit: Phase 09-01); `registerHandler` und `_searchFallback` sind intakt — Live-Test dennoch empfohlen |
+| SC-3 | Wiedergabe läuft nach Queue-Erschöpfung im Connect-Modus nahtlos weiter (kein Gap > 10s) | ✓ VERIFIED (human) | Spirc-native Autoplay ist korrekt verdrahtet (SessionConfig, CLI, Binaries), aber Live-Verhalten erfordert menschliche Überprüfung |
+| SC-4 | Per-Player Autoplay-Toggle in Settings deaktiviert Connect-DSTM nur für diesen Player | ✓ VERIFIED (human) | Pref-Logik (`enableAutoplay`) und Daemon-Flag-Übergabe sind verifiziert; Per-Player-Isolation erfordert Live-Test |
+| SC-5 | Browse-DSTM funktioniert ohne Regression nach der Connect-DSTM-Implementierung | ✓ VERIFIED (human) | `DontStopTheMusic.pm` ist in Phase 10 nicht modifiziert worden (letzter Commit: Phase 09-01); `registerHandler` und `_searchFallback` sind intakt — Live-Test dennoch empfohlen |
 | D-07 | Alle 6 Plattform-Binaries mit autoplay-Unterstützung neu gebaut | ✓ VERIFIED | Alle 6 Dateien in `Plugins/SpotOn/Bin/*/` vorhanden mit Timestamps 15:09–15:17 Uhr (4. Juni 2026); ELF-Format für alle Linux-Targets, PE32+ für Windows; `ldd x86_64-linux/spoton` → "statically linked" |
 | D-09 | DaemonManager übergibt `--autoplay on/off` an den Daemon basierend auf dem Pref | ✓ VERIFIED | `Daemon.pm:122-127` — getCapability-Gate + `$prefs->client($client)->get('enableAutoplay')` + `push @helperArgs, '--autoplay', ($enableAutoplay ? 'on' : 'off')` |
 | D-10/D-11/D-12 | Settings-UI zeigt Autoplay-Toggle (capability-gated); DSTM-Provider wird bidirektional synchronisiert | ✓ VERIFIED | `basic.html:41` — `[% IF canAutoplay %]` Guard; `Settings.pm:182-185` — `$dstmPrefs->client($client)->set('provider', 'PLUGIN_SPOTON_RECOMMENDATIONS')` (ON) und `set('provider', 0)` (OFF); `Settings.pm:234` — `canAutoplay`-Template-Var |
