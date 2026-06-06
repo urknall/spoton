@@ -67,11 +67,11 @@
   2. A contributor filing a bug sees a structured form with reproduction steps, LMS version, and OS fields
   3. A contributor filing a feature request sees a structured form with problem statement and alternatives fields
   4. A developer new to the project can follow CONTRIBUTING.md to run the test suite locally and submit a PR
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 13-01: GitHub Actions CI (perl-tests.yml — prove on 5.36 + 5.38)
-- [ ] 13-02: Issue templates + CONTRIBUTING.md
+- [ ] 13-01: Repo hygiene + GitHub Actions CI (perl-tests.yml, prove on 5.36 + 5.38)
+- [ ] 13-02: Issue templates + CONTRIBUTING.md + LICENSE + README
 
 ### Phase 14: Connect Fixes
 **Goal**: Connect sessions start with correct volume and each player's Spotify credentials are isolated from other players and other users
@@ -81,7 +81,7 @@ Plans:
   1. When a second Spotify user connects to a different LMS player, the first player's Browse session continues showing their own Spotify library — credentials are not overwritten
   2. When Spotify Connect starts on a player, the Spotify volume matches the LMS player volume within 3 seconds — no jarring jump from a hardcoded default
   3. When the user changes volume in the Spotify app, LMS reflects the change within 3 seconds (down from the previous 20-second grace period)
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 - [ ] 14-01: Credential isolation (separate --cache dir per player MAC) + volume fix (grace period + --volume-ctrl linear)
@@ -96,7 +96,7 @@ Plans:
   3. Selecting "Unlike" removes the track from Spotify Liked Songs — confirmed by the Liked Songs menu no longer showing the track
   4. The liked/unliked state check does not add perceptible delay to opening a track context menu
   5. After upgrading from a prior version, the plugin prompts for re-authorization exactly once to acquire the new library scopes
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 - [ ] 15-01: API/Client.pm saveTracks / removeTracks / checkTracks methods + scope upgrade (cacheSchemaVersion bump)
@@ -110,7 +110,7 @@ Plans:
   1. The `Bin/darwin/` directory contains a Universal Binary that runs natively on both Intel and Apple Silicon Macs
   2. Installing SpotOn via the LMS plugin manager on macOS downloads and runs the binary without quarantine errors blocking startup
   3. The Setup Guide documents the `xattr -d com.apple.quarantine` command for users who download the binary manually
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 - [ ] 16-01: macOS CI job (macos-15-intel + macos-latest, lipo Universal Binary) + ad-hoc codesign
@@ -123,7 +123,7 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. With a B&O player selected in LMS, each of the five format modes (Auto, OGG, PCM, FLAC, MP3) produces audible audio output without errors or silence
   2. In Auto mode, a B&O player (which does not support OGG) receives a non-OGG format — the auto-selection logic correctly detects capability
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
 - [ ] 17-01: B&O UPnPBridge format matrix test (5 modes × hardware player)
