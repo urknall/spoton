@@ -8,6 +8,20 @@ A from-scratch Spotify plugin for Lyrion Music Server (LMS), built on lessons le
 
 Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
+## Current Milestone: v1.3 Polish & Publish
+
+**Goal:** UX-Lücken schließen und das Plugin für breitere Verteilung vorbereiten — von funktionierend zu veröffentlichungsreif.
+
+**Target features:**
+- Connect Credential Isolation (Multi-User-Haushalt: eigenes Cache-Dir für Connect-Daemon)
+- Like Button (Liked Songs Integration via `PUT /me/tracks`)
+- Connect-Mode Lautstärke-Fix
+- Format-Dropdown Verifizierung mit B&O/Chromecast
+- Spotify Extended Quota Client-ID Antrag vorbereiten
+- Repo Maintenance (Issue Templates, Contributing, CI)
+- macOS Binaries (Universal Binary für Intel + Apple Silicon)
+- LMS Community Repo Submission
+
 ## Current State
 
 **v1.1 shipped** (2026-06-06) — 22 phases total (v1.0 + v1.1), 63 plans, 5.559 LOC Perl + 3.654 LOC tests, 230 tests green.
@@ -26,13 +40,6 @@ Features:
 - 11-language i18n, Setup Guide, Credits
 - Production deployment on Pi with monitoring, public GitHub repo with repo.xml
 
-Known gaps (Backlog):
-- Connect Credential Isolation (Multi-User-Haushalt: Connect überschreibt Account-Credentials)
-- Eigene SpotOn Client-ID bei Spotify registrieren (nutzt geborgte ncspot-ID)
-- Format-Dropdown mit B&O/Chromecast verifizieren
-- Connect-Mode Lautstärke-Diskrepanz
-- macOS Binaries (keine native CI Runner verfügbar)
-
 ## Requirements
 
 ### v1.0 (archived)
@@ -43,12 +50,24 @@ All 62 v1 requirements complete. See `.planning/milestones/v1.0-REQUIREMENTS.md`
 
 24 of 27 requirements complete, 3 deferred. See `.planning/milestones/v1.1-REQUIREMENTS.md`.
 
+### Active
+
+- [ ] Connect Credential Isolation
+- [ ] Like Button (Liked Songs)
+- [ ] Connect-Mode Lautstärke-Fix
+- [ ] Format-Dropdown B&O/Chromecast Verifizierung
+- [ ] Spotify Extended Quota Client-ID Antrag
+- [ ] Repo Maintenance Framework
+- [ ] macOS Binaries
+- [ ] LMS Community Repo Submission
+
 ### Out of Scope
 
 - Lossless/HiFi streaming — blocked by PlayPlay DRM, architecturally prepared but not implementable (HIF-04)
 - PlayPlay DRM reverse engineering — explicit prohibition, legal + ethical
 - Mobile app — LMS plugin only
 - Online-Musiksammlung (Importer.pm) — API-Quota im Dev Mode zu teuer, Browse > Library deckt Use Case ab
+- Client-ID Code-Umstellung — erst nach Genehmigung durch Spotify, v1.3 bereitet nur den Antrag vor
 
 ## Context
 
@@ -91,4 +110,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 *Created: 2026-05-26*
-*Last updated: 2026-06-06 — Milestone v1.1 completed*
+*Last updated: 2026-06-06 — Milestone v1.3 started*

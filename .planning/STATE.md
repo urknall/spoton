@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Hardening & Reach
-status: complete
-stopped_at: Milestone v1.1 archived
-last_updated: "2026-06-06T10:00:00.000Z"
-last_activity: 2026-06-06 — Milestone v1.1 archived
+milestone: v1.3
+milestone_name: Polish & Publish
+status: planning
+last_updated: "2026-06-06T08:12:36.210Z"
+last_activity: 2026-06-06
 progress:
-  total_phases: 7
-  completed_phases: 7
-  total_plans: 13
-  completed_plans: 13
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State: SpotOn
@@ -30,12 +29,10 @@ See: .planning/PROJECT.md (updated 2026-06-06)
 
 ## Current Position
 
-Phase: —
+Phase: Not started (defining requirements)
 Plan: —
-Status: v1.1 archived, ready for next milestone
-Last activity: 2026-06-06 — Milestone v1.1 archived
-
-Progress: [██████████] 100%
+Status: Defining requirements
+Last activity: 2026-06-06 — Milestone v1.3 started
 
 ## Performance Metrics
 
