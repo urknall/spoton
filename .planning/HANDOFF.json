@@ -1,31 +1,38 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-05T14:04:31Z",
-  "phase": "12",
-  "phase_name": "protocol-handler-rename",
-  "phase_dir": ".planning/phases/12-protocol-handler-rename",
-  "plan": 2,
-  "task": 2,
-  "total_tasks": 2,
-  "status": "complete",
-  "completed_tasks": [
-    {"id": 1, "name": "12-01: Rename spotify:// to spoton:// in all source files + test scaffold + cache namespace", "status": "done", "commit": "512b22f"},
-    {"id": 2, "name": "12-02: Rebuild all 6 platform binaries + Spotty coexistence verified", "status": "done", "commit": "a932bbc"}
+  "timestamp": "2026-06-06T10:05:20.910Z",
+  "phase": "13",
+  "phase_name": "Repo Maintenance",
+  "phase_dir": ".planning/phases/13-repo-maintenance",
+  "plan": 0,
+  "task": 0,
+  "total_tasks": 0,
+  "status": "ready_to_plan",
+  "completed_tasks": [],
+  "remaining_tasks": [
+    {"id": 1, "name": "Plan Phase 13 (CI + contributor scaffolding)", "status": "not_started"},
+    {"id": 2, "name": "Execute Phase 13", "status": "not_started"},
+    {"id": 3, "name": "Plan Phase 14 (Connect Fixes)", "status": "not_started"},
+    {"id": 4, "name": "Plan Phase 15 (Like Button)", "status": "not_started"},
+    {"id": 5, "name": "Plan Phase 16 (macOS Universal Binary)", "status": "not_started"},
+    {"id": 6, "name": "Plan Phase 17 (B&O Format Verification)", "status": "not_started"}
   ],
-  "remaining_tasks": [],
-  "blockers": [],
+  "blockers": [
+    {"description": "Phase 16 depends on Phase 13 CI infrastructure", "type": "technical", "workaround": "Plan and execute Phase 13 first"},
+    {"description": "Phase 17 requires physical B&O hardware", "type": "external", "workaround": "Plan around hardware availability"}
+  ],
   "human_actions_pending": [],
   "decisions": [
-    {"decision": "v1.1 milestone complete — all 7 phases (7-12) shipped", "rationale": "Phases 7-12 all verified and released as v1.2.9", "phase": "12"},
-    {"decision": "Herger's protocol handler rename request implemented same day", "rationale": "Spotty-Plugin#224 comment — enables Spotty+SpotOn coexistence", "phase": "12"},
-    {"decision": "Pre-existing test failures (t/07, t/08, t/09) fixed", "rationale": "Stale mocks from dual-flavor token API changes in Phase 04.4", "phase": "12"}
+    {"decision": "v1.3 scope: 5 phases for UX polish + publish readiness", "rationale": "Focus on making plugin distributable", "phase": "v1.3"},
+    {"decision": "Like endpoint uses PUT /me/library (unified)", "rationale": "Old PUT /me/tracks removed Feb 2026", "phase": "15"},
+    {"decision": "macOS ad-hoc codesign sufficient", "rationale": "LMS plugin manager doesn't set quarantine xattr", "phase": "16"}
   ],
   "uncommitted_files": [
-    ".planning/phases/10-connect-dstm/10-VERIFICATION.md",
-    ".planning/phases/11-track-history-metadata/11-02-PLAN.md",
-    ".planning/phases/12-protocol-handler-rename/12-01-PLAN.md",
-    ".planning/phases/12-protocol-handler-rename/12-02-PLAN.md"
+    ".planning/phases/10-connect-dstm/ (deleted)",
+    ".planning/phases/11-track-history-metadata/ (deleted)",
+    ".planning/phases/12-protocol-handler-rename/ (deleted)",
+    ".planning/HANDOFF.json (deleted, will be recreated)"
   ],
-  "next_action": "/gsd:complete-milestone to archive v1.1, then /gsd:new-milestone for v1.3 (Extended Quota ID, Like Button, Repo Maintenance)",
-  "context_notes": "v1.0 (15 Phasen) + v1.1 (7 Phasen) both shipped. 230 tests all passing. Herger responded positively on Spotty-Plugin#224. Next milestone: Extended Quota ID for public distribution, Like Button for feature completeness, repo maintenance framework for external contributors. Also open: playall backlog, debug logging cleanup."
+  "next_action": "/gsd:plan-phase 13 — GitHub Actions CI + Issue Templates + CONTRIBUTING.md",
+  "context_notes": "Clean transition between v1.1 (shipped) and v1.3 (planned). Research and roadmap complete, execution phase starts with Phase 13 planning."
 }
