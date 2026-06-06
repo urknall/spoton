@@ -79,30 +79,30 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CON-01 | — | Pending |
-| CON-02 | — | Pending |
-| CON-03 | — | Pending |
-| LIB-01 | — | Pending |
-| LIB-02 | — | Pending |
-| LIB-03 | — | Pending |
-| LIB-04 | — | Pending |
-| LIB-05 | — | Pending |
-| PLT-01 | — | Pending |
-| PLT-02 | — | Pending |
-| PLT-03 | — | Pending |
-| REPO-01 | — | Pending |
-| REPO-02 | — | Pending |
-| REPO-03 | — | Pending |
-| REPO-04 | — | Pending |
-| REPO-05 | — | Pending |
-| QA-01 | — | Pending |
-| QA-02 | — | Pending |
+| CON-01 | Phase 14 | Pending |
+| CON-02 | Phase 14 | Pending |
+| CON-03 | Phase 14 | Pending |
+| LIB-01 | Phase 15 | Pending |
+| LIB-02 | Phase 15 | Pending |
+| LIB-03 | Phase 15 | Pending |
+| LIB-04 | Phase 15 | Pending |
+| LIB-05 | Phase 15 | Pending |
+| PLT-01 | Phase 16 | Pending |
+| PLT-02 | Phase 16 | Pending |
+| PLT-03 | Phase 16 | Pending |
+| REPO-01 | Phase 13 | Pending |
+| REPO-02 | Phase 13 | Pending |
+| REPO-03 | Phase 13 | Pending |
+| REPO-04 | Phase 13 | Pending |
+| REPO-05 | Phase 13 | Pending |
+| QA-01 | Phase 17 | Pending |
+| QA-02 | Phase 17 | Pending |
 
 **Coverage:**
 - v1.3 requirements: 18 total
-- Mapped to phases: 0
-- Unmapped: 18 ⚠️
+- Mapped to phases: 18
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-06-06*
-*Last updated: 2026-06-06 after initial definition*
+*Last updated: 2026-06-06 — traceability filled in after roadmap creation*
