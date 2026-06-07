@@ -9,9 +9,9 @@ Requirements for milestone v1.3 — Polish & Publish.
 
 ### Connect
 
-- [ ] **CON-01**: Connect daemon uses separate cache directory per player MAC (`spoton/connect-{mac}/`), preventing credential overwrite when different Spotify users connect
-- [ ] **CON-02**: Connect volume matches LMS player volume at session start (no initial mismatch from hardcoded default)
-- [ ] **CON-03**: Connect volume changes sync within 3 seconds of user action (reduced from 20s grace period)
+- [x] **CON-01**: Connect daemon uses separate cache directory per player MAC (`spoton/connect-{mac}/`), preventing credential overwrite when different Spotify users connect
+- [x] **CON-02**: Connect volume matches LMS player volume at session start (no initial mismatch from hardcoded default)
+- [x] **CON-03**: Connect volume changes sync within 3 seconds of user action (reduced from 20s grace period)
 
 ### Library
 
@@ -79,9 +79,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CON-01 | Phase 14 | Pending |
-| CON-02 | Phase 14 | Pending |
-| CON-03 | Phase 14 | Pending |
+| CON-01 | Phase 14 | Complete |
+| CON-02 | Phase 14 | Complete |
+| CON-03 | Phase 14 | Complete |
 | LIB-01 | Phase 15 | Pending |
 | LIB-02 | Phase 15 | Pending |
 | LIB-03 | Phase 15 | Pending |
