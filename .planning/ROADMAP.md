@@ -84,7 +84,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 14-01: Credential isolation (separate --cache dir per player MAC) + volume fix (grace period + --volume-ctrl linear)
+- [ ] 14-01-PLAN.md — Rust binary: --initial-volume and --volume-ctrl CLI flags (main.rs + connect.rs)
+- [ ] 14-02-PLAN.md — Perl: credential isolation, volume args, grace period reduction, syntax test expansion
 
 ### Phase 15: Like Button
 **Goal**: Users can save and remove tracks from Liked Songs directly from browse menus without leaving LMS
@@ -135,7 +136,7 @@ Plans:
 | 1-6 (15 phases) | v1.0 | 50/50 | Complete | 2026-06-03 |
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13. Repo Maintenance | v1.3 | 2/2 | Complete    | 2026-06-07 |
-| 14. Connect Fixes | v1.3 | 0/1 | Not started | - |
+| 14. Connect Fixes | v1.3 | 0/2 | Not started | - |
 | 15. Like Button | v1.3 | 0/2 | Not started | - |
 | 16. macOS Universal Binary | v1.3 | 0/2 | Not started | - |
 | 17. B&O Format Verification | v1.3 | 0/1 | Not started | - |
@@ -152,4 +153,4 @@ Items discovered during UAT — not blocking current milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-06 — v1.3 milestone roadmap created*
+*Last updated: 2026-06-07 — Phase 14 plans created*
