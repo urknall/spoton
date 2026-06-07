@@ -51,7 +51,7 @@
 **Milestone Goal:** UX gaps closed and plugin ready for broader distribution — from working to publishable.
 
 - [x] **Phase 13: Repo Maintenance** — CI, issue templates, CONTRIBUTING.md (completed 2026-06-07)
-- [ ] **Phase 14: Connect Fixes** — Credential isolation + volume sync
+- [x] **Phase 14: Connect Fixes** — Credential isolation + volume sync (completed 2026-06-07)
 - [ ] **Phase 15: Like Button** — Save/remove/check liked state from menus
 - [ ] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI
 - [ ] **Phase 17: B&O Format Verification** — Hardware QA on UPnPBridge players
@@ -81,11 +81,11 @@ Plans:
   1. When a second Spotify user connects to a different LMS player, the first player's Browse session continues showing their own Spotify library — credentials are not overwritten
   2. When Spotify Connect starts on a player, the Spotify volume matches the LMS player volume within 3 seconds — no jarring jump from a hardcoded default
   3. When the user changes volume in the Spotify app, LMS reflects the change within 3 seconds (down from the previous 20-second grace period)
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 14-01-PLAN.md — Rust binary: --initial-volume and --volume-ctrl CLI flags (main.rs + connect.rs)
-- [ ] 14-02-PLAN.md — Perl: credential isolation, volume args, grace period reduction, syntax test expansion
+- [x] 14-01-PLAN.md — Rust binary: --initial-volume and --volume-ctrl CLI flags (main.rs + connect.rs)
+- [x] 14-02-PLAN.md — Perl: credential isolation, volume args, grace period reduction, syntax test expansion
 
 ### Phase 15: Like Button
 **Goal**: Users can save and remove tracks from Liked Songs directly from browse menus without leaving LMS
@@ -136,7 +136,7 @@ Plans:
 | 1-6 (15 phases) | v1.0 | 50/50 | Complete | 2026-06-03 |
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13. Repo Maintenance | v1.3 | 2/2 | Complete    | 2026-06-07 |
-| 14. Connect Fixes | v1.3 | 0/2 | Not started | - |
+| 14. Connect Fixes | v1.3 | 2/2 | Complete   | 2026-06-07 |
 | 15. Like Button | v1.3 | 0/2 | Not started | - |
 | 16. macOS Universal Binary | v1.3 | 0/2 | Not started | - |
 | 17. B&O Format Verification | v1.3 | 0/1 | Not started | - |
