@@ -50,7 +50,7 @@
 
 **Milestone Goal:** UX gaps closed and plugin ready for broader distribution — from working to publishable.
 
-- [ ] **Phase 13: Repo Maintenance** — CI, issue templates, CONTRIBUTING.md
+- [x] **Phase 13: Repo Maintenance** — CI, issue templates, CONTRIBUTING.md (completed 2026-06-07)
 - [ ] **Phase 14: Connect Fixes** — Credential isolation + volume sync
 - [ ] **Phase 15: Like Button** — Save/remove/check liked state from menus
 - [ ] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI
@@ -67,11 +67,11 @@
   2. A contributor filing a bug sees a structured form with reproduction steps, LMS version, and OS fields
   3. A contributor filing a feature request sees a structured form with problem statement and alternatives fields
   4. A developer new to the project can follow CONTRIBUTING.md to run the test suite locally and submit a PR
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 13-01: Repo hygiene + GitHub Actions CI (perl-tests.yml, prove on 5.36 + 5.38)
-- [ ] 13-02: Issue templates + CONTRIBUTING.md + LICENSE + README
+- [x] 13-01: Repo hygiene + GitHub Actions CI (perl-tests.yml, prove on 5.36 + 5.38)
+- [x] 13-02: Issue templates + CONTRIBUTING.md + LICENSE + README
 
 ### Phase 14: Connect Fixes
 **Goal**: Connect sessions start with correct volume and each player's Spotify credentials are isolated from other players and other users
@@ -134,7 +134,7 @@ Plans:
 |-------|-----------|-------|--------|-----------|
 | 1-6 (15 phases) | v1.0 | 50/50 | Complete | 2026-06-03 |
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
-| 13. Repo Maintenance | v1.3 | 0/2 | Not started | - |
+| 13. Repo Maintenance | v1.3 | 2/2 | Complete   | 2026-06-07 |
 | 14. Connect Fixes | v1.3 | 0/1 | Not started | - |
 | 15. Like Button | v1.3 | 0/2 | Not started | - |
 | 16. macOS Universal Binary | v1.3 | 0/2 | Not started | - |
