@@ -29,11 +29,11 @@ Requirements for milestone v1.3 — Polish & Publish.
 
 ### Repository
 
-- [ ] **REPO-01**: GitHub Actions CI runs full test suite (`prove t/`) on push to main and on pull requests
-- [ ] **REPO-02**: CI tests against Perl 5.36 and 5.38 (spanning LMS 8.x and 9.x)
-- [ ] **REPO-03**: Bug Report issue template available with structured fields
-- [ ] **REPO-04**: Feature Request issue template available with structured fields
-- [ ] **REPO-05**: CONTRIBUTING.md documents development setup, test running, and PR guidelines
+- [x] **REPO-01**: GitHub Actions CI runs full test suite (`prove t/`) on push to main and on pull requests
+- [x] **REPO-02**: CI tests against Perl 5.36 and 5.38 (spanning LMS 8.x and 9.x)
+- [x] **REPO-03**: Bug Report issue template available with structured fields
+- [x] **REPO-04**: Feature Request issue template available with structured fields
+- [x] **REPO-05**: CONTRIBUTING.md documents development setup, test running, and PR guidelines
 
 ### QA
 
@@ -90,11 +90,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PLT-01 | Phase 16 | Pending |
 | PLT-02 | Phase 16 | Pending |
 | PLT-03 | Phase 16 | Pending |
-| REPO-01 | Phase 13 | Pending |
-| REPO-02 | Phase 13 | Pending |
-| REPO-03 | Phase 13 | Pending |
-| REPO-04 | Phase 13 | Pending |
-| REPO-05 | Phase 13 | Pending |
+| REPO-01 | Phase 13 | Complete |
+| REPO-02 | Phase 13 | Complete |
+| REPO-03 | Phase 13 | Complete |
+| REPO-04 | Phase 13 | Complete |
+| REPO-05 | Phase 13 | Complete |
 | QA-01 | Phase 17 | Pending |
 | QA-02 | Phase 17 | Pending |
 
