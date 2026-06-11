@@ -53,7 +53,7 @@
 - [x] **Phase 13: Repo Maintenance** — CI, issue templates, CONTRIBUTING.md (completed 2026-06-07)
 - [x] **Phase 14: Connect Fixes** — Credential isolation + volume sync (completed 2026-06-07)
 - [x] **Phase 15: Like Button** — Save/remove/check liked state from menus (completed 2026-06-11)
-- [ ] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI
+- [x] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI (completed 2026-06-11)
 - [ ] **Phase 17: B&O Format Verification** — Hardware QA on UPnPBridge players
 
 ## Phase Details
@@ -130,13 +130,13 @@ Plans:
   2. Installing SpotOn via the LMS plugin manager on macOS downloads and runs the binary without quarantine errors blocking startup
   3. The Setup Guide documents the `xattr -d com.apple.quarantine` command for users who download the binary manually
 
-**Plans:** 2/2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1** (parallel)
 
-- [ ] 16-01-PLAN.md — CI workflow: build-macos + lipo Universal Binary + ad-hoc codesign + release integration
-- [ ] 16-02-PLAN.md — Helper.pm ISMAC block + Settings Gatekeeper hint (11 languages) + README macOS platform
+- [x] 16-01-PLAN.md — CI workflow: build-macos + lipo Universal Binary + ad-hoc codesign + release integration
+- [x] 16-02-PLAN.md — Helper.pm ISMAC block + Settings Gatekeeper hint (11 languages) + README macOS platform
 
 ### Phase 17: B&O Format Verification
 
@@ -163,7 +163,7 @@ Plans:
 | 13. Repo Maintenance | v1.3 | 2/2 | Complete    | 2026-06-07 |
 | 14. Connect Fixes | v1.3 | 2/2 | Complete    | 2026-06-07 |
 | 15. Like Button | v1.3 | 2/2 | Complete    | 2026-06-11 |
-| 16. macOS Universal Binary | v1.3 | 0/2 | Not started | - |
+| 16. macOS Universal Binary | v1.3 | 2/2 | Complete   | 2026-06-11 |
 | 17. B&O Format Verification | v1.3 | 0/1 | Not started | - |
 
 ## Backlog

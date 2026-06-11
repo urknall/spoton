@@ -4,8 +4,8 @@ milestone: v1.3
 milestone_name: Polish & Publish
 status: executing
 stopped_at: Phase 16 context gathered
-last_updated: "2026-06-11T15:25:19.053Z"
-last_activity: 2026-06-11 -- Phase 16 planning complete
+last_updated: "2026-06-11T15:28:42.938Z"
+last_activity: 2026-06-11 -- Phase 16 execution started
 progress:
   total_phases: 5
   completed_phases: 3
@@ -26,14 +26,14 @@ See: .planning/PROJECT.md (updated 2026-06-06)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 16 — macos universal binary
+**Current Focus:** Phase 16 — macos-universal-binary
 
 ## Current Position
 
-Phase: 16
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-06-11 -- Phase 16 planning complete
+Phase: 16 (macos-universal-binary) — EXECUTING
+Plan: 1 of 2
+Status: Executing Phase 16
+Last activity: 2026-06-11 -- Phase 16 execution started
 
 Progress: [████░░░░░░] 40%
 
