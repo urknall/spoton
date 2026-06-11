@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-11T16:30:16.486Z",
+  "phase": "16",
+  "phase_name": "macos-universal-binary",
+  "phase_dir": ".planning/phases/16-macos-universal-binary",
+  "plan": null,
+  "task": null,
+  "total_tasks": 4,
+  "status": "complete",
+  "completed_tasks": [
+    {"id": 1, "name": "Create Bin/darwin/.gitkeep placeholder", "status": "done", "commit": "2afad00"},
+    {"id": 2, "name": "Extend build-librespot.yml with macOS build, lipo, and release", "status": "done", "commit": "ba497cd"},
+    {"id": 3, "name": "Add ISMAC block to Helper.pm and isMac to Settings.pm", "status": "done", "commit": "79b171c"},
+    {"id": 4, "name": "Add Gatekeeper hint to basic.html + strings.txt + README.md", "status": "done", "commit": "6429c22"}
+  ],
+  "remaining_tasks": [],
+  "blockers": [],
+  "human_actions_pending": [
+    {"action": "Verify ISMAC binary detection on real macOS LMS host", "context": "main::ISMAC is always 0 on Linux", "blocking": false},
+    {"action": "Verify Gatekeeper hint renders on macOS Settings page", "context": "isMac template var requires real macOS", "blocking": false},
+    {"action": "Confirm v1.4.0 release assets are downloadable and functional", "context": "CI passed but end-to-end download test pending", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "Version bump to v1.4.0 (not v1.3.5)", "rationale": "First release with complete platform coverage", "phase": "16"},
+    {"decision": "Fix intermediate macOS artifacts in release job", "rationale": "CR-01 BLOCKER from code review — aarch64/x86_64 artifacts would collide with Universal Binary", "phase": "16"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Phase 17 (B&O Format Verification) or address Human UAT items from Phase 16",
+  "context_notes": "Phase 16 fully executed and released as v1.4.0. CI green (all 10 jobs). 3 human UAT items tracked but non-blocking. Code review found and fixed 1 BLOCKER (intermediate artifact cleanup). Next milestone phase is 17-b&o-format-verification."
+}
