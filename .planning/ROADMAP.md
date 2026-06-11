@@ -52,7 +52,7 @@
 
 - [x] **Phase 13: Repo Maintenance** — CI, issue templates, CONTRIBUTING.md (completed 2026-06-07)
 - [x] **Phase 14: Connect Fixes** — Credential isolation + volume sync (completed 2026-06-07)
-- [ ] **Phase 15: Like Button** — Save/remove/check liked state from menus
+- [x] **Phase 15: Like Button** — Save/remove/check liked state from menus (completed 2026-06-11)
 - [ ] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI
 - [ ] **Phase 17: B&O Format Verification** — Hardware QA on UPnPBridge players
 
@@ -108,7 +108,7 @@ Plans:
   4. The liked/unliked state check does not add perceptible delay to opening a track context menu
   5. After upgrading from a prior version, the plugin prompts for re-authorization exactly once to acquire the new library scopes
 
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -117,7 +117,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 15-02: Plugin.pm context menu item with liked state display + handler wiring
+- [x] 15-02: Plugin.pm context menu item with liked state display + handler wiring
 
 ### Phase 16: macOS Universal Binary
 
@@ -161,7 +161,7 @@ Plans:
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13. Repo Maintenance | v1.3 | 2/2 | Complete    | 2026-06-07 |
 | 14. Connect Fixes | v1.3 | 2/2 | Complete    | 2026-06-07 |
-| 15. Like Button | v1.3 | 1/2 | In Progress|  |
+| 15. Like Button | v1.3 | 2/2 | Complete   | 2026-06-11 |
 | 16. macOS Universal Binary | v1.3 | 0/2 | Not started | - |
 | 17. B&O Format Verification | v1.3 | 0/1 | Not started | - |
 
