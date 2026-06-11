@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Polish & Publish
-status: executing
-stopped_at: Phase 16 context gathered
-last_updated: "2026-06-11T15:28:42.938Z"
+status: ready_to_plan
+stopped_at: Phase 16 complete (2/2) — ready to discuss Phase 17
+last_updated: 2026-06-11T16:29:31.879Z
 last_activity: 2026-06-11 -- Phase 16 execution started
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 8
-  completed_plans: 6
+  completed_plans: 8
   percent: 60
 ---
 
@@ -26,14 +26,14 @@ See: .planning/PROJECT.md (updated 2026-06-06)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 16 — macos-universal-binary
+**Current Focus:** Phase 17 — b&o format verification
 
 ## Current Position
 
-Phase: 16 (macos-universal-binary) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 16
-Last activity: 2026-06-11 -- Phase 16 execution started
+Phase: 17
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-06-11
 
 Progress: [████░░░░░░] 40%
 

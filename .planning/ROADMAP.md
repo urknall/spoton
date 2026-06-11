@@ -163,7 +163,7 @@ Plans:
 | 13. Repo Maintenance | v1.3 | 2/2 | Complete    | 2026-06-07 |
 | 14. Connect Fixes | v1.3 | 2/2 | Complete    | 2026-06-07 |
 | 15. Like Button | v1.3 | 2/2 | Complete    | 2026-06-11 |
-| 16. macOS Universal Binary | v1.3 | 2/2 | Complete   | 2026-06-11 |
+| 16. macOS Universal Binary | v1.3 | 2/2 | Complete    | 2026-06-11 |
 | 17. B&O Format Verification | v1.3 | 0/1 | Not started | - |
 
 ## Backlog

@@ -23,9 +23,9 @@ Requirements for milestone v1.3 — Polish & Publish.
 
 ### Platform
 
-- [ ] **PLT-01**: macOS Universal Binary available covering Intel x86_64 and Apple Silicon aarch64 via lipo
-- [ ] **PLT-02**: macOS binary works with LMS plugin manager installation (ad-hoc code signing, no quarantine xattr)
-- [ ] **PLT-03**: Setup guide documents Gatekeeper workaround (`xattr -d`) for manual binary downloads
+- [x] **PLT-01**: macOS Universal Binary available covering Intel x86_64 and Apple Silicon aarch64 via lipo
+- [x] **PLT-02**: macOS binary works with LMS plugin manager installation (ad-hoc code signing, no quarantine xattr)
+- [x] **PLT-03**: Setup guide documents Gatekeeper workaround (`xattr -d`) for manual binary downloads
 
 ### Repository
 
@@ -87,9 +87,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LIB-03 | Phase 15 | Complete |
 | LIB-04 | Phase 15 | Complete |
 | LIB-05 | Phase 15 | Complete |
-| PLT-01 | Phase 16 | Pending |
-| PLT-02 | Phase 16 | Pending |
-| PLT-03 | Phase 16 | Pending |
+| PLT-01 | Phase 16 | Complete |
+| PLT-02 | Phase 16 | Complete |
+| PLT-03 | Phase 16 | Complete |
 | REPO-01 | Phase 13 | Complete |
 | REPO-02 | Phase 13 | Complete |
 | REPO-03 | Phase 13 | Complete |
