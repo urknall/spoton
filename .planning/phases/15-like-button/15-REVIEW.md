@@ -1,88 +1,170 @@
 ---
 status: findings
 phase: 15-like-button
+reviewed: 2026-06-11T16:00:00Z
 reviewed_files:
   - Plugins/SpotOn/API/Client.pm
-  - Plugins/SpotOn/Plugin.pm
   - Plugins/SpotOn/API/TokenManager.pm
+  - Plugins/SpotOn/Plugin.pm
+  - Plugins/SpotOn/ProtocolHandler.pm
   - Plugins/SpotOn/strings.txt
   - t/02_strings.t
   - t/08_api_client.t
-finding_count: 3
+finding_count: 5
 severity_counts:
-  high: 1
-  medium: 1
-  low: 1
+  critical: 0
+  warning: 3
+  info: 2
 ---
 
-# Code Review — Phase 15: Like Button
+# Phase 15: Like-Button — Code Review
 
-## Findings
+**Reviewed:** 2026-06-11
+**Depth:** standard + targeted cross-file analysis
+**Files Reviewed:** 7
+**Status:** findings (0 critical, 3 warnings, 2 info)
 
-### 1. [HIGH] SpotOnLike/SpotOnUnlike: Network errors (code=0) treated as success
+## Summary
 
-**File:** `Plugins/SpotOn/Plugin.pm` lines 451, 480
-**Category:** correctness
+Phase 15 implements the Spotify Like/Unlike feature through three entry points: OPML Browse via `_trackItem` context items, Material Skin via `ProtocolHandler::trackInfoURL`, and the LMS TrackInfo menu via `registerInfoProvider`. The core API methods (`saveTracks`, `removeTracks`, `checkTracks`) are correctly implemented. The empty-body guard for PUT/DELETE `/me/library` is sound. Cache version bumps cover all modified modules. All 131 tests pass.
 
-The error check `if ($err && ref $err eq 'HASH' && $err->{code} && $err->{code} >= 400)` fails when `$err->{code}` is `0` — which is false in Perl's boolean context.
+Three warnings were found: incorrect skip-counts in new test SKIP blocks, a missing `use Slim::Utils::Strings` in `ProtocolHandler.pm`, and cache version inconsistency in two unmodified modules that creates a future maintenance risk. No logic errors, security vulnerabilities, or data-loss paths were identified.
 
-Client.pm `_doFlavouredRequest` error callback (line 614) calls `$userCb->(undef, { error => $error, code => $code })` where `$code` can be `0` for network errors (timeout, connection refused, DNS failure — when `$response->code` returns 0 or undef).
+---
 
-**Failure scenario:** User clicks "Like", network is down → Client.pm calls callback with `{error => 'Timeout', code => 0}` → SpotOnLike's error check evaluates false (0 is falsy) → falls through to success path → `$cache->remove($cacheKey)` + shows "Liked!" → user believes save succeeded but it didn't.
+## Warnings
 
-**Fix:** Invert the logic — check for success (absence of error) rather than specific error shapes:
+### WR-01: Incorrect SKIP counts in LIB-01, LIB-02, LIB-03 test blocks
+
+**File:** `t/08_api_client.t:518`, `541`, `564`
+
+**Issue:** The skip argument declares fewer tests than are actually present in each block. When `Client.pm` is absent the TAP parser records a plan mismatch, which causes the test suite to appear broken in CI scaffolding or when the module is intentionally removed for testing:
+
+| Block | skip declares | actual assertions |
+|-------|--------------|-------------------|
+| LIB-01 | 3 | 5 (`is`, `is`, `like`, `like`, `is`) |
+| LIB-02 | 3 | 5 (`is`, `is`, `like`, `like`, `is`) |
+| LIB-03 | 4 | 6 (`is`, `is`, `like`, `like`, `ok`, `is`) |
+
+LIB-04 (skip=2, actual=2) and LIB-05 (skip=2, actual=2) are correct.
+
+**Fix:**
 
 ```perl
-# Instead of checking for specific error codes:
-if ($err) {
-    my $msg = (ref $err eq 'HASH' && $err->{code} && $err->{code} == 403)
-        ? cstring($client, 'PLUGIN_SPOTON_LIKE_ERROR_SCOPE')
-        : cstring($client, 'PLUGIN_SPOTON_LIKE_ERROR');
-    $cb->({ items => [{ name => $msg, showBriefly => 1 }] });
-    return;
+# LIB-01 (line 518)
+skip "Client.pm not yet created", 5
+
+# LIB-02 (line 541)
+skip "Client.pm not yet created", 5
+
+# LIB-03 (line 564)
+skip "Client.pm not yet created", 6
+```
+
+---
+
+### WR-02: `Slim::Utils::Strings` used without `use` declaration in `ProtocolHandler.pm`
+
+**File:** `Plugins/SpotOn/ProtocolHandler.pm:412`
+
+**Issue:** `trackInfoURL` calls `Slim::Utils::Strings::cstring(...)` via fully-qualified name, but `ProtocolHandler.pm` has no `use Slim::Utils::Strings` statement. The call works at runtime because LMS loads `Slim::Utils::Strings` as a core module before any plugin callbacks execute. However:
+
+1. The dependency is invisible to static analysis and `perlcritic`.
+2. The plugin's test scaffold (which stubs LMS modules selectively) does not load it, so any future test that exercises `trackInfoURL` will die with `Undefined subroutine &Slim::Utils::Strings::cstring`.
+3. Every other module in the codebase that calls `cstring` uses an explicit `use` (e.g. `Plugin.pm:12`).
+
+**Fix:** Add the import to `ProtocolHandler.pm` alongside the other `use Slim::Utils::*` statements:
+
+```perl
+use Slim::Utils::Strings qw(cstring);
+```
+
+---
+
+### WR-03: `Connect.pm` and `DontStopTheMusic.pm` still use cache version 2
+
+**File:** `Plugins/SpotOn/Connect.pm:43`, `Plugins/SpotOn/DontStopTheMusic.pm:16`
+
+**Issue:** Phase 15 bumped the shared `'spoton'` cache namespace version to 3 in `Plugin.pm`, `Client.pm`, `TokenManager.pm`, and `ProtocolHandler.pm`, but skipped two modules:
+
+```
+Plugins/SpotOn/Connect.pm:           Slim::Utils::Cache->new('spoton', 2)
+Plugins/SpotOn/DontStopTheMusic.pm:  Slim::Utils::Cache->new('spoton', 2)
+```
+
+`Slim::Utils::Cache` returns a **singleton per namespace** (`/usr/share/perl5/Slim/Utils/Cache.pm:109`: `return $caches{$namespace} if $caches{$namespace}`). The first `new()` call for a namespace creates the instance and stores the version; all subsequent calls return the cached instance regardless of the version argument. Since `Plugin.pm` always loads before `Connect.pm` in the LMS lifecycle, the singleton is initialized at v3 and the v2 argument from `Connect.pm` is silently ignored — no cache-clearing loop occurs at runtime.
+
+The risk is future loading-order changes: a test scaffold, direct `Connect.pm` invocation, or future plugin restructuring could cause `Connect.pm` to be first-to-initialize. In that scenario: v2 creates instance + stores v2 → Plugin.pm sees stored=2, expected=3 → clears + stores v3 → Connect.pm next call returns existing v3 instance. This is survivable but produces an unnecessary cache flush on every reload.
+
+Additionally, the inconsistency makes the codebase misleading to read: a maintainer inspecting `Connect.pm` would believe it uses a v2-era cache.
+
+**Fix:** Update both files to match the canonical version:
+
+```perl
+# Plugins/SpotOn/Connect.pm line 43
+my $cache = Slim::Utils::Cache->new('spoton', 3);
+
+# Plugins/SpotOn/DontStopTheMusic.pm line 16
+my $cache = Slim::Utils::Cache->new('spoton', 3);
+```
+
+---
+
+## Info
+
+### IN-01: `trackId` extraction and `cacheKey` construction duplicated in `SpotOnManageLike` and `_toggleLike`
+
+**File:** `Plugins/SpotOn/Plugin.pm:411-412` and `455-456`
+
+**Issue:** Both functions contain identical code:
+
+```perl
+(my $trackId) = $trackUri =~ /^spotify:track:(.+)$/;
+my $cacheKey = "spoton_liked_${accountId}_${trackId}";
+```
+
+The duplication means any future change to the cache key format requires editing two places. The helpers are close enough in logic that a divergence could go unnoticed.
+
+**Suggested fix:** Extract a private helper, or consolidate the key construction into a single call site:
+
+```perl
+sub _likedCacheKey {
+    my ($accountId, $trackUri) = @_;
+    my ($trackId) = $trackUri =~ /^spotify:track:(.+)$/;
+    return "spoton_liked_${accountId}_${trackId}";
 }
-# success path only reached when $err is undef
-```
-
-Same fix applies to SpotOnUnlike (line 480).
-
----
-
-### 2. [MEDIUM] SpotOnManageLike caches API errors as "not liked" for 60 seconds
-
-**File:** `Plugins/SpotOn/Plugin.pm` lines 429-432
-**Category:** correctness
-
-When `checkTracks` returns an error (429 rate-limited, network timeout, 401 unauthorized), `$result` is undef. The callback unconditionally computes `$isLiked = 0` and caches it for 60s via `$cache->set($cacheKey, $isLiked, 60)`.
-
-**Failure scenario:** User has a liked track. Spotify returns 429 rate-limited. `$isLiked` is set to 0 and cached. For the next 60s, the menu shows "Like" instead of "Unlike". If the user clicks "Like" (thinking it's not liked), the track is already liked — no harm from the API call, but the UX is incorrect.
-
-**Fix:** Only cache on success (when `$err` is undef):
-
-```perl
-my $isLiked = ($result && ref $result eq 'ARRAY' && $result->[0]) ? 1 : 0;
-$cache->set($cacheKey, $isLiked, 60) unless $err;  # don't cache error state
-$buildMenu->($isLiked);
 ```
 
 ---
 
-### 3. [LOW] SpotOnLike and SpotOnUnlike are near-identical (~23 lines)
+### IN-02: `_toggleLike` and `SpotOnManageLike` have no guard on `$args->{trackUri}` being undef
 
-**File:** `Plugins/SpotOn/Plugin.pm` lines 441-494
-**Category:** simplification
+**File:** `Plugins/SpotOn/Plugin.pm:452` and `408`
 
-The two subs differ only in: API method (`saveTracks` vs `removeTracks`) and success string (`PLUGIN_SPOTON_LIKED` vs `PLUGIN_SPOTON_UNLIKED`). Error handling, cache invalidation, callback structure, and 403 branching are identical.
+**Issue:** Both functions extract `$trackUri = $args->{trackUri}` and then immediately apply a regex without a defined-check. If `$trackUri` is undef, the regex produces an uninitialized-value warning, `$trackId` is undef, and the resulting cache key becomes `"spoton_liked_${accountId}_"` (empty suffix) — a malformed key shared across all tracks for that account. The API call would then send `uris=` with an empty value.
 
-**Cost:** Bug fixes to error handling (like finding #1) must be applied in both locations. Currently low risk with only 2 copies, but could diverge if feature grows.
+All current callers validate the URI before constructing the passthrough (`_trackItem` at line 563 guards with `/^spotify:track:[A-Za-z0-9]+$/`; `trackInfoURL` validates at extraction), so this path is unreachable today. It is a missing defense-in-depth layer.
 
-**Fix (optional):** Extract a shared helper:
+**Suggested fix:** Add an early return guard in each function:
 
 ```perl
-sub _doLibraryAction {
-    my ($client, $cb, $args, $apiMethod, $successKey) = @_;
-    # shared logic here
-}
+sub _toggleLike {
+    my ($client, $cb, $params, $args) = @_;
+    my $trackUri  = $args->{trackUri} // '';
+    return unless $trackUri =~ /^spotify:track:[A-Za-z0-9]+$/;
+    ...
 ```
 
-Not blocking — acceptable at current scale.
+```perl
+sub SpotOnManageLike {
+    my ($client, $cb, $params, $args) = @_;
+    my $trackUri  = $args->{trackUri} // '';
+    return unless $trackUri =~ /^spotify:track:[A-Za-z0-9]+$/;
+    ...
+```
+
+---
+
+_Reviewed: 2026-06-11_
+_Reviewer: Claude Sonnet 4.6 (adversarial code review)_
+_Depth: standard + cross-file_

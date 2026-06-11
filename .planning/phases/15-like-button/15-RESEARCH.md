@@ -530,17 +530,13 @@ PLUGIN_SPOTON_UNLIKE
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Verhält sich `_request` bei leerem 200-Body korrekt?**
-   - Was wir wissen: Success-Callback ruft `from_json($http->content)` auf. Bei leerem Body schlägt das fehl.
-   - Was unklar ist: Gibt `from_json('')` undef zurück oder wirft es eine Exception?
-   - Empfehlung: Im `saveTracks`/`removeTracks`-Callback `$result` als optional behandeln — Erfolg wenn `!$err || ($err->{code} && $err->{code} == 200)`.
+   - RESOLVED: Empty-Body-Guard in `_doFlavouredRequest` — leerer Content → `$result = undef, $err = undef` (kein parse_error). Plan 15-01 Task 1 implementiert den Guard.
 
 2. **Sind Fehlerstrings für 11 Sprachen realistisch in Phase 15?**
-   - Was wir wissen: strings.txt hat 11 Sprachen für alle Keys.
-   - Was unklar ist: Komplexe Fehlermeldungen (403-Scope-Hinweis) für alle Sprachen übersetzen ist aufwändig.
-   - Empfehlung: `PLUGIN_SPOTON_LIKE_ERROR` und `PLUGIN_SPOTON_LIKE_ERROR_SCOPE` nur auf EN. Andere Sprachen können EN-Fallback nutzen (LMS-Standard wenn Sprache fehlt).
+   - RESOLVED: `PLUGIN_SPOTON_LIKE_ERROR` und `PLUGIN_SPOTON_LIKE_ERROR_SCOPE` nur EN-only. `PLUGIN_SPOTON_LIKE` und `PLUGIN_SPOTON_UNLIKE` in allen 11 Sprachen. LMS-Standard EN-Fallback greift für fehlende Sprachen. Plan 15-01 Task 2 setzt dies um.
 
 ---
 
