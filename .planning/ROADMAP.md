@@ -161,7 +161,7 @@ Plans:
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13. Repo Maintenance | v1.3 | 2/2 | Complete    | 2026-06-07 |
 | 14. Connect Fixes | v1.3 | 2/2 | Complete    | 2026-06-07 |
-| 15. Like Button | v1.3 | 2/2 | Complete   | 2026-06-11 |
+| 15. Like Button | v1.3 | 2/2 | Complete    | 2026-06-11 |
 | 16. macOS Universal Binary | v1.3 | 0/2 | Not started | - |
 | 17. B&O Format Verification | v1.3 | 0/1 | Not started | - |
 
