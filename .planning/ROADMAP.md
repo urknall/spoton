@@ -130,12 +130,13 @@ Plans:
   2. Installing SpotOn via the LMS plugin manager on macOS downloads and runs the binary without quarantine errors blocking startup
   3. The Setup Guide documents the `xattr -d com.apple.quarantine` command for users who download the binary manually
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans
 
 Plans:
+**Wave 1** (parallel)
 
-- [ ] 16-01: macOS CI job (macos-15-intel + macos-latest, lipo Universal Binary) + ad-hoc codesign
-- [ ] 16-02: Helper.pm ISMAC block + Gatekeeper docs in Setup Guide
+- [ ] 16-01-PLAN.md — CI workflow: build-macos + lipo Universal Binary + ad-hoc codesign + release integration
+- [ ] 16-02-PLAN.md — Helper.pm ISMAC block + Settings Gatekeeper hint (11 languages) + README macOS platform
 
 ### Phase 17: B&O Format Verification
 
