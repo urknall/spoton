@@ -55,7 +55,7 @@
 - [x] **Phase 15: Like Button** — Save/remove/check liked state from menus (completed 2026-06-11)
 - [x] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI (completed 2026-06-11)
 - [x] **Phase 16.1: CI Conditional Build** — Skip Rust rebuild when only Perl/plugin files changed (completed 2026-06-12)
-- [ ] **Phase 17: B&O Format Verification** — Hardware QA on UPnPBridge players
+- [ ] **Phase 17: B&O Format Verification** — ~~Hardware QA on UPnPBridge players~~ DEFERRED: Wird über MozartBridge statt UPnPBridge/ChromeCast angegangen
 
 ## Phase Details
 
@@ -183,7 +183,7 @@ Plans:
 | 15. Like Button | v1.3 | 2/2 | Complete    | 2026-06-11 |
 | 16. macOS Universal Binary | v1.3 | 2/2 | Complete    | 2026-06-11 |
 | 16.1 CI Conditional Build | v1.3 | 0/1 | Not started | - |
-| 17. B&O Format Verification | v1.3 | 0/1 | Not started | - |
+| 17. B&O Format Verification | v1.3 | 0/1 | Deferred    | - |
 
 ## Backlog
 
