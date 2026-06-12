@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Polish & Publish
-status: ready_to_plan
-stopped_at: Phase 16 complete (2/2) — ready to discuss Phase 17
-last_updated: 2026-06-11T16:29:31.879Z
-last_activity: 2026-06-11 -- Phase 16 execution started
+status: executing
+stopped_at: Phase 16.1 Plan 01 complete — CI conditional build
+last_updated: 2026-06-12T08:57:00Z
+last_activity: 2026-06-12 -- Phase 16.1 Plan 01 executed
 progress:
   total_phases: 5
   completed_phases: 3
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-06-06)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 17 — b&o format verification
+**Current Focus:** Phase 16.1 — CI conditional build (complete)
 
 ## Current Position
 
@@ -69,6 +69,7 @@ Items acknowledged and carried forward from v1.1 milestone close on 2026-06-06:
 - [v1.3 Research]: Like endpoint changed — use `PUT /me/library` (not `PUT /me/tracks`, removed Feb 2026)
 - [v1.3 Research]: Extended Quota blocked — Spotify requires 250k MAU + org; documentation only
 - [v1.3 Research]: macOS ad-hoc codesign sufficient — LMS plugin manager doesn't set quarantine xattr
+- [Phase 16.1]: Conditional Rust build via tag-diff change detection; reuse-binaries from previous release
 
 ### Pending Todos
 
@@ -81,9 +82,9 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-06-11T14:54:11.403Z
-**Stopped at:** Phase 16 context gathered
-**Next action:** `/gsd:discuss-phase 15` or `/gsd:plan-phase 15`
+**Last session:** 2026-06-12T08:57:00Z
+**Stopped at:** Phase 16.1 Plan 01 complete
+**Next action:** Verify conditional build by pushing a plugin-only tag
 
 ---
 *State initialized: 2026-05-26*
