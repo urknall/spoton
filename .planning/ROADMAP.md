@@ -54,6 +54,7 @@
 - [x] **Phase 14: Connect Fixes** — Credential isolation + volume sync (completed 2026-06-07)
 - [x] **Phase 15: Like Button** — Save/remove/check liked state from menus (completed 2026-06-11)
 - [x] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI (completed 2026-06-11)
+- [ ] **Phase 16.1: CI Conditional Build** — Skip Rust rebuild when only Perl/plugin files changed
 - [ ] **Phase 17: B&O Format Verification** — Hardware QA on UPnPBridge players
 
 ## Phase Details
@@ -138,6 +139,23 @@ Plans:
 - [x] 16-01-PLAN.md — CI workflow: build-macos + lipo Universal Binary + ad-hoc codesign + release integration
 - [x] 16-02-PLAN.md — Helper.pm ISMAC block + Settings Gatekeeper hint (11 languages) + README macOS platform
 
+### Phase 16.1: CI Conditional Build
+
+**Goal**: The CI release pipeline skips Rust compilation when only Perl/plugin files changed, reducing release time from ~8 minutes to under 1 minute for plugin-only releases
+**Depends on**: Phase 16 (uses the build-librespot.yml workflow created there)
+**Requirements**: REPO-06
+**Success Criteria** (what must be TRUE):
+
+  1. A tag push that contains only Perl (.pm), string (.txt), HTML, or config (install.xml, repo.xml, README) changes produces a release with the correct binaries from the previous release — without rebuilding Rust
+  2. A tag push that contains Rust source (src/, Cargo.toml, Cargo.lock) changes triggers the full Rust cross-compilation build as before
+  3. The plugin zip in both cases contains identical binary sets for all 8 platforms (6 Linux + macOS Universal + Windows)
+
+**Plans:** 1 plan
+
+Plans:
+
+- [ ] 16.1-01-PLAN.md — Change detection + conditional build skip + binary reuse from previous release
+
 ### Phase 17: B&O Format Verification
 
 **Goal**: The format dropdown is confirmed working on B&O players via UPnPBridge, with all five format modes producing correct audio output
@@ -145,7 +163,7 @@ Plans:
 **Requirements**: QA-01, QA-02
 **Success Criteria** (what must be TRUE):
 
-  1. With a B&O player selected in LMS, each of the five format modes (Auto, OGG, PCM, FLAC, MP3) produces audible audio output without errors or silence
+  1. With a B&O player selected in LMS, each of the five format modes (Auto, OGG, PCM/FLAC/MP3) produces audible audio output without errors or silence
   2. In Auto mode, a B&O player (which does not support OGG) receives a non-OGG format — the auto-selection logic correctly detects capability
 
 **Plans:** 2 plans
@@ -164,6 +182,7 @@ Plans:
 | 14. Connect Fixes | v1.3 | 2/2 | Complete    | 2026-06-07 |
 | 15. Like Button | v1.3 | 2/2 | Complete    | 2026-06-11 |
 | 16. macOS Universal Binary | v1.3 | 2/2 | Complete    | 2026-06-11 |
+| 16.1 CI Conditional Build | v1.3 | 0/1 | Not started | - |
 | 17. B&O Format Verification | v1.3 | 0/1 | Not started | - |
 
 ## Backlog
@@ -178,4 +197,4 @@ Items discovered during UAT — not blocking current milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-07 — Phase 14 plans created*
+*Last updated: 2026-06-12 — Phase 16.1 plan created*

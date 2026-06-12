@@ -34,6 +34,7 @@ Requirements for milestone v1.3 — Polish & Publish.
 - [x] **REPO-03**: Bug Report issue template available with structured fields
 - [x] **REPO-04**: Feature Request issue template available with structured fields
 - [x] **REPO-05**: CONTRIBUTING.md documents development setup, test running, and PR guidelines
+- [ ] **REPO-06**: CI release pipeline skips Rust compilation when only plugin files changed, reusing binaries from the previous release
 
 ### QA
 
@@ -95,14 +96,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 | REPO-03 | Phase 13 | Complete |
 | REPO-04 | Phase 13 | Complete |
 | REPO-05 | Phase 13 | Complete |
+| REPO-06 | Phase 16.1 | Pending |
 | QA-01 | Phase 17 | Pending |
 | QA-02 | Phase 17 | Pending |
 
 **Coverage:**
-- v1.3 requirements: 18 total
-- Mapped to phases: 18
-- Unmapped: 0 ✓
+- v1.3 requirements: 19 total
+- Mapped to phases: 19
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-06*
-*Last updated: 2026-06-06 — traceability filled in after roadmap creation*
+*Last updated: 2026-06-12 — REPO-06 traceability added for Phase 16.1*
