@@ -166,11 +166,11 @@ Plans:
   1. With a B&O player selected in LMS, each of the five format modes (Auto, OGG, PCM/FLAC/MP3) produces audible audio output without errors or silence
   2. In Auto mode, a B&O player (which does not support OGG) receives a non-OGG format — the auto-selection logic correctly detects capability
 
-**Plans:** 2 plans
+**Plans:** 1 plan
 
 Plans:
 
-- [ ] 17-01: B&O UPnPBridge format matrix test (5 modes × hardware player)
+- [ ] 17-01-PLAN.md — Hardware QA: format matrix test (5 modes x B&O/UPnPBridge) + QA report
 
 ## Progress Table
 
@@ -197,4 +197,4 @@ Items discovered during UAT — not blocking current milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-12 — Phase 16.1 plan created*
+*Last updated: 2026-06-12 — Phase 17 plan created*
