@@ -54,7 +54,7 @@
 - [x] **Phase 14: Connect Fixes** — Credential isolation + volume sync (completed 2026-06-07)
 - [x] **Phase 15: Like Button** — Save/remove/check liked state from menus (completed 2026-06-11)
 - [x] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI (completed 2026-06-11)
-- [ ] **Phase 16.1: CI Conditional Build** — Skip Rust rebuild when only Perl/plugin files changed
+- [x] **Phase 16.1: CI Conditional Build** — Skip Rust rebuild when only Perl/plugin files changed (completed 2026-06-12)
 - [ ] **Phase 17: B&O Format Verification** — Hardware QA on UPnPBridge players
 
 ## Phase Details
