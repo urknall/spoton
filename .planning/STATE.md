@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.3
 milestone_name: Polish & Publish
-status: idle
-stopped_at: Phase 17 deferred
-last_updated: "2026-06-12T11:30:00.000Z"
-last_activity: 2026-06-12 -- Phase 17 deferred (MozartBridge statt UPnPBridge)
+status: shipped
+stopped_at: Milestone v1.3 complete
+last_updated: "2026-06-13T15:00:00.000Z"
+last_activity: 2026-06-13 -- v1.3 milestone shipped
 progress:
-  total_phases: 6
+  total_phases: 5
   completed_phases: 5
-  total_plans: 10
+  total_plans: 9
   completed_plans: 9
-  percent: 90
+  percent: 100
 ---
 
 # Project State: SpotOn
@@ -22,22 +22,24 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-06)
+See: .planning/PROJECT.md (updated 2026-06-13)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** v1.3 milestone — Phase 17 deferred
+**Current Focus:** No active milestone — real-world testing phase
 
 ## Current Position
 
-Phase: 17 (b-o-format-verification) — DEFERRED
-Plan: N/A
-Status: Phase 17 zurückgestellt — Format-Verifikation wird über MozartBridge statt UPnPBridge/ChromeCast angegangen
-Last activity: 2026-06-12 -- Phase 17 deferred
-
-Progress: [█████████░] 90%
+Milestone: v1.3 Polish & Publish — SHIPPED
+Progress: [██████████] 100%
+Last activity: 2026-06-13 -- v1.3 shipped, v1.4.3 released
 
 ## Performance Metrics
+
+**v1.3 velocity:**
+
+- 5 phases, 9 plans in 7 days (2026-06-07 → 2026-06-13)
+- Avg ~1.3 plans/day (lower due to hardware testing, research, and UX iteration)
 
 **v1.1 velocity:**
 
@@ -51,26 +53,24 @@ Progress: [█████████░] 90%
 
 ## Deferred Items
 
-Items acknowledged and carried forward from v1.1 milestone close on 2026-06-06:
+Items acknowledged and carried forward:
 
 | Category | Item | Status |
 |----------|------|--------|
 | verification | Phase 08 (08-VERIFICATION.md) | human_needed |
 | verification | Phase 11 (11-VERIFICATION.md) | human_needed |
 | verification | Phase 12 (12-VERIFICATION.md) | human_needed |
-| todo | callback-stats-service | low priority |
-| todo | callback-url-docs | medium priority |
 
 ## Accumulated Context
 
 ### Decisions
 
-- [Phase 12]: spoton:// URI scheme for Spotty coexistence (Spotty-Plugin#224)
-- [v1.3 Research]: Like endpoint changed — use `PUT /me/library` (not `PUT /me/tracks`, removed Feb 2026)
-- [v1.3 Research]: Extended Quota blocked — Spotify requires 250k MAU + org; documentation only
-- [v1.3 Research]: macOS ad-hoc codesign sufficient — LMS plugin manager doesn't set quarantine xattr
-- [Phase 16.1]: Conditional Rust build via tag-diff change detection; reuse-binaries from previous release
-- [Phase 17]: B&O Format-Verifikation zurückgestellt — ChromeCast/UPnPBridge hat zu viele Optionen, MozartBridge-Ansatz bevorzugt
+- [v1.3]: Like endpoint: `PUT /me/library` (unified, Feb 2026 API)
+- [v1.3]: Extended Quota blocked — Spotify requires 250k MAU + org
+- [v1.3]: macOS ad-hoc codesign sufficient for LMS plugin manager
+- [v1.3]: Conditional Rust build via tag-diff change detection
+- [v1.3]: Phase 17 removed — MozartBridge project preferred
+- [v1.3]: Account switcher: text + link pattern (LMS OPML has no auto-redirect)
 
 ### Pending Todos
 
@@ -78,15 +78,14 @@ None.
 
 ### Blockers/Concerns
 
-- Phase 16 depends on Phase 13 (CI runners needed for macOS build)
-- ~~Phase 17 requires physical B&O hardware~~ — DEFERRED: MozartBridge-Ansatz bevorzugt
+None for current milestone.
 
 ## Session Continuity
 
-**Last session:** 2026-06-12T09:26:28.767Z
-**Stopped at:** Phase 17 context gathered
-**Next action:** Verify conditional build by pushing a plugin-only tag
+**Last session:** 2026-06-13
+**Stopped at:** v1.3 milestone shipped
+**Next action:** Real-world testing, then `/gsd:new-milestone` when ready
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-11 — Phase 14 UAT + code review complete, v1.3.3 released*
+*Last updated: 2026-06-13 — v1.3 milestone shipped*

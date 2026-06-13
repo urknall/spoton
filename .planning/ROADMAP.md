@@ -8,7 +8,7 @@
 
 - ✅ **v1.0 Foundation** — Phases 1-6 (shipped 2026-06-03)
 - ✅ **v1.1 Hardening & Reach** — Phases 7-12 (shipped 2026-06-06)
-- 🚧 **v1.3 Polish & Publish** — Phases 13-17 (in progress)
+- ✅ **v1.3 Polish & Publish** — Phases 13-16.1 (shipped 2026-06-13)
 
 ## Phases
 
@@ -46,131 +46,16 @@
 
 </details>
 
-### 🚧 v1.3 Polish & Publish (In Progress)
+<details>
+<summary>✅ v1.3 Polish & Publish (Phases 13-16.1) — SHIPPED 2026-06-13</summary>
 
-**Milestone Goal:** UX gaps closed and plugin ready for broader distribution — from working to publishable.
+- [x] **Phase 13: Repo Maintenance** (2/2 plans) — completed 2026-06-07
+- [x] **Phase 14: Connect Fixes** (2/2 plans) — completed 2026-06-07
+- [x] **Phase 15: Like Button** (2/2 plans) — completed 2026-06-11
+- [x] **Phase 16: macOS Universal Binary** (2/2 plans) — completed 2026-06-11
+- [x] **Phase 16.1: CI Conditional Build** (1/1 plan) — completed 2026-06-12
 
-- [x] **Phase 13: Repo Maintenance** — CI, issue templates, CONTRIBUTING.md (completed 2026-06-07)
-- [x] **Phase 14: Connect Fixes** — Credential isolation + volume sync (completed 2026-06-07)
-- [x] **Phase 15: Like Button** — Save/remove/check liked state from menus (completed 2026-06-11)
-- [x] **Phase 16: macOS Universal Binary** — Intel + Apple Silicon via CI (completed 2026-06-11)
-- [x] **Phase 16.1: CI Conditional Build** — Skip Rust rebuild when only Perl/plugin files changed (completed 2026-06-12)
-- [ ] **Phase 17: B&O Format Verification** — ~~Hardware QA on UPnPBridge players~~ DEFERRED: Wird über MozartBridge statt UPnPBridge/ChromeCast angegangen
-
-## Phase Details
-
-### Phase 13: Repo Maintenance
-
-**Goal**: The GitHub repo has a working CI pipeline and contributor scaffolding that makes it easy to contribute and trust test results
-**Depends on**: Nothing (independent of other v1.3 phases)
-**Requirements**: REPO-01, REPO-02, REPO-03, REPO-04, REPO-05
-**Success Criteria** (what must be TRUE):
-
-  1. A push to `main` triggers GitHub Actions and runs `prove t/` against Perl 5.36 and 5.38 — results visible in commit status checks
-  2. A contributor filing a bug sees a structured form with reproduction steps, LMS version, and OS fields
-  3. A contributor filing a feature request sees a structured form with problem statement and alternatives fields
-  4. A developer new to the project can follow CONTRIBUTING.md to run the test suite locally and submit a PR
-
-**Plans:** 2/2 plans complete
-
-Plans:
-
-- [x] 13-01: Repo hygiene + GitHub Actions CI (perl-tests.yml, prove on 5.36 + 5.38)
-- [x] 13-02: Issue templates + CONTRIBUTING.md + LICENSE + README
-
-### Phase 14: Connect Fixes
-
-**Goal**: Connect sessions start with correct volume and each player's Spotify credentials are isolated from other players and other users
-**Depends on**: Nothing (independent of other v1.3 phases)
-**Requirements**: CON-01, CON-02, CON-03
-**Success Criteria** (what must be TRUE):
-
-  1. When a second Spotify user connects to a different LMS player, the first player's Browse session continues showing their own Spotify library — credentials are not overwritten
-  2. When Spotify Connect starts on a player, the Spotify volume matches the LMS player volume within 3 seconds — no jarring jump from a hardcoded default
-  3. When the user changes volume in the Spotify app, LMS reflects the change within 3 seconds (down from the previous 20-second grace period)
-
-**Plans:** 2/2 plans complete
-
-Plans:
-
-- [x] 14-01-PLAN.md — Rust binary: --initial-volume and --volume-ctrl CLI flags (main.rs + connect.rs)
-- [x] 14-02-PLAN.md — Perl: credential isolation, volume args, grace period reduction, syntax test expansion
-
-### Phase 15: Like Button
-
-**Goal**: Users can save and remove tracks from Liked Songs directly from browse menus without leaving LMS
-**Depends on**: Nothing (independent of other v1.3 phases)
-**Requirements**: LIB-01, LIB-02, LIB-03, LIB-04, LIB-05
-**Success Criteria** (what must be TRUE):
-
-  1. A track context menu in Browse shows "Like" when the track is not in Liked Songs and "Unlike" when it is
-  2. Selecting "Like" saves the track to Spotify Liked Songs — confirmed by the Liked Songs menu showing the track
-  3. Selecting "Unlike" removes the track from Spotify Liked Songs — confirmed by the Liked Songs menu no longer showing the track
-  4. The liked/unliked state check does not add perceptible delay to opening a track context menu
-  5. After upgrading from a prior version, the plugin prompts for re-authorization exactly once to acquire the new library scopes
-
-**Plans:** 2/2 plans complete
-
-Plans:
-**Wave 1**
-
-- [x] 15-01: API/Client.pm saveTracks / removeTracks / checkTracks methods + scope upgrade (cacheSchemaVersion bump)
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 15-02: Plugin.pm context menu item with liked state display + handler wiring
-
-### Phase 16: macOS Universal Binary
-
-**Goal**: macOS users can install SpotOn via the LMS plugin manager and have a working librespot binary without manual steps beyond a one-time Gatekeeper workaround
-**Depends on**: Phase 13 (CI infrastructure for macOS build runners)
-**Requirements**: PLT-01, PLT-02, PLT-03
-**Success Criteria** (what must be TRUE):
-
-  1. The `Bin/darwin/` directory contains a Universal Binary that runs natively on both Intel and Apple Silicon Macs
-  2. Installing SpotOn via the LMS plugin manager on macOS downloads and runs the binary without quarantine errors blocking startup
-  3. The Setup Guide documents the `xattr -d com.apple.quarantine` command for users who download the binary manually
-
-**Plans:** 2/2 plans complete
-
-Plans:
-**Wave 1** (parallel)
-
-- [x] 16-01-PLAN.md — CI workflow: build-macos + lipo Universal Binary + ad-hoc codesign + release integration
-- [x] 16-02-PLAN.md — Helper.pm ISMAC block + Settings Gatekeeper hint (11 languages) + README macOS platform
-
-### Phase 16.1: CI Conditional Build
-
-**Goal**: The CI release pipeline skips Rust compilation when only Perl/plugin files changed, reducing release time from ~8 minutes to under 1 minute for plugin-only releases
-**Depends on**: Phase 16 (uses the build-librespot.yml workflow created there)
-**Requirements**: REPO-06
-**Success Criteria** (what must be TRUE):
-
-  1. A tag push that contains only Perl (.pm), string (.txt), HTML, or config (install.xml, repo.xml, README) changes produces a release with the correct binaries from the previous release — without rebuilding Rust
-  2. A tag push that contains Rust source (src/, Cargo.toml, Cargo.lock) changes triggers the full Rust cross-compilation build as before
-  3. The plugin zip in both cases contains identical binary sets for all 8 platforms (6 Linux + macOS Universal + Windows)
-
-**Plans:** 1 plan
-
-Plans:
-
-- [ ] 16.1-01-PLAN.md — Change detection + conditional build skip + binary reuse from previous release
-
-### Phase 17: B&O Format Verification
-
-**Goal**: The format dropdown is confirmed working on B&O players via UPnPBridge, with all five format modes producing correct audio output
-**Depends on**: Nothing (hardware verification, independent of code changes)
-**Requirements**: QA-01, QA-02
-**Success Criteria** (what must be TRUE):
-
-  1. With a B&O player selected in LMS, each of the five format modes (Auto, OGG, PCM/FLAC/MP3) produces audible audio output without errors or silence
-  2. In Auto mode, a B&O player (which does not support OGG) receives a non-OGG format — the auto-selection logic correctly detects capability
-
-**Plans:** 1 plan
-
-Plans:
-
-- [ ] 17-01-PLAN.md — Hardware QA: format matrix test (5 modes x B&O/UPnPBridge) + QA report
+</details>
 
 ## Progress Table
 
@@ -178,23 +63,16 @@ Plans:
 |-------|-----------|-------|--------|-----------|
 | 1-6 (15 phases) | v1.0 | 50/50 | Complete | 2026-06-03 |
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
-| 13. Repo Maintenance | v1.3 | 2/2 | Complete    | 2026-06-07 |
-| 14. Connect Fixes | v1.3 | 2/2 | Complete    | 2026-06-07 |
-| 15. Like Button | v1.3 | 2/2 | Complete    | 2026-06-11 |
-| 16. macOS Universal Binary | v1.3 | 2/2 | Complete    | 2026-06-11 |
-| 16.1 CI Conditional Build | v1.3 | 0/1 | Not started | - |
-| 17. B&O Format Verification | v1.3 | 0/1 | Deferred    | - |
+| 13-16.1 (5 phases) | v1.3 | 9/9 | Complete | 2026-06-13 |
 
 ## Backlog
 
-Items discovered during UAT — not blocking current milestone.
+Items discovered during development — not assigned to a milestone.
 
-1. **~~Connect Credential Isolation~~** — moved to Phase 14
-2. **Eigene SpotOn Client-ID bei Spotify registrieren** — Blocked: Spotify requires 250k MAU + legally registered business. Extended Quota documentation deferred to future milestone.
-3. **~~Format-Dropdown mit Nicht-OGG-Playern testen~~** — moved to Phase 17
-4. **~~Connect-Mode Lautstärke-Diskrepanz~~** — moved to Phase 14
-5. **~~Online-Musiksammlung (Importer.pm / OnlineLibraryBase)~~** — Evaluiert und bewusst abgelehnt. Spotty-NG importiert Spotify-Playlists/Alben in die LMS-Bibliothek via `Slim::Plugin::OnlineLibraryBase`. Für SpotOn abgelehnt wegen: (a) API-Quota im Dev Mode macht Library-Scan extrem teuer, (b) Browse > Library deckt den Use Case on-demand ab, (c) hohe Wartungslast für fraglichen Mehrwert, (d) Sync-Drift. Kann bei eigener App mit Extended Quota neu evaluiert werden.
+1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Blocked: Spotify requires 250k MAU + legally registered business. Extended Quota documentation deferred to future milestone.
+2. **~~Online-Musiksammlung (Importer.pm / OnlineLibraryBase)~~** — Evaluiert und bewusst abgelehnt. API-Quota im Dev Mode macht Library-Scan extrem teuer; Browse > Library deckt den Use Case on-demand ab.
+3. **LMS Community Repo Submission** — Deferred: ship stable version first, gather real-world feedback.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-12 — Phase 17 plan created*
+*Last updated: 2026-06-13 — v1.3 milestone shipped*
