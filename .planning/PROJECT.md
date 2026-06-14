@@ -40,9 +40,18 @@ All 62 v1 requirements complete. See `.planning/milestones/v1.0-REQUIREMENTS.md`
 
 17 of 19 requirements complete, 2 dropped (Phase 17 removed). See `.planning/milestones/v1.3-REQUIREMENTS.md`.
 
-### Active
+### Active — v1.5 Podcasts
 
-No active milestone. Next milestone to be defined based on real-world usage feedback.
+**Goal:** Spotify Podcasts in SpotOn — Shows browsen, Episoden abspielen, Podcast-Bibliothek verwalten
+
+**Target features:**
+- Gespeicherte Shows (Podcast-Bibliothek)
+- Show-Details mit Episodenliste
+- Episoden-Wiedergabe über bestehenden ProtocolHandler
+- Podcast-Suche (type=show,episode)
+- Show zur Bibliothek hinzufügen/entfernen
+- Per-Player Episode-Reihenfolge (reversePodcastOrder)
+- Menüstruktur: eigener Top-Level-Punkt oder Untermenü in Bibliothek (zu klären)
 
 ### Out of Scope
 
@@ -94,4 +103,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 *Created: 2026-05-26*
-*Last updated: 2026-06-06 — Milestone v1.3 started*
+*Last updated: 2026-06-14 — Milestone v1.5 started*

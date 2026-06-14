@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.3
-milestone_name: Polish & Publish
-status: shipped
-stopped_at: Milestone v1.3 complete
-last_updated: "2026-06-13T15:00:00.000Z"
-last_activity: 2026-06-13 -- v1.3 milestone shipped
+milestone: v1.5
+milestone_name: Podcasts
+status: planning
+last_updated: "2026-06-14T07:41:23.199Z"
+last_activity: 2026-06-14
 progress:
-  total_phases: 5
-  completed_phases: 5
-  total_plans: 9
-  completed_plans: 9
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State: SpotOn
@@ -30,9 +29,10 @@ See: .planning/PROJECT.md (updated 2026-06-13)
 
 ## Current Position
 
-Milestone: v1.3 Polish & Publish — SHIPPED
-Progress: [██████████] 100%
-Last activity: 2026-06-13 -- v1.3 shipped, v1.4.3 released
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-06-14 — Milestone v1.5 started
 
 ## Performance Metrics
 
