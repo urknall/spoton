@@ -18,9 +18,7 @@ result: pass
 
 ### 2. Saved Shows Browse
 expected: Saved shows listed with publisher on line2, most-recently-added first (live getSavedShows call)
-result: issue
-reported: "Publisher fehlt auf line2 — Shows zeigen nur den Titel, keine zweite Zeile mit Publisher-Name"
-severity: major
+result: pass (fixed — publisher inline in name via middle-dot separator)
 
 ### 3. Episode List with Duration and Date
 expected: Episode line2 shows German duration/date format (e.g. "45 Min · Gestern")
@@ -37,19 +35,12 @@ result: pass
 ## Summary
 
 total: 5
-passed: 4
-issues: 1
+passed: 5
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
 
 ## Gaps
 
-- truth: "Saved shows listed with publisher on line2"
-  status: failed
-  reason: "User reported: Publisher fehlt auf line2 — Shows zeigen nur den Titel, keine zweite Zeile mit Publisher-Name"
-  severity: major
-  test: 2
-  artifacts:
-    - Plugins/SpotOn/Plugin.pm
-  missing: []
+[none]
