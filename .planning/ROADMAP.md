@@ -61,8 +61,8 @@
 ### v1.5 Podcasts (Phases 18-21)
 
 - [x] **Phase 18: Podcast API Foundation** - OAuth scope + Client.pm methods for shows/episodes (completed 2026-06-14)
-- [ ] **Phase 19: Podcast Browse** - Top-level menu, saved shows list, show detail, episode playback
-- [ ] **Phase 20: Podcast Search + Library Actions** - Show/episode search, follow/unfollow
+- [ ] **Phase 19: Podcast Browse + Search** - Top-level menu, saved shows, episode playback, podcast search
+- [ ] **Phase 20: Podcast Library Actions** - Follow/unfollow shows
 - [ ] **Phase 21: Podcast UX Polish + i18n** - Episode order setting, resume display, explicit filter, translations
 
 ## Phase Details
@@ -82,28 +82,30 @@ Plans:
 - [x] 18-01-PLAN.md — Binary scope update + Client.pm podcast methods + cache TTL extension
 
 ### Phase 19: Podcast Browse
-**Goal**: Users can navigate to Podcasts, browse their saved shows, open a show, and play episodes
+**Goal**: Users can navigate to Podcasts, browse their saved shows, open a show, play episodes, and search for shows/episodes
 **Depends on**: Phase 18
-**Requirements**: POD-01, POD-02, POD-03, NAV-01, NAV-02, NAV-03
+**Requirements**: POD-01, POD-02, POD-03, NAV-01, NAV-02, NAV-03, SRC-01, SRC-02, SRC-03
 **Success Criteria** (what must be TRUE):
   1. A "Podcasts" entry appears in the top-level SpotOn menu alongside Home, Suche, Bibliothek
   2. "Meine Podcasts" lists all saved shows sorted by add date (most recently added first)
   3. Selecting a show opens its episode list with episode title, duration, and release date visible
   4. Selecting an episode begins playback via the existing ProtocolHandler (spoton:// URI)
   5. The Podcasts menu contains a "Podcast-Suche" entry as a distinct submenu item
-**Plans**: TBD
-**UI hint**: yes
+  6. Entering a query under "Podcast-Suche" returns matching shows and episodes as separate result sections
+  7. Show results and episode results each display up to 10 items (Dev Mode limit)
+**Plans**: 2 plans
+Plans:
+- [ ] 19-01-PLAN.md — Podcast string keys + test fixes
+- [ ] 19-02-PLAN.md — Plugin.pm podcast navigation, browse, and search feeds
 
-### Phase 20: Podcast Search + Library Actions
-**Goal**: Users can search for shows and episodes, and follow or unfollow shows from within SpotOn
+### Phase 20: Podcast Library Actions
+**Goal**: Users can follow or unfollow shows from within SpotOn
 **Depends on**: Phase 19
-**Requirements**: POD-04, POD-05, SRC-01, SRC-02, SRC-03
+**Requirements**: POD-04, POD-05
 **Success Criteria** (what must be TRUE):
-  1. Entering a query under "Podcast-Suche" returns matching shows and episodes as separate result sections
-  2. Show results and episode results each display up to 10 items (Dev Mode limit)
-  3. A "Folgen" action on a show adds it to the user's saved shows via `PUT /me/library`
-  4. An "Entfolgen" action on a saved show removes it via `DELETE /me/library`
-  5. Following or unfollowing a show is reflected immediately when returning to "Meine Podcasts"
+  1. A "Folgen" action on a show adds it to the user's saved shows via `PUT /me/library`
+  2. An "Entfolgen" action on a saved show removes it via `DELETE /me/library`
+  3. Following or unfollowing a show is reflected immediately when returning to "Meine Podcasts"
 **Plans**: TBD
 **UI hint**: yes
 
@@ -127,8 +129,8 @@ Plans:
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13-16.1 (5 phases) | v1.3 | 9/9 | Complete | 2026-06-13 |
 | 18. Podcast API Foundation | v1.5 | 1/1 | Complete    | 2026-06-14 |
-| 19. Podcast Browse | v1.5 | 0/? | Not started | - |
-| 20. Podcast Search + Library Actions | v1.5 | 0/? | Not started | - |
+| 19. Podcast Browse | v1.5 | 0/2 | Planning | - |
+| 20. Podcast Library Actions | v1.5 | 0/? | Not started | - |
 | 21. Podcast UX Polish + i18n | v1.5 | 0/? | Not started | - |
 
 ## Backlog
@@ -141,4 +143,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-14 — Phase 18 planned (1 plan)*
+*Last updated: 2026-06-14 — Phase 19 planned (2 plans), SRC-01/02/03 pulled from Phase 20 per D-13*
