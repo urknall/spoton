@@ -9,23 +9,23 @@ Requirements for Podcast support. Each maps to roadmap phases.
 
 ### Browse (POD)
 
-- [ ] **POD-01**: User kann gespeicherte Podcast-Shows unter "Podcasts > Meine Podcasts" browsen
-- [ ] **POD-02**: User kann eine Show öffnen und deren Episodenliste sehen
-- [ ] **POD-03**: User kann eine Episode direkt aus der Episodenliste abspielen
+- [x] **POD-01**: User kann gespeicherte Podcast-Shows unter "Podcasts > Meine Podcasts" browsen
+- [x] **POD-02**: User kann eine Show öffnen und deren Episodenliste sehen
+- [x] **POD-03**: User kann eine Episode direkt aus der Episodenliste abspielen
 - [ ] **POD-04**: User kann eine Show zur Bibliothek hinzufügen (Folgen)
 - [ ] **POD-05**: User kann eine Show aus der Bibliothek entfernen (Entfolgen)
 
 ### Suche (SRC)
 
-- [ ] **SRC-01**: User kann unter "Podcasts > Podcast-Suche" nach Shows suchen
-- [ ] **SRC-02**: User kann unter "Podcasts > Podcast-Suche" nach Episoden suchen
-- [ ] **SRC-03**: Suchergebnisse zeigen Shows und Episoden als getrennte Kategorien
+- [x] **SRC-01**: User kann unter "Podcasts > Podcast-Suche" nach Shows suchen
+- [x] **SRC-02**: User kann unter "Podcasts > Podcast-Suche" nach Episoden suchen
+- [x] **SRC-03**: Suchergebnisse zeigen Shows und Episoden als getrennte Kategorien
 
 ### Menüstruktur (NAV)
 
-- [ ] **NAV-01**: "Podcasts" erscheint als eigener Top-Level-Menüpunkt neben Home, Suche, Bibliothek
-- [ ] **NAV-02**: "Meine Podcasts" zeigt gespeicherte Shows alphabetisch sortiert
-- [ ] **NAV-03**: "Podcast-Suche" ist ein eigener Untermenüpunkt innerhalb Podcasts
+- [x] **NAV-01**: "Podcasts" erscheint als eigener Top-Level-Menüpunkt neben Home, Suche, Bibliothek
+- [x] **NAV-02**: "Meine Podcasts" zeigt gespeicherte Shows alphabetisch sortiert
+- [x] **NAV-03**: "Podcast-Suche" ist ein eigener Untermenüpunkt innerhalb Podcasts
 
 ### Settings & UX (UX)
 
@@ -68,17 +68,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | API-01 | Phase 18 | Complete |
 | API-02 | Phase 18 | Complete |
-| POD-01 | Phase 19 | Pending |
-| POD-02 | Phase 19 | Pending |
-| POD-03 | Phase 19 | Pending |
-| NAV-01 | Phase 19 | Pending |
-| NAV-02 | Phase 19 | Pending |
-| NAV-03 | Phase 19 | Pending |
+| POD-01 | Phase 19 | Complete |
+| POD-02 | Phase 19 | Complete |
+| POD-03 | Phase 19 | Complete |
+| NAV-01 | Phase 19 | Complete |
+| NAV-02 | Phase 19 | Complete |
+| NAV-03 | Phase 19 | Complete |
 | POD-04 | Phase 20 | Pending |
 | POD-05 | Phase 20 | Pending |
-| SRC-01 | Phase 20 | Pending |
-| SRC-02 | Phase 20 | Pending |
-| SRC-03 | Phase 20 | Pending |
+| SRC-01 | Phase 19 | Complete |
+| SRC-02 | Phase 19 | Complete |
+| SRC-03 | Phase 19 | Complete |
 | UX-01 | Phase 21 | Pending |
 | UX-02 | Phase 21 | Pending |
 | UX-03 | Phase 21 | Pending |
@@ -91,4 +91,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-06-14*
-*Last updated: 2026-06-14 — traceability table populated after roadmap creation*
+*Last updated: 2026-06-14 — SRC-01/02/03 moved from Phase 20 to Phase 19 per D-13*
