@@ -61,7 +61,7 @@
 ### v1.5 Podcasts (Phases 18-21)
 
 - [x] **Phase 18: Podcast API Foundation** - OAuth scope + Client.pm methods for shows/episodes (completed 2026-06-14)
-- [ ] **Phase 19: Podcast Browse + Search** - Top-level menu, saved shows, episode playback, podcast search
+- [x] **Phase 19: Podcast Browse + Search** - Top-level menu, saved shows, episode playback, podcast search (completed 2026-06-14)
 - [ ] **Phase 20: Podcast Library Actions** - Follow/unfollow shows
 - [ ] **Phase 21: Podcast UX Polish + i18n** - Episode order setting, resume display, explicit filter, translations
 
@@ -108,7 +108,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 19-02-PLAN.md — Plugin.pm podcast navigation, browse, and search feeds
+- [x] 19-02-PLAN.md — Plugin.pm podcast navigation, browse, and search feeds
 
 ### Phase 20: Podcast Library Actions
 
@@ -147,7 +147,7 @@ Plans:
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13-16.1 (5 phases) | v1.3 | 9/9 | Complete | 2026-06-13 |
 | 18. Podcast API Foundation | v1.5 | 1/1 | Complete    | 2026-06-14 |
-| 19. Podcast Browse | v1.5 | 1/2 | In Progress|  |
+| 19. Podcast Browse | v1.5 | 2/2 | Complete   | 2026-06-14 |
 | 20. Podcast Library Actions | v1.5 | 0/? | Not started | - |
 | 21. Podcast UX Polish + i18n | v1.5 | 0/? | Not started | - |
 
