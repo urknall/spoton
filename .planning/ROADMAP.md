@@ -68,24 +68,30 @@
 ## Phase Details
 
 ### Phase 18: Podcast API Foundation
+
 **Goal**: The API layer supports all podcast operations with correct OAuth scope
 **Depends on**: Phase 16.1 (existing API client infrastructure)
 **Requirements**: API-01, API-02
 **Success Criteria** (what must be TRUE):
+
   1. The `user-read-playback-position` scope is requested during auth and present in the stored token
   2. `getSavedShows` returns a paginated list of the user's saved shows from `GET /me/shows`
   3. `getShow` returns show metadata (name, description, total_episodes, artwork) from `GET /shows/{id}`
   4. `getShowEpisodes` returns paginated episodes for a show from `GET /shows/{id}/episodes`
   5. `getEpisode` returns episode metadata including `resume_point` from `GET /episodes/{id}`
+
 **Plans**: 1 plan
 Plans:
+
 - [x] 18-01-PLAN.md — Binary scope update + Client.pm podcast methods + cache TTL extension
 
 ### Phase 19: Podcast Browse
+
 **Goal**: Users can navigate to Podcasts, browse their saved shows, open a show, play episodes, and search for shows/episodes
 **Depends on**: Phase 18
 **Requirements**: POD-01, POD-02, POD-03, NAV-01, NAV-02, NAV-03, SRC-01, SRC-02, SRC-03
 **Success Criteria** (what must be TRUE):
+
   1. A "Podcasts" entry appears in the top-level SpotOn menu alongside Home, Suche, Bibliothek
   2. "Meine Podcasts" lists all saved shows sorted by add date (most recently added first)
   3. Selecting a show opens its episode list with episode title, duration, and release date visible
@@ -93,31 +99,43 @@ Plans:
   5. The Podcasts menu contains a "Podcast-Suche" entry as a distinct submenu item
   6. Entering a query under "Podcast-Suche" returns matching shows and episodes as separate result sections
   7. Show results and episode results each display up to 10 items (Dev Mode limit)
+
 **Plans**: 2 plans
 Plans:
-- [ ] 19-01-PLAN.md — Podcast string keys + test fixes
+**Wave 1**
+
+- [x] 19-01-PLAN.md — Podcast string keys + test fixes
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 19-02-PLAN.md — Plugin.pm podcast navigation, browse, and search feeds
 
 ### Phase 20: Podcast Library Actions
+
 **Goal**: Users can follow or unfollow shows from within SpotOn
 **Depends on**: Phase 19
 **Requirements**: POD-04, POD-05
 **Success Criteria** (what must be TRUE):
+
   1. A "Folgen" action on a show adds it to the user's saved shows via `PUT /me/library`
   2. An "Entfolgen" action on a saved show removes it via `DELETE /me/library`
   3. Following or unfollowing a show is reflected immediately when returning to "Meine Podcasts"
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 21: Podcast UX Polish + i18n
+
 **Goal**: Episode lists convey playback state clearly, the episode order is configurable globally, and all strings are translated
 **Depends on**: Phase 20
 **Requirements**: UX-01, UX-02, UX-03, I18N-01
 **Success Criteria** (what must be TRUE):
+
   1. A global plugin setting controls episode sort order (newest first vs. chronological) and applies to all show episode lists
   2. Episode list entries display a visual resume indicator (unplayed / in-progress / finished) derived from `resume_point`
   3. Episodes with explicit content are visibly marked (or omitted if the filter is active)
   4. All Podcast UI strings (menu labels, action names, setting labels, status indicators) appear correctly in all 11 supported languages
+
 **Plans**: TBD
 **UI hint**: yes
 
@@ -129,7 +147,7 @@ Plans:
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13-16.1 (5 phases) | v1.3 | 9/9 | Complete | 2026-06-13 |
 | 18. Podcast API Foundation | v1.5 | 1/1 | Complete    | 2026-06-14 |
-| 19. Podcast Browse | v1.5 | 0/2 | Planning | - |
+| 19. Podcast Browse | v1.5 | 1/2 | In Progress|  |
 | 20. Podcast Library Actions | v1.5 | 0/? | Not started | - |
 | 21. Podcast UX Polish + i18n | v1.5 | 0/? | Not started | - |
 
