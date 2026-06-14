@@ -1,27 +1,27 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-13T15:30:00.000Z",
-  "phase": null,
-  "phase_name": null,
-  "phase_dir": null,
+  "timestamp": "2026-06-14T18:34:23Z",
+  "phase": "19",
+  "phase_name": "podcast-browse",
+  "phase_dir": ".planning/phases/19-podcast-browse",
   "plan": null,
   "task": null,
-  "total_tasks": null,
-  "status": "milestone_shipped",
-  "completed_tasks": [],
+  "total_tasks": 4,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "19-01: Podcast string keys + cache version fix", "status": "done", "commit": "36bc485"},
+    {"id": 2, "name": "19-02: Plugin.pm podcast navigation, browse, search", "status": "done", "commit": "3f0f26a"},
+    {"id": 3, "name": "Code review + 6 fixes (CR-01, WR-01..05)", "status": "done", "commit": "3382d2c"},
+    {"id": 4, "name": "UAT 5/5 + publisher display fix", "status": "done", "commit": "48da724"}
+  ],
   "remaining_tasks": [],
   "blockers": [],
-  "human_actions_pending": [
-    {"action": "Real-world testing of SpotOn v1.4.3 in daily use", "context": "All planned features shipped, plugin needs production validation", "blocking": false},
-    {"action": "Remove third test account on Pi (Settings > Konto-Einstellungen > Entfernen)", "context": "Created during add-account discovery UI testing", "blocking": false}
-  ],
+  "human_actions_pending": [],
   "decisions": [
-    {"decision": "v1.3 milestone shipped and archived", "rationale": "All planned phases complete, Phase 17 removed (MozartBridge preferred)", "phase": "milestone"},
-    {"decision": "Account switcher uses text+link pattern", "rationale": "LMS OPML has no auto-redirect in Classic or Material skin", "phase": "post-milestone"},
-    {"decision": "Discovery UI deduplicated into TT2 BLOCK", "rationale": "Code review finding — identical code in first-time and add-account flows", "phase": "post-milestone"},
-    {"decision": "Binary version bump 1.0.0→1.1.0 deferred", "rationale": "33 commits behind, will bump on next Rust change to avoid unnecessary rebuild", "phase": "future"}
+    {"decision": "Show publisher embedded in name field with middle-dot separator", "rationale": "LMS Default skin does not render line2 for navigational items; inline name works across all skins; Material Skin splits on middle-dot automatically", "phase": "19"},
+    {"decision": "German-only date/duration strings until Phase 21", "rationale": "Full i18n refactor is Phase 21 scope (UX Polish + i18n); documented as WR-02 in REVIEW.md", "phase": "19"}
   ],
   "uncommitted_files": [],
-  "next_action": "Use SpotOn daily. When bugs or needs emerge, use /gsd:debug or /gsd:quick. For a new milestone, use /gsd:new-milestone.",
-  "context_notes": "v1.3 milestone complete. Session covered: add-account discovery UI fix, account switcher UX rewrite (tested on Pi in both Classic+Material skin), i18n for 6 string keys, code review with 2 findings fixed (TT2 BLOCK dedup, test coverage), v1.4.2+v1.4.3 released, CI conditional build verified working, milestone archived. Sezercoban contacted on Spotty-Plugin#224 for testing."
+  "next_action": "/gsd:discuss-phase 20 or /gsd:plan-phase 20 — Phase 20 (Podcast Library Actions: Follow/Unfollow)",
+  "context_notes": "Phase 19 fully complete: executed, reviewed, fixed, UAT passed 5/5. v1.5 milestone at 50% (2/4 phases). Phase 20 is small — 2 requirements (POD-04, POD-05), reuses existing PUT/DELETE /me/library endpoint from Like button."
 }
