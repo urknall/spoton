@@ -87,7 +87,7 @@ Plans:
 **Requirements**: POD-01, POD-02, POD-03, NAV-01, NAV-02, NAV-03
 **Success Criteria** (what must be TRUE):
   1. A "Podcasts" entry appears in the top-level SpotOn menu alongside Home, Suche, Bibliothek
-  2. "Meine Podcasts" lists all saved shows sorted alphabetically
+  2. "Meine Podcasts" lists all saved shows sorted by add date (most recently added first)
   3. Selecting a show opens its episode list with episode title, duration, and release date visible
   4. Selecting an episode begins playback via the existing ProtocolHandler (spoton:// URI)
   5. The Podcasts menu contains a "Podcast-Suche" entry as a distinct submenu item
