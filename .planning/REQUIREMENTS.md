@@ -35,8 +35,8 @@ Requirements for Podcast support. Each maps to roadmap phases.
 
 ### Auth & API (API)
 
-- [ ] **API-01**: OAuth-Scope `user-read-playback-position` wird zum Auth-Flow hinzugefügt
-- [ ] **API-02**: API-Methoden für Shows und Episodes in Client.pm (getSavedShows, getShow, getShowEpisodes, getEpisode)
+- [x] **API-01**: OAuth-Scope `user-read-playback-position` wird zum Auth-Flow hinzugefügt
+- [x] **API-02**: API-Methoden für Shows und Episodes in Client.pm (getSavedShows, getShow, getShowEpisodes, getEpisode)
 
 ### i18n (I18N)
 
@@ -66,8 +66,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| API-01 | Phase 18 | Pending |
-| API-02 | Phase 18 | Pending |
+| API-01 | Phase 18 | Complete |
+| API-02 | Phase 18 | Complete |
 | POD-01 | Phase 19 | Pending |
 | POD-02 | Phase 19 | Pending |
 | POD-03 | Phase 19 | Pending |
