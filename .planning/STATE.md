@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Podcasts
-status: planning
-last_updated: "2026-06-14T07:41:23.199Z"
+status: roadmap_ready
+last_updated: "2026-06-14"
 last_activity: 2026-06-14
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,18 +21,28 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-13)
+See: .planning/PROJECT.md (updated 2026-06-14)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** No active milestone — real-world testing phase
+**Current Focus:** v1.5 Podcasts — Phases 18-21
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 18 (next to plan)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-06-14 — Milestone v1.5 started
+Status: Roadmap created — ready for `/gsd:plan-phase 18`
+Last activity: 2026-06-14 — Roadmap written for v1.5
+
+## Progress Bar
+
+```
+v1.5 Podcasts: [                    ] 0/4 phases
+Phase 18: [ ] API Foundation
+Phase 19: [ ] Podcast Browse
+Phase 20: [ ] Search + Library Actions
+Phase 21: [ ] UX Polish + i18n
+```
 
 ## Performance Metrics
 
@@ -71,6 +81,12 @@ Items acknowledged and carried forward:
 - [v1.3]: Conditional Rust build via tag-diff change detection
 - [v1.3]: Phase 17 removed — MozartBridge project preferred
 - [v1.3]: Account switcher: text + link pattern (LMS OPML has no auto-redirect)
+- [v1.5]: "Podcasts" is a top-level menu item (not nested under Bibliothek)
+- [v1.5]: Episode order is a GLOBAL setting (not per-player like Spotty had it)
+- [v1.5]: Batch show/episode endpoints removed in Dev Mode — individual fetch only
+- [v1.5]: Search limited to max 10 results per type in Dev Mode
+- [v1.5]: Resume point available via episode.resume_point (fully_played + resume_position_ms)
+- [v1.5]: Follow/unfollow uses existing unified `PUT/DELETE /me/library` (same as Like button)
 
 ### Pending Todos
 
@@ -82,10 +98,10 @@ None for current milestone.
 
 ## Session Continuity
 
-**Last session:** 2026-06-13
-**Stopped at:** v1.3 milestone shipped
-**Next action:** Real-world testing, then `/gsd:new-milestone` when ready
+**Last session:** 2026-06-14
+**Stopped at:** Roadmap created — 4 phases, 18 requirements mapped
+**Next action:** `/gsd:plan-phase 18`
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-13 — v1.3 milestone shipped*
+*Last updated: 2026-06-14 — v1.5 Podcasts roadmap written*

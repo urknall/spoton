@@ -66,13 +66,29 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| — | — | — |
+| API-01 | Phase 18 | Pending |
+| API-02 | Phase 18 | Pending |
+| POD-01 | Phase 19 | Pending |
+| POD-02 | Phase 19 | Pending |
+| POD-03 | Phase 19 | Pending |
+| NAV-01 | Phase 19 | Pending |
+| NAV-02 | Phase 19 | Pending |
+| NAV-03 | Phase 19 | Pending |
+| POD-04 | Phase 20 | Pending |
+| POD-05 | Phase 20 | Pending |
+| SRC-01 | Phase 20 | Pending |
+| SRC-02 | Phase 20 | Pending |
+| SRC-03 | Phase 20 | Pending |
+| UX-01 | Phase 21 | Pending |
+| UX-02 | Phase 21 | Pending |
+| UX-03 | Phase 21 | Pending |
+| I18N-01 | Phase 21 | Pending |
 
 **Coverage:**
-- v1.5 requirements: 18 total
-- Mapped to phases: 0
-- Unmapped: 18 ⚠️
+- v1.5 requirements: 17 total
+- Mapped to phases: 17/17 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-14*
-*Last updated: 2026-06-14 after initial definition*
+*Last updated: 2026-06-14 — traceability table populated after roadmap creation*
