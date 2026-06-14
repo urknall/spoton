@@ -77,7 +77,9 @@
   3. `getShow` returns show metadata (name, description, total_episodes, artwork) from `GET /shows/{id}`
   4. `getShowEpisodes` returns paginated episodes for a show from `GET /shows/{id}/episodes`
   5. `getEpisode` returns episode metadata including `resume_point` from `GET /episodes/{id}`
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 18-01-PLAN.md — Binary scope update + Client.pm podcast methods + cache TTL extension
 
 ### Phase 19: Podcast Browse
 **Goal**: Users can navigate to Podcasts, browse their saved shows, open a show, and play episodes
@@ -124,7 +126,7 @@
 | 1-6 (15 phases) | v1.0 | 50/50 | Complete | 2026-06-03 |
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13-16.1 (5 phases) | v1.3 | 9/9 | Complete | 2026-06-13 |
-| 18. Podcast API Foundation | v1.5 | 0/? | Not started | - |
+| 18. Podcast API Foundation | v1.5 | 0/1 | Planned | - |
 | 19. Podcast Browse | v1.5 | 0/? | Not started | - |
 | 20. Podcast Search + Library Actions | v1.5 | 0/? | Not started | - |
 | 21. Podcast UX Polish + i18n | v1.5 | 0/? | Not started | - |
@@ -139,4 +141,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-14 — v1.5 Podcasts milestone roadmap created*
+*Last updated: 2026-06-14 — Phase 18 planned (1 plan)*
