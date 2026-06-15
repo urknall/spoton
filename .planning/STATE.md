@@ -5,7 +5,7 @@ milestone_name: Podcasts
 status: ready_to_plan
 stopped_at: Phase 19 complete (2/2) — ready to discuss Phase 20
 last_updated: 2026-06-14T17:34:41.703Z
-last_activity: 2026-06-14 -- Phase 19 execution started
+last_activity: 2026-06-14 -- Completed quick task 260614-t8m: Dark theme fix + discovery hint
 progress:
   total_phases: 4
   completed_phases: 1
@@ -33,7 +33,7 @@ See: .planning/PROJECT.md (updated 2026-06-14)
 Phase: 20
 Plan: Not started
 Status: Ready to plan
-Last activity: 2026-06-14
+Last activity: 2026-06-15 - Completed quick task 260615-ij7: Settings-Sichtbarkeit + Diagnostik-System
 
 ## Progress Bar
 
@@ -97,12 +97,19 @@ None.
 
 None for current milestone.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260614-t8m | Dark theme fix + discovery hint i18n | 2026-06-14 | 7445a85 | [260614-t8m-dark-theme-fix-and-discovery-hint](./quick/260614-t8m-dark-theme-fix-and-discovery-hint/) |
+| 260615-ij7 | Settings-Sichtbarkeit + Diagnostik-System | 2026-06-15 | fd9a855 | [260615-ij7-settings-sichtbarkeit-diagnostik-system](./quick/260615-ij7-settings-sichtbarkeit-diagnostik-system/) |
+
 ## Session Continuity
 
-**Last session:** 2026-06-14T15:51:39.805Z
-**Stopped at:** Phase 19 context gathered
-**Next action:** `/gsd:plan-phase 18`
+**Last session:** 2026-06-15
+**Stopped at:** Quick task 260615-ij7 completed (GitHub #2 + #3 support)
+**Next action:** `/gsd:plan-phase 20`
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-14 — v1.5 Podcasts roadmap written*
+*Last updated: 2026-06-15 — Quick task: Settings visibility fix + diagnostic system*
