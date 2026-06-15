@@ -1,27 +1,30 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-14T18:34:23Z",
-  "phase": "19",
-  "phase_name": "podcast-browse",
-  "phase_dir": ".planning/phases/19-podcast-browse",
+  "timestamp": "2026-06-14T19:26:29Z",
+  "phase": "20",
+  "phase_name": "podcast-library-actions",
+  "phase_dir": ".planning/phases/20-podcast-library-actions",
   "plan": null,
   "task": null,
-  "total_tasks": 4,
+  "total_tasks": 0,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "19-01: Podcast string keys + cache version fix", "status": "done", "commit": "36bc485"},
-    {"id": 2, "name": "19-02: Plugin.pm podcast navigation, browse, search", "status": "done", "commit": "3f0f26a"},
-    {"id": 3, "name": "Code review + 6 fixes (CR-01, WR-01..05)", "status": "done", "commit": "3382d2c"},
-    {"id": 4, "name": "UAT 5/5 + publisher display fix", "status": "done", "commit": "48da724"}
+    {"id": 1, "name": "v1.5.0 released with Podcasts (Phases 18+19)", "status": "done", "commit": "2b5a93d"},
+    {"id": 2, "name": "Quick task: dark theme fix + discovery hint i18n", "status": "done", "commit": "7445a85"},
+    {"id": 3, "name": "repo.xml SHA update for v1.5.0", "status": "done", "commit": "5ba6e12"}
   ],
-  "remaining_tasks": [],
+  "remaining_tasks": [
+    {"id": 1, "name": "Phase 20: Follow/Unfollow shows", "status": "not_started"},
+    {"id": 2, "name": "Phase 21: UX Polish + i18n", "status": "not_started"}
+  ],
   "blockers": [],
   "human_actions_pending": [],
   "decisions": [
-    {"decision": "Show publisher embedded in name field with middle-dot separator", "rationale": "LMS Default skin does not render line2 for navigational items; inline name works across all skins; Material Skin splits on middle-dot automatically", "phase": "19"},
-    {"decision": "German-only date/duration strings until Phase 21", "rationale": "Full i18n refactor is Phase 21 scope (UX Polish + i18n); documented as WR-02 in REVIEW.md", "phase": "19"}
+    {"decision": "Dark theme: rgba(128,128,128,0.1) backgrounds + opacity:0.6 for text", "rationale": "LMS has no CSS custom properties; rgba/opacity works on both light and dark skins", "phase": "quick"},
+    {"decision": "Discovery restart hint added to setup guide", "rationale": "Beta tester sezercoban reported discovery not detecting account after plugin enable without restart", "phase": "quick"},
+    {"decision": "v1.5.0 release with partial podcast milestone (browse+search, not follow/unfollow)", "rationale": "Core podcast experience is complete; library actions and i18n polish come in v1.5.1+", "phase": "release"}
   ],
   "uncommitted_files": [],
-  "next_action": "/gsd:discuss-phase 20 or /gsd:plan-phase 20 — Phase 20 (Podcast Library Actions: Follow/Unfollow)",
-  "context_notes": "Phase 19 fully complete: executed, reviewed, fixed, UAT passed 5/5. v1.5 milestone at 50% (2/4 phases). Phase 20 is small — 2 requirements (POD-04, POD-05), reuses existing PUT/DELETE /me/library endpoint from Like button."
+  "next_action": "/gsd:plan-phase 20 — Podcast Library Actions (Follow/Unfollow shows)",
+  "context_notes": "v1.5.0 shipped. Phase 20 is small — 2 requirements (POD-04, POD-05), reuses existing PUT/DELETE /me/library endpoint from Like button (Phase 15). Beta tester sezercoban confirmed core features work on Docker LMS v1.9.2."
 }
