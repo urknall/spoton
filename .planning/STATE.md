@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Podcasts
-status: executing
-stopped_at: "Quick task 260615-ij7 completed (GitHub #2 + #3 support)"
-last_updated: "2026-06-15T17:34:56.269Z"
+status: verifying
+stopped_at: Completed 21-02-PLAN.md
+last_updated: "2026-06-15T17:39:38.471Z"
 last_activity: 2026-06-15
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 6
-  completed_plans: 5
-  percent: 75
+  completed_plans: 6
+  percent: 100
 ---
 
 # Project State: SpotOn
@@ -32,7 +32,7 @@ See: .planning/PROJECT.md (updated 2026-06-14)
 
 Phase: 21 (podcast-ux-polish-i18n) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-06-15
 
 ## Progress Bar
@@ -72,6 +72,7 @@ Items acknowledged and carried forward:
 | verification | Phase 11 (11-VERIFICATION.md) | human_needed |
 | verification | Phase 12 (12-VERIFICATION.md) | human_needed |
 | Phase 20-podcast-library-actions P01 | 18 | 2 tasks | 5 files |
+| Phase 21 P02 | 10 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,7 @@ Items acknowledged and carried forward:
 - [v1.5]: Resume point available via episode.resume_point (fully_played + resume_position_ms)
 - [v1.5]: Follow/unfollow uses existing unified `PUT/DELETE /me/library` (same as Like button)
 - [Phase ?]: Follow/Unfollow uses unified PUT/DELETE /me/library — same endpoint as Like/Unlike, no new Spotify API surface
+- [Phase ?]: UX-01 dropped: episodeOrder setting not needed (Spotify API default newest-first is sufficient)
 
 ### Pending Todos
 
@@ -110,8 +112,8 @@ None for current milestone.
 
 ## Session Continuity
 
-**Last session:** 2026-06-15T17:34:56.257Z
-**Stopped at:** Quick task 260615-ij7 completed (GitHub #2 + #3 support)
+**Last session:** 2026-06-15T17:39:38.464Z
+**Stopped at:** Completed 21-02-PLAN.md
 **Next action:** `/gsd:plan-phase 20`
 
 ---

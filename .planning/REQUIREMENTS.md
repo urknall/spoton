@@ -30,8 +30,8 @@ Requirements for Podcast support. Each maps to roadmap phases.
 ### Settings & UX (UX)
 
 - [ ] **UX-01**: Globales Setting für Episoden-Reihenfolge (neueste zuerst vs. chronologisch)
-- [ ] **UX-02**: Episoden zeigen Resume-Status (ungehört/angefangen/fertig) visuell an
-- [ ] **UX-03**: Explicit-Episoden werden markiert oder gefiltert
+- [x] **UX-02**: Episoden zeigen Resume-Status (ungehört/angefangen/fertig) visuell an
+- [x] **UX-03**: Explicit-Episoden werden markiert oder gefiltert
 - [x] **UX-04**: Episode-Info-View zeigt Show-Link und Follow-Action (lazy-load via GET /episodes/{id} für Suchergebnisse)
 - [x] **UX-05**: Track- und Episode-Info-View zeigen Play/Queue-Buttons im Default-Skin
 
@@ -42,7 +42,7 @@ Requirements for Podcast support. Each maps to roadmap phases.
 
 ### i18n (I18N)
 
-- [ ] **I18N-01**: Alle Podcast-UI-Strings in 11 Sprachen übersetzt
+- [x] **I18N-01**: Alle Podcast-UI-Strings in 11 Sprachen übersetzt
 
 ## Future Requirements
 
@@ -82,11 +82,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SRC-02 | Phase 19 | Complete |
 | SRC-03 | Phase 19 | Complete |
 | UX-01 | Phase 21 | Pending |
-| UX-02 | Phase 21 | Pending |
-| UX-03 | Phase 21 | Pending |
+| UX-02 | Phase 21 | Complete |
+| UX-03 | Phase 21 | Complete |
 | UX-04 | Phase 21 | Complete |
 | UX-05 | Phase 21 | Complete |
-| I18N-01 | Phase 21 | Pending |
+| I18N-01 | Phase 21 | Complete |
 
 **Coverage:**
 - v1.5 requirements: 19 total

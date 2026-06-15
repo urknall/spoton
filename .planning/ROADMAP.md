@@ -63,7 +63,7 @@
 - [x] **Phase 18: Podcast API Foundation** - OAuth scope + Client.pm methods for shows/episodes (completed 2026-06-14)
 - [x] **Phase 19: Podcast Browse + Search** - Top-level menu, saved shows, episode playback, podcast search (completed 2026-06-14)
 - [x] **Phase 20: Podcast Library Actions** - Follow/unfollow shows (completed 2026-06-15)
-- [ ] **Phase 21: Podcast UX Polish + i18n** - Episode→Show navigation, Play/Queue buttons, episode order, resume display, explicit filter, translations
+- [x] **Phase 21: Podcast UX Polish + i18n** - Episode→Show navigation, Play/Queue buttons, episode order, resume display, explicit filter, translations (completed 2026-06-15)
 
 ## Phase Details
 
@@ -149,7 +149,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 21-02-PLAN.md — Episode-Sortierung (UX-01) + Explicit-Marker (UX-03) + i18n _formatEpisodeLine2/_formatRelativeDate + 26 String-Keys in 11 Sprachen (I18N-01)
+- [x] 21-02-PLAN.md — Episode-Sortierung (UX-01) + Explicit-Marker (UX-03) + i18n _formatEpisodeLine2/_formatRelativeDate + 26 String-Keys in 11 Sprachen (I18N-01)
 
 ## Progress Table
 
@@ -161,7 +161,7 @@ Plans:
 | 18. Podcast API Foundation | v1.5 | 1/1 | Complete    | 2026-06-14 |
 | 19. Podcast Browse | v1.5 | 2/2 | Complete    | 2026-06-14 |
 | 20. Podcast Library Actions | v1.5 | 1/1 | Complete   | 2026-06-15 |
-| 21. Podcast UX Polish + i18n | v1.5 | 1/2 | In Progress|  |
+| 21. Podcast UX Polish + i18n | v1.5 | 2/2 | Complete   | 2026-06-15 |
 
 ## Backlog
 
