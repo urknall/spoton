@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Podcasts
-status: ready_to_plan
-stopped_at: Phase 19 complete (2/2) — ready to discuss Phase 20
-last_updated: 2026-06-14T17:34:41.703Z
-last_activity: 2026-06-14 -- Completed quick task 260614-t8m: Dark theme fix + discovery hint
+status: verifying
+stopped_at: "Quick task 260615-ij7 completed (GitHub #2 + #3 support)"
+last_updated: "2026-06-15T14:52:02.221Z"
+last_activity: 2026-06-15
 progress:
   total_phases: 4
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 12
-  percent: 25
+  completed_phases: 3
+  total_plans: 4
+  completed_plans: 4
+  percent: 75
 ---
 
 # Project State: SpotOn
@@ -26,14 +26,14 @@ See: .planning/PROJECT.md (updated 2026-06-14)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 20 — podcast library actions
+**Current Focus:** Phase 20 — podcast-library-actions
 
 ## Current Position
 
-Phase: 20
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-06-15 - Completed quick task 260615-khq: Daemon credential check + orphan log cleanup
+Phase: 20 (podcast-library-actions) — EXECUTING
+Plan: 1 of 1
+Status: Phase complete — ready for verification
+Last activity: 2026-06-15
 
 ## Progress Bar
 
@@ -71,6 +71,7 @@ Items acknowledged and carried forward:
 | verification | Phase 08 (08-VERIFICATION.md) | human_needed |
 | verification | Phase 11 (11-VERIFICATION.md) | human_needed |
 | verification | Phase 12 (12-VERIFICATION.md) | human_needed |
+| Phase 20-podcast-library-actions P01 | 18 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,7 @@ Items acknowledged and carried forward:
 - [v1.5]: Search limited to max 10 results per type in Dev Mode
 - [v1.5]: Resume point available via episode.resume_point (fully_played + resume_position_ms)
 - [v1.5]: Follow/unfollow uses existing unified `PUT/DELETE /me/library` (same as Like button)
+- [Phase ?]: Follow/Unfollow uses unified PUT/DELETE /me/library — same endpoint as Like/Unlike, no new Spotify API surface
 
 ### Pending Todos
 
@@ -108,7 +110,7 @@ None for current milestone.
 
 ## Session Continuity
 
-**Last session:** 2026-06-15
+**Last session:** 2026-06-15T14:51:53.394Z
 **Stopped at:** Quick task 260615-ij7 completed (GitHub #2 + #3 support)
 **Next action:** `/gsd:plan-phase 20`
 
