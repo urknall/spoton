@@ -145,7 +145,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 21-01-PLAN.md — Play/Queue-Buttons (UX-05) + Episode-Info-View mit Show-Link und Follow (UX-04)
+- [x] 21-01-PLAN.md — Play/Queue-Buttons (UX-05) + Episode-Info-View mit Show-Link und Follow (UX-04)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -161,7 +161,7 @@ Plans:
 | 18. Podcast API Foundation | v1.5 | 1/1 | Complete    | 2026-06-14 |
 | 19. Podcast Browse | v1.5 | 2/2 | Complete    | 2026-06-14 |
 | 20. Podcast Library Actions | v1.5 | 1/1 | Complete   | 2026-06-15 |
-| 21. Podcast UX Polish + i18n | v1.5 | 0/2 | Not started | - |
+| 21. Podcast UX Polish + i18n | v1.5 | 1/2 | In Progress|  |
 
 ## Backlog
 
