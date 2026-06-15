@@ -33,7 +33,7 @@ See: .planning/PROJECT.md (updated 2026-06-14)
 Phase: 20
 Plan: Not started
 Status: Ready to plan
-Last activity: 2026-06-15 - Completed quick task 260615-ij7: Settings-Sichtbarkeit + Diagnostik-System
+Last activity: 2026-06-15 - Completed quick task 260615-jub: Comprehensive DIAG events (43 points across 5 modules)
 
 ## Progress Bar
 
@@ -103,6 +103,7 @@ None for current milestone.
 |---|-------------|------|--------|-----------|
 | 260614-t8m | Dark theme fix + discovery hint i18n | 2026-06-14 | 7445a85 | [260614-t8m-dark-theme-fix-and-discovery-hint](./quick/260614-t8m-dark-theme-fix-and-discovery-hint/) |
 | 260615-ij7 | Settings-Sichtbarkeit + Diagnostik-System | 2026-06-15 | fd9a855 | [260615-ij7-settings-sichtbarkeit-diagnostik-system](./quick/260615-ij7-settings-sichtbarkeit-diagnostik-system/) |
+| 260615-jub | Comprehensive DIAG events across all modules | 2026-06-15 | d834cc1 | [260615-jub-comprehensive-diag-events-across-all-mod](./quick/260615-jub-comprehensive-diag-events-across-all-mod/) |
 
 ## Session Continuity
 
