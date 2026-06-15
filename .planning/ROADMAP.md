@@ -121,8 +121,10 @@ Plans:
   2. An "Entfolgen" action on a saved show removes it via `DELETE /me/library`
   3. Following or unfollowing a show is reflected immediately when returning to "Meine Podcasts"
 
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 1 plan
+Plans:
+
+- [ ] 20-01-PLAN.md — Client.pm show methods + Plugin.pm Follow/Unfollow + strings + tests
 
 ### Phase 21: Podcast UX Polish + i18n
 
@@ -148,7 +150,7 @@ Plans:
 | 13-16.1 (5 phases) | v1.3 | 9/9 | Complete | 2026-06-13 |
 | 18. Podcast API Foundation | v1.5 | 1/1 | Complete    | 2026-06-14 |
 | 19. Podcast Browse | v1.5 | 2/2 | Complete    | 2026-06-14 |
-| 20. Podcast Library Actions | v1.5 | 0/? | Not started | - |
+| 20. Podcast Library Actions | v1.5 | 1/1 | Planned     | - |
 | 21. Podcast UX Polish + i18n | v1.5 | 0/? | Not started | - |
 
 ## Backlog
@@ -161,4 +163,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-14 — Phase 19 planned (2 plans), SRC-01/02/03 pulled from Phase 20 per D-13*
+*Last updated: 2026-06-15 — Phase 20 planned (1 plan)*
