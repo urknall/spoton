@@ -63,7 +63,7 @@
 - [x] **Phase 18: Podcast API Foundation** - OAuth scope + Client.pm methods for shows/episodes (completed 2026-06-14)
 - [x] **Phase 19: Podcast Browse + Search** - Top-level menu, saved shows, episode playback, podcast search (completed 2026-06-14)
 - [x] **Phase 20: Podcast Library Actions** - Follow/unfollow shows (completed 2026-06-15)
-- [ ] **Phase 21: Podcast UX Polish + i18n** - Episode order setting, resume display, explicit filter, translations
+- [ ] **Phase 21: Podcast UX Polish + i18n** - Episode→Show navigation, Play/Queue buttons, episode order, resume display, explicit filter, translations
 
 ## Phase Details
 
@@ -128,18 +128,28 @@ Plans:
 
 ### Phase 21: Podcast UX Polish + i18n
 
-**Goal**: Episode lists convey playback state clearly, the episode order is configurable globally, and all strings are translated
+**Goal**: Episodes navigate to their parent show, items have play controls, episode lists convey playback state, and all strings are translated
 **Depends on**: Phase 20
-**Requirements**: UX-01, UX-02, UX-03, I18N-01
+**Requirements**: UX-01, UX-02, UX-03, UX-04, UX-05, I18N-01
 **Success Criteria** (what must be TRUE):
 
-  1. A global plugin setting controls episode sort order (newest first vs. chronological) and applies to all show episode lists
-  2. Episode list entries display a visual resume indicator (unplayed / in-progress / finished) derived from `resume_point`
-  3. Episodes with explicit content are visibly marked (or omitted if the filter is active)
-  4. All Podcast UI strings (menu labels, action names, setting labels, status indicators) appear correctly in all 11 supported languages
+  1. Clicking an episode (search or show feed) shows an info view with the parent show name as a navigable link and a Follow/Unfollow action — show data is lazy-loaded via `GET /episodes/{id}` when not available from passthrough
+  2. Track and episode info views include Play and Add-to-Queue action buttons in the Default skin
+  3. A global plugin setting controls episode sort order (newest first vs. chronological) and applies to all show episode lists
+  4. Episode list entries display a visual resume indicator (unplayed / in-progress / finished) derived from `resume_point`
+  5. Episodes with explicit content are visibly marked (or omitted if the filter is active)
+  6. All Podcast UI strings (menu labels, action names, setting labels, status indicators) appear correctly in all 11 supported languages
 
-**Plans**: TBD
+**Plans**: 2 plans
 **UI hint**: yes
+Plans:
+**Wave 1**
+
+- [ ] 21-01-PLAN.md — Play/Queue-Buttons (UX-05) + Episode-Info-View mit Show-Link und Follow (UX-04)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 21-02-PLAN.md — Episode-Sortierung (UX-01) + Explicit-Marker (UX-03) + i18n _formatEpisodeLine2/_formatRelativeDate + 26 String-Keys in 11 Sprachen (I18N-01)
 
 ## Progress Table
 
@@ -151,7 +161,7 @@ Plans:
 | 18. Podcast API Foundation | v1.5 | 1/1 | Complete    | 2026-06-14 |
 | 19. Podcast Browse | v1.5 | 2/2 | Complete    | 2026-06-14 |
 | 20. Podcast Library Actions | v1.5 | 1/1 | Complete   | 2026-06-15 |
-| 21. Podcast UX Polish + i18n | v1.5 | 0/? | Not started | - |
+| 21. Podcast UX Polish + i18n | v1.5 | 0/2 | Not started | - |
 
 ## Backlog
 
@@ -163,4 +173,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-15 — Phase 20 planned (1 plan)*
+*Last updated: 2026-06-15 — Phase 21 planned (2 plans)*
