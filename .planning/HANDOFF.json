@@ -1,30 +1,30 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-14T19:26:29Z",
-  "phase": "20",
-  "phase_name": "podcast-library-actions",
-  "phase_dir": ".planning/phases/20-podcast-library-actions",
+  "timestamp": "2026-06-16T07:05:00Z",
+  "phase": null,
+  "phase_name": null,
+  "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": 0,
-  "status": "paused",
+  "status": "idle",
   "completed_tasks": [
-    {"id": 1, "name": "v1.5.0 released with Podcasts (Phases 18+19)", "status": "done", "commit": "2b5a93d"},
-    {"id": 2, "name": "Quick task: dark theme fix + discovery hint i18n", "status": "done", "commit": "7445a85"},
-    {"id": 3, "name": "repo.xml SHA update for v1.5.0", "status": "done", "commit": "5ba6e12"}
+    {"id": 1, "name": "fix: search offset bug — wrong show opened from search results", "status": "done", "commit": "a4f4da3"},
+    {"id": 2, "name": "fix: episode click off-by-one — Follow button shifted indices", "status": "done", "commit": "2ae7f9d"},
+    {"id": 3, "name": "feat: Follow button restored with offset correction", "status": "done", "commit": "55749ff"},
+    {"id": 4, "name": "v1.6.1 + v1.6.2 + v1.6.3 released", "status": "done", "commit": "de41c81"},
+    {"id": 5, "name": "GitHub #3 closed (neshanjo confirmed delay fixed)", "status": "done", "commit": null}
   ],
-  "remaining_tasks": [
-    {"id": 1, "name": "Phase 20: Follow/Unfollow shows", "status": "not_started"},
-    {"id": 2, "name": "Phase 21: UX Polish + i18n", "status": "not_started"}
-  ],
+  "remaining_tasks": [],
   "blockers": [],
   "human_actions_pending": [],
   "decisions": [
-    {"decision": "Dark theme: rgba(128,128,128,0.1) backgrounds + opacity:0.6 for text", "rationale": "LMS has no CSS custom properties; rgba/opacity works on both light and dark skins", "phase": "quick"},
-    {"decision": "Discovery restart hint added to setup guide", "rationale": "Beta tester sezercoban reported discovery not detecting account after plugin enable without restart", "phase": "quick"},
-    {"decision": "v1.5.0 release with partial podcast milestone (browse+search, not follow/unfollow)", "rationale": "Core podcast experience is complete; library actions and i18n polish come in v1.5.1+", "phase": "release"}
+    {"decision": "Show save/remove/check uses old-style me/shows endpoints, not unified me/library", "rationale": "Unified PUT /me/library writes to different store than GET /me/shows reads from", "phase": "bugfix"},
+    {"decision": "Search feeds always fetch offset=0 limit=10", "rationale": "Material Skin re-requests with index=N qty=1 on click — using index as API offset returned wrong item", "phase": "bugfix"},
+    {"decision": "Follow button uses offset correction: apiOffset=index-1, total+1", "rationale": "Keeps Follow at index 0 without shifting episode indices", "phase": "bugfix"},
+    {"decision": "Saved shows list always _noCache=1", "rationale": "Small list, stale cache caused follow/unfollow not reflecting", "phase": "bugfix"}
   ],
-  "uncommitted_files": [],
-  "next_action": "/gsd:plan-phase 20 — Podcast Library Actions (Follow/Unfollow shows)",
-  "context_notes": "v1.5.0 shipped. Phase 20 is small — 2 requirements (POD-04, POD-05), reuses existing PUT/DELETE /me/library endpoint from Like button (Phase 15). Beta tester sezercoban confirmed core features work on Docker LMS v1.9.2."
+  "uncommitted_files": [".planning/phases/21-podcast-ux-polish-i18n/21-02-PLAN.md"],
+  "next_action": "No active work. Start next milestone with /gsd:new-milestone or address GitHub #1 (steffenheyne, Docker startup, awaiting feedback).",
+  "context_notes": "v1.6.3 shipped. Three bugfix releases in one session. Root cause was Material Skin's re-request pattern (index=N, qty=1) interacting with LMS index used as Spotify API offset. GitHub #1 (steffenheyne) still open — no user response yet."
 }
