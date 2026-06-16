@@ -4,7 +4,7 @@ milestone: v1.5
 milestone_name: Podcasts
 status: verifying
 stopped_at: Completed 21-02-PLAN.md
-last_updated: "2026-06-15T17:39:38.471Z"
+last_updated: "2026-06-15T21:03:50.871Z"
 last_activity: 2026-06-15
 progress:
   total_phases: 4
@@ -64,15 +64,13 @@ Phase 21: [ ] UX Polish + i18n
 
 ## Deferred Items
 
-Items acknowledged and carried forward:
+Items acknowledged at v1.5 milestone close (2026-06-16):
 
 | Category | Item | Status |
 |----------|------|--------|
-| verification | Phase 08 (08-VERIFICATION.md) | human_needed |
-| verification | Phase 11 (11-VERIFICATION.md) | human_needed |
-| verification | Phase 12 (12-VERIFICATION.md) | human_needed |
-| Phase 20-podcast-library-actions P01 | 18 | 2 tasks | 5 files |
-| Phase 21 P02 | 10 | 2 tasks | 3 files |
+| debug | connect-reconnect-no-audio | awaiting_human_verify |
+| debug | sync-group-audio | fixed |
+| uat | Phase 16 macOS Binary (3 scenarios) | deferred (no macOS test env) |
 
 ## Accumulated Context
 
