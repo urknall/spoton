@@ -62,12 +62,12 @@
 
 ## Active
 
-- [ ] **Phase 22: Seek + Favorites Bugfixes**
+- [x] **Phase 22: Seek + Favorites Bugfixes** — completed 2026-06-17
   **Goal**: Fix seeking (duration 0:00 in seek bar) and LMS favorites (spotify: scheme statt spoton://)
   **Plans:** 1 plan
 
   Plans:
-  - [ ] 22-01-PLAN.md — Fix seek bar duration + favorites URL scheme + explodePlaylist
+  - [x] 22-01-PLAN.md — Fix seek bar duration + favorites URL scheme + explodePlaylist
 
 ## Progress Table
 
@@ -80,7 +80,7 @@
 | 19. Podcast Browse | v1.5 | 2/2 | Complete    | 2026-06-14 |
 | 20. Podcast Library Actions | v1.5 | 1/1 | Complete   | 2026-06-15 |
 | 21. Podcast UX Polish + i18n | v1.5 | 2/2 | Complete   | 2026-06-15 |
-| 22. Seek + Favorites Bugfixes | — | 0/1 | Planned | — |
+| 22. Seek + Favorites Bugfixes | — | 1/1 | Complete | 2026-06-17 |
 
 ## Backlog
 
@@ -92,4 +92,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-17 — Phase 22 planned (1 plan)*
+*Last updated: 2026-06-17 — Phase 22 complete (v1.7.0)*
