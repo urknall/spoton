@@ -69,6 +69,12 @@
   Plans:
   - [x] 22-01-PLAN.md — Fix seek bar duration + favorites URL scheme + explodePlaylist
 
+- [ ] **Phase 23: Forum Monitor + Draft Generation**
+  **Goal**: GitHub Action (cron) die den Lyrion-Forum-Thread pollt, neue Posts erkennt, via Claude API Draft-Replies generiert und als GitHub Issues zur Review erstellt.
+
+- [ ] **Phase 24: Forum Auto-Post**
+  **Goal**: Label-getriggerter GitHub Action Workflow der approved Draft-Replies automatisch im vBulletin-Forum postet.
+
 ## Progress Table
 
 | Phase | Milestone | Plans | Status | Completed |
@@ -89,7 +95,9 @@ Items discovered during development — not assigned to a milestone.
 1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Blocked: Spotify requires 250k MAU + legally registered business. Extended Quota documentation deferred to future milestone.
 2. **~~Online-Musiksammlung (Importer.pm / OnlineLibraryBase)~~** — Evaluiert und bewusst abgelehnt. API-Quota im Dev Mode macht Library-Scan extrem teuer; Browse > Library deckt den Use Case on-demand ab.
 3. **LMS Community Repo Submission** — Deferred: ship stable version first, gather real-world feedback.
+4. **ZeroConf Auth UX: "Connected" an Spotify App melden** — Spotify App zeigt endlos "Connecting..." beim ZeroConf-Handshake, weil SpotOn keine Playback-Session startet. User denken Auth ist fehlgeschlagen, obwohl Credentials korrekt übernommen wurden. Fix: nach erfolgreichem Credential-Empfang ein Connect-Session-Signal an die App senden, damit "Connected" angezeigt wird. Entdeckt im Forum (l.e.hauser, CJS — 2026-06-17).
+5. **Diagnostics: "Clear Logs" Button in Settings** — Connect-Daemon-Logs (`<cachedir>/spoton/*-connect.log`) wachsen unbegrenzt (append mode). Kein UI zum Zurücksetzen. Fix: Button in SpotOn Settings der alle `*-connect.log` Dateien truncated. Entdeckt im Forum (CJS — 2026-06-17).
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-17 — Phase 22 complete (v1.7.0)*
+*Last updated: 2026-06-18 — Backlog: Clear Logs Button*
