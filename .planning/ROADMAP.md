@@ -94,9 +94,10 @@ Items discovered during development — not assigned to a milestone.
 
 1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Blocked: Spotify requires 250k MAU + legally registered business. Extended Quota documentation deferred to future milestone.
 2. **~~Online-Musiksammlung (Importer.pm / OnlineLibraryBase)~~** — Evaluiert und bewusst abgelehnt. API-Quota im Dev Mode macht Library-Scan extrem teuer; Browse > Library deckt den Use Case on-demand ab.
-3. **LMS Community Repo Submission** — Deferred: ship stable version first, gather real-world feedback.
-4. **ZeroConf Auth UX: "Connected" an Spotify App melden** — Spotify App zeigt endlos "Connecting..." beim ZeroConf-Handshake, weil SpotOn keine Playback-Session startet. User denken Auth ist fehlgeschlagen, obwohl Credentials korrekt übernommen wurden. Fix: nach erfolgreichem Credential-Empfang ein Connect-Session-Signal an die App senden, damit "Connected" angezeigt wird. Entdeckt im Forum (l.e.hauser, CJS — 2026-06-17).
-5. **Diagnostics: "Clear Logs" Button in Settings** — Connect-Daemon-Logs (`<cachedir>/spoton/*-connect.log`) wachsen unbegrenzt (append mode). Kein UI zum Zurücksetzen. Fix: Button in SpotOn Settings der alle `*-connect.log` Dateien truncated. Entdeckt im Forum (CJS — 2026-06-17).
+3. ~~**LMS Community Repo Submission**~~ — Erledigt: Plugin im Community Repo veröffentlicht.
+4. ~~**ZeroConf Auth UX: "Connected" an Spotify App melden**~~ — Verworfen: Setup Guide erklärt das Verhalten, kein technischer Fix möglich ohne Playback-Session.
+5. ~~**Diagnostics: "Clear Logs" Button in Settings**~~ — Implementiert in v1.7.4 (truncate on daemon restart + Clear Logs button).
+6. **Spotty Favorites Migration** — Settings-Button der `spotify://` Einträge in LMS Favorites und Playlists als `spoton://` Duplikate anlegt. Originale bleiben erhalten, User kann Spotty danach deinstallieren. URI-Schema nach Prefix ist identisch (`track:ID`, `album:ID`, etc.). Idee von Paul Webster (Forum #32, 2026-06-19).
 
 ---
 *Roadmap created: 2026-05-26*
