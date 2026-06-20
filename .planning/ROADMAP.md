@@ -75,6 +75,22 @@
 - [ ] **Phase 24: Forum Auto-Post**
   **Goal**: Label-getriggerter GitHub Action Workflow der approved Draft-Replies automatisch im vBulletin-Forum postet.
 
+### Phase 25: Play-All Full Pagination
+
+**Goal**: Play-All auf Playlists, Liked Songs, Alben und Shows spielt alle Tracks ab — nicht nur die erste API-Seite (max 50/100). Reusable Paginator-Helper für alle Feed-Funktionen.
+
+**Scope:**
+- Reusable async paginator helper that recursively fetches all pages from Spotify API
+- Integrate paginator into `_savedTracksFeed`, `_playlistFeed`, `_albumFeed`, `_showEpisodesFeed`
+- Feeds detect play-all context (large quantity request) and fetch all pages vs. single page for browsing
+- Reference: Spotty's `API::Pipeline` pattern, SpotOn's existing `explodePlaylist` recursive fetch in ProtocolHandler.pm
+- GitHub Issue: #16
+
+**Plans:** 1/1 plans complete
+
+Plans:
+- [x] 25-01-PLAN.md — Reusable _fetchAllPages helper + integration in all four feeds + ProtocolHandler show-explode fix
+
 ## Progress Table
 
 | Phase | Milestone | Plans | Status | Completed |
