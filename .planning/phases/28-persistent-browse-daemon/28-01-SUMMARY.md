@@ -101,6 +101,16 @@ None — build succeeded on first attempt. All referenced crates (hyper, tokio, 
 - ProtocolHandler.pm and Plugin.pm integration in Plan 03
 - Phase 28 Plan 01 provides the binary foundation that plans 02 and 03 depend on
 
+## Self-Check: PASSED
+
+- FOUND: librespot-spoton/src/browse.rs (416 lines)
+- FOUND: librespot-spoton/src/main.rs (modified)
+- FOUND: .planning/phases/28-persistent-browse-daemon/28-01-SUMMARY.md
+- FOUND commit 8f1cae0: feat(28-01): add browse.rs
+- FOUND commit ab5b2e2: feat(28-01): add Mode::Browse to main.rs
+- cargo build: Finished dev profile (no errors)
+- spoton --check output: contains "browse":true
+
 ---
 *Phase: 28-persistent-browse-daemon*
 *Completed: 2026-06-22*
