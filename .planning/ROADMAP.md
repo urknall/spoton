@@ -9,7 +9,8 @@
 - ✅ **v1.0 Foundation** — Phases 1-6 (shipped 2026-06-03)
 - ✅ **v1.1 Hardening & Reach** — Phases 7-12 (shipped 2026-06-06)
 - ✅ **v1.3 Polish & Publish** — Phases 13-16.1 (shipped 2026-06-13)
-- 🔄 **v1.5 Podcasts** — Phases 18-21 (active)
+- ✅ **v1.5 Podcasts** — Phases 18-21 (shipped 2026-06-15)
+- 🔄 **v2.0 Browse Daemon Migration** — Phases 28-30 (active)
 
 ## Phases
 
@@ -75,21 +76,52 @@
 - [ ] **Phase 24: Forum Auto-Post**
   **Goal**: Label-getriggerter GitHub Action Workflow der approved Draft-Replies automatisch im vBulletin-Forum postet.
 
-### Phase 25: Play-All Full Pagination
+- [x] **Phase 25: Play-All Full Pagination** — completed 2026-06-18
+  **Goal**: Play-All auf Playlists, Liked Songs, Alben und Shows spielt alle Tracks ab — nicht nur die erste API-Seite (max 50/100). Reusable Paginator-Helper für alle Feed-Funktionen.
+  **Plans:** 1/1 plans complete
 
-**Goal**: Play-All auf Playlists, Liked Songs, Alben und Shows spielt alle Tracks ab — nicht nur die erste API-Seite (max 50/100). Reusable Paginator-Helper für alle Feed-Funktionen.
+  Plans:
+  - [x] 25-01-PLAN.md — Reusable _fetchAllPages helper + integration in all four feeds + ProtocolHandler show-explode fix
 
-**Scope:**
-- Reusable async paginator helper that recursively fetches all pages from Spotify API
-- Integrate paginator into `_savedTracksFeed`, `_playlistFeed`, `_albumFeed`, `_showEpisodesFeed`
-- Feeds detect play-all context (large quantity request) and fetch all pages vs. single page for browsing
-- Reference: Spotty's `API::Pipeline` pattern, SpotOn's existing `explodePlaylist` recursive fetch in ProtocolHandler.pm
-- GitHub Issue: #16
+- [x] **Phase 26: Browse Error Recovery + Diagnostics** — completed 2026-06-21
+  **Goal**: Unavailable Tracks in Browse Mode erkennen und automatisch skippen statt endlos hängen. Diagnostic Bundle um Browse-Mode stderr erweitern.
+  **Plans:** 2/2 plans complete
 
-**Plans:** 1/1 plans complete
+  Plans:
+  - [x] 26-01-PLAN.md — Unavailable track detection + auto-skip
+  - [x] 26-02-PLAN.md — Browse stderr capture for diagnostics
 
-Plans:
-- [x] 25-01-PLAN.md — Reusable _fetchAllPages helper + integration in all four feeds + ProtocolHandler show-explode fix
+- [x] **Phase 27: Browse Pipeline Failure Recovery** — completed 2026-06-22
+  **Goal**: Prefetch-Hang bei unavailable Tracks verhindern (LMS wartet auf PCM-Daten die nie kommen) und Rapid-Retry-Loop stoppen.
+  **Plans:** 1/1 plans complete
+
+  Plans:
+  - [x] 27-01-PLAN.md — Prefetch watchdog + skip cache
+
+### v2.0 Browse Daemon Migration
+
+- [x] **Phase 28: Persistent Browse Daemon** — completed 2026-06-22
+  **Goal**: Per-track `--single-track` spawning durch persistenten Browse-Daemon mit HTTP-Track-Serving ersetzen. Löst Prefetch-Hang, Audio-Key-Throttling und Log-Flood an der Wurzel.
+  **Plans:** 3/3 plans complete
+  Canonical refs: `.planning/notes/browse-daemon-architecture-decision.md`
+
+  Plans:
+  - [x] 28-01-PLAN.md — Browse daemon Rust implementation (HTTP server + track endpoint)
+  - [x] 28-02-PLAN.md — Browse daemon lifecycle modules (DaemonManager + Daemon Perl)
+  - [x] 28-03-PLAN.md — Browse-HTTP pipeline integration (ProtocolHandler + Plugin wiring)
+
+- [x] **Phase 29: Unified Browse+Connect Daemon** (completed 2026-06-22)
+  **Goal**: Browse- und Connect-Daemon in einen Prozess pro Player zusammenführen — ein librespot-Prozess mit Spirc (Connect) + HTTP Track-Endpoint (Browse) gleichzeitig. Eliminiert doppelten RAM-Overhead und Session-Koordination.
+  **Plans:** 3 plans
+  Canonical refs: `.planning/notes/browse-daemon-architecture-decision.md`, `.planning/seeds/evaluate-phase2-unified-daemon.md`
+
+  Plans:
+  - [x] 29-01-PLAN.md — Unified Rust daemon (unified.rs + main.rs CLI dispatch)
+  - [x] 29-02-PLAN.md — Unified Perl DaemonManager + Daemon lifecycle modules
+  - [x] 29-03-PLAN.md — Integration (ProtocolHandler + Plugin.pm + daemonMode pref)
+
+- [ ] **Phase 30: Legacy Pipe Cleanup**
+  **Goal**: `--single-track` Modus und `son-*` Transcoding-Pipelines entfernen. `browseMode` Toggle entfernen (HTTP ist der einzige Browse-Modus). Vereinfacht Codebase und eliminiert toten Code.
 
 ## Progress Table
 
@@ -98,11 +130,17 @@ Plans:
 | 1-6 (15 phases) | v1.0 | 50/50 | Complete | 2026-06-03 |
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13-16.1 (5 phases) | v1.3 | 9/9 | Complete | 2026-06-13 |
-| 18. Podcast API Foundation | v1.5 | 1/1 | Complete    | 2026-06-14 |
-| 19. Podcast Browse | v1.5 | 2/2 | Complete    | 2026-06-14 |
-| 20. Podcast Library Actions | v1.5 | 1/1 | Complete   | 2026-06-15 |
-| 21. Podcast UX Polish + i18n | v1.5 | 2/2 | Complete   | 2026-06-15 |
+| 18. Podcast API Foundation | v1.5 | 1/1 | Complete | 2026-06-14 |
+| 19. Podcast Browse | v1.5 | 2/2 | Complete | 2026-06-14 |
+| 20. Podcast Library Actions | v1.5 | 1/1 | Complete | 2026-06-15 |
+| 21. Podcast UX Polish + i18n | v1.5 | 2/2 | Complete | 2026-06-15 |
 | 22. Seek + Favorites Bugfixes | — | 1/1 | Complete | 2026-06-17 |
+| 25. Play-All Full Pagination | — | 1/1 | Complete | 2026-06-18 |
+| 26. Browse Error Recovery | — | 2/2 | Complete | 2026-06-21 |
+| 27. Pipeline Failure Recovery | — | 1/1 | Complete | 2026-06-22 |
+| 28. Persistent Browse Daemon | v2.0 | 3/3 | Complete | 2026-06-22 |
+| 29. Unified Daemon | v2.0 | 3/3 | Complete   | 2026-06-22 |
+| 30. Legacy Pipe Cleanup | v2.0 | 0/0 | Planned | — |
 
 ## Backlog
 
@@ -117,4 +155,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-18 — Backlog: Clear Logs Button*
+*Last updated: 2026-06-22 — Phase 29 plans created (3 plans, 3 waves)*
