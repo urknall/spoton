@@ -121,7 +121,12 @@
   - [x] 29-03-PLAN.md — Integration (ProtocolHandler + Plugin.pm + daemonMode pref)
 
 - [ ] **Phase 30: Legacy Pipe Cleanup**
-  **Goal**: `--single-track` Modus und `son-*` Transcoding-Pipelines entfernen. `browseMode` Toggle entfernen (HTTP ist der einzige Browse-Modus). Vereinfacht Codebase und eliminiert toten Code.
+  **Goal**: Remove `--single-track` mode and `son-*` transcoding pipelines. Remove `browseMode`/`daemonMode` toggle prefs. Delete Browse::DM, Browse::Daemon, Connect::DM, Connect::Daemon modules. Add rapid-skip debounce to unified.rs.
+  **Plans:** 2 plans
+
+  Plans:
+  - [ ] 30-01-PLAN.md — Delete legacy Perl modules + simplify Plugin.pm/ProtocolHandler.pm/Connect.pm + remove son-* from custom-convert.conf + remove dead Rust modes
+  - [ ] 30-02-PLAN.md — Add browse_abort_gen rapid-skip debounce to unified.rs + final verification
 
 ## Progress Table
 
@@ -140,7 +145,7 @@
 | 27. Pipeline Failure Recovery | — | 1/1 | Complete | 2026-06-22 |
 | 28. Persistent Browse Daemon | v2.0 | 3/3 | Complete | 2026-06-22 |
 | 29. Unified Daemon | v2.0 | 3/3 | Complete   | 2026-06-22 |
-| 30. Legacy Pipe Cleanup | v2.0 | 0/0 | Planned | — |
+| 30. Legacy Pipe Cleanup | v2.0 | 0/2 | Planned | — |
 
 ## Backlog
 
@@ -155,4 +160,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-22 — Phase 29 plans created (3 plans, 3 waves)*
+*Last updated: 2026-06-22 — Phase 30 plans created (2 plans, 2 waves)*
