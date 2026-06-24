@@ -120,13 +120,21 @@
   - [x] 29-02-PLAN.md — Unified Perl DaemonManager + Daemon lifecycle modules
   - [x] 29-03-PLAN.md — Integration (ProtocolHandler + Plugin.pm + daemonMode pref)
 
-- [ ] **Phase 30: Legacy Pipe Cleanup**
+- [x] **Phase 30: Legacy Pipe Cleanup** (completed 2026-06-22)
   **Goal**: Remove `--single-track` mode and `son-*` transcoding pipelines. Remove `browseMode`/`daemonMode` toggle prefs. Delete Browse::DM, Browse::Daemon, Connect::DM, Connect::Daemon modules. Add rapid-skip debounce to unified.rs.
   **Plans:** 2 plans
 
   Plans:
-  - [ ] 30-01-PLAN.md — Delete legacy Perl modules + simplify Plugin.pm/ProtocolHandler.pm/Connect.pm + remove son-* from custom-convert.conf + remove dead Rust modes
-  - [ ] 30-02-PLAN.md — Add browse_abort_gen rapid-skip debounce to unified.rs + final verification
+  - [x] 30-01-PLAN.md — Delete legacy Perl modules + simplify Plugin.pm/ProtocolHandler.pm/Connect.pm + remove son-* from custom-convert.conf + remove dead Rust modes
+  - [x] 30-02-PLAN.md — Add browse_abort_gen rapid-skip debounce to unified.rs + final verification
+
+- [ ] **Phase 31: Code Review Hardening**
+  **Goal**: Fix two architectural findings from the full codebase code review: (1) Spirc event dispatcher dies silently after ZeroConf reconnect — LMS loses Connect notifications, (2) AJAX write-endpoints lack CSRF protection when LMS auth is enabled.
+  **Plans:** 2 plans
+
+  Plans:
+  - [ ] 31-01-PLAN.md — Respawn event dispatcher after Spirc reconnect (R-WR-07)
+  - [ ] 31-02-PLAN.md — CSRF protection on AJAX write-endpoints (P-CR-03)
 
 ## Progress Table
 
@@ -145,7 +153,7 @@
 | 27. Pipeline Failure Recovery | — | 1/1 | Complete | 2026-06-22 |
 | 28. Persistent Browse Daemon | v2.0 | 3/3 | Complete | 2026-06-22 |
 | 29. Unified Daemon | v2.0 | 3/3 | Complete   | 2026-06-22 |
-| 30. Legacy Pipe Cleanup | v2.0 | 0/2 | Planned | — |
+| 30. Legacy Pipe Cleanup | v2.0 | 2/2 | Complete   | 2026-06-22 |
 
 ## Backlog
 
