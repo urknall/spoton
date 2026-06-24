@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-24T06:04:20.520Z",
+  "phase": null,
+  "phase_name": null,
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "released",
+  "completed_tasks": [
+    {"id": "v2.0.1", "name": "v2.0.1 released — Unified Daemon Architecture", "status": "done", "commit": "3501d4a"},
+    {"id": "forum-35", "name": "Forum draft #35 (CJS Browse fix confirmed) — closed, no reply needed", "status": "done"},
+    {"id": "forum-36", "name": "Forum draft #36 (gegen Daemon+Connect fix confirmed) — closed, no reply needed", "status": "done"},
+    {"id": "issue-28", "name": "Issue #28 (Ogg early skip) closed — root cause eliminated by v2.0 unified daemon", "status": "done"}
+  ],
+  "remaining_tasks": [],
+  "blockers": [],
+  "human_actions_pending": [
+    {"action": "Pi auf v2.0.1 updaten", "context": "LMS Plugin Manager → Check for Updates auf 192.168.13.5", "blocking": false},
+    {"action": "Connect auf chilly wieder einschalten", "context": "Wurde für UAT Test 5 deaktiviert", "blocking": false}
+  ],
+  "decisions": [
+    {"decision": "Positive Forum-Bestätigungen nicht mit Text beantworten", "rationale": "Nur Emoji-Reaktion, kein Noise im Thread", "phase": "general"},
+    {"decision": "Label 'approved' im Repo erstellt", "rationale": "Für Phase 24 Forum Auto-Post vorbereitet (grün, 0E8A16)", "phase": "general"}
+  ],
+  "uncommitted_files": [".planning/ROADMAP.md", ".planning/STATE.md"],
+  "next_action": "Offene Issues monitoren (#29 More-Menü, #32 Library Integration, #33 Follow Show). Backlog priorisieren für nächsten Milestone. Upstream PRs beobachten (librespot#1722, #1724). Forum für v2.0 Community-Feedback beobachten.",
+  "context_notes": "Zwischen-Milestones-Phase: v2.0.1 shipped, alle Phasen 28-30 komplett, kein aktiver Phase-Work. Projekt ist im Community-Feedback-Modus. Nächster größerer Schritt wäre Backlog-Priorisierung für v2.1 oder neuen Milestone."
+}
