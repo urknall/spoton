@@ -4,13 +4,13 @@ milestone: v1.5
 milestone_name: Podcasts
 status: milestone_complete
 stopped_at: Phase 29 context gathered
-last_updated: "2026-06-22T16:02:44.724Z"
+last_updated: "2026-06-24T14:22:41.121Z"
 progress:
-  total_phases: 8
-  completed_phases: 4
-  total_plans: 13
-  completed_plans: 7
-  percent: 50
+  total_phases: 10
+  completed_phases: 7
+  total_plans: 17
+  completed_plans: 14
+  percent: 70
 ---
 
 # Project State: SpotOn
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-06-14)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 29 — unified-browse-connect-daemon
+**Current Focus:** Phase 30 — legacy-pipe-cleanup
 
 ## Current Position
 
-Phase: 29 (unified-browse-connect-daemon) — EXECUTING
-Plan: 1 of 3
+Phase: 30 (legacy-pipe-cleanup) — EXECUTING
+Plan: 2 of 2
 All milestones shipped (v1.0, v1.1, v1.3, v1.5).
 Phase 22 (seek-favorites-bugfixes) complete.
 Phase 25 (play-all-full-pagination) complete.
@@ -73,6 +73,7 @@ Items acknowledged at v1.5 milestone close (2026-06-16):
 | debug | connect-reconnect-no-audio | awaiting_human_verify |
 | debug | sync-group-audio | fixed |
 | uat | Phase 16 macOS Binary (3 scenarios) | deferred (no macOS test env) |
+| Phase 31 P02 | 113 | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -92,6 +93,7 @@ Items acknowledged at v1.5 milestone close (2026-06-16):
 - [v1.5]: Follow/unfollow uses existing unified `PUT/DELETE /me/library` (same as Like button)
 - [Phase ?]: Follow/Unfollow uses unified PUT/DELETE /me/library — same endpoint as Like/Unlike, no new Spotify API surface
 - [Phase ?]: UX-01 dropped: episodeOrder setting not needed (Spotify API default newest-first is sufficient)
+- [Phase ?]: P-CR-03: CSRF guard checks csrfProtectionLevel before enforcing — respects admin security settings
 
 ### Pending Todos
 
@@ -116,7 +118,7 @@ None for current milestone.
 
 ## Session Continuity
 
-**Last session:** 2026-06-22T15:29:45.713Z
+**Last session:** 2026-06-24T14:22:41.113Z
 **Stopped at:** Phase 29 context gathered
 **Next action:** Issue #20 Antwort abwarten. Upstream PRs monitoren (librespot#1722 CDN fix, #1724 IPv6, lms-material#1236). Backlog: Spotty Favorites Migration (#6).
 

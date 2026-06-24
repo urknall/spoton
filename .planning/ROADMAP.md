@@ -128,13 +128,13 @@
   - [x] 30-01-PLAN.md — Delete legacy Perl modules + simplify Plugin.pm/ProtocolHandler.pm/Connect.pm + remove son-* from custom-convert.conf + remove dead Rust modes
   - [x] 30-02-PLAN.md — Add browse_abort_gen rapid-skip debounce to unified.rs + final verification
 
-- [ ] **Phase 31: Code Review Hardening**
+- [x] **Phase 31: Code Review Hardening** (completed 2026-06-24)
   **Goal**: Fix two architectural findings from the full codebase code review: (1) Spirc event dispatcher dies silently after ZeroConf reconnect — LMS loses Connect notifications, (2) AJAX write-endpoints lack CSRF protection when LMS auth is enabled.
   **Plans:** 2 plans
 
   Plans:
-  - [ ] 31-01-PLAN.md — Respawn event dispatcher after Spirc reconnect (R-WR-07)
-  - [ ] 31-02-PLAN.md — CSRF protection on AJAX write-endpoints (P-CR-03)
+  - [x] 31-01-PLAN.md — Respawn event dispatcher after Spirc reconnect (R-WR-07)
+  - [x] 31-02-PLAN.md — CSRF protection on AJAX write-endpoints (P-CR-03)
 
 ## Progress Table
 
