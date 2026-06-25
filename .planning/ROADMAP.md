@@ -136,6 +136,14 @@
   - [x] 31-01-PLAN.md — Respawn event dispatcher after Spirc reconnect (R-WR-07)
   - [x] 31-02-PLAN.md — CSRF protection on AJAX write-endpoints (P-CR-03)
 
+- [ ] **Phase 32: Status Page**
+  **Goal**: Dedizierte Web-Seite unter `/plugins/SpotOn/status.html` mit Live-Statistiken, Health-Infos und Diagnostik — Daemon-Status, API-Quota, Player-Übersicht, Token-Health, Cache-Statistiken, letzte Fehler.
+  **Plans:** 2 plans
+
+  Plans:
+  - [ ] 32-01-PLAN.md — Backend: Status.pm module + Client.pm counters + tests
+  - [ ] 32-02-PLAN.md — Frontend: status.html dashboard + Settings link + visual verification
+
 ## Progress Table
 
 | Phase | Milestone | Plans | Status | Completed |
@@ -155,9 +163,6 @@
 | 29. Unified Daemon | v2.0 | 3/3 | Complete   | 2026-06-22 |
 | 30. Legacy Pipe Cleanup | v2.0 | 2/2 | Complete   | 2026-06-22 |
 
-- [ ] **Phase 32: Status Page**
-  **Goal**: Dedizierte Web-Seite unter `/plugins/SpotOn/status.html` mit Live-Statistiken, Health-Infos und Diagnostik — Daemon-Status, API-Quota, Player-Übersicht, Token-Health, Cache-Statistiken, letzte Fehler.
-
 ## Backlog
 
 Items discovered during development — not assigned to a milestone.
@@ -172,4 +177,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-22 — Phase 30 plans created (2 plans, 2 waves)*
+*Last updated: 2026-06-25 — Phase 32 plans created (2 plans, 2 waves)*
