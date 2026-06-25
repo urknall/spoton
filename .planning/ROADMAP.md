@@ -155,6 +155,9 @@
 | 29. Unified Daemon | v2.0 | 3/3 | Complete   | 2026-06-22 |
 | 30. Legacy Pipe Cleanup | v2.0 | 2/2 | Complete   | 2026-06-22 |
 
+- [ ] **Phase 32: Status Page**
+  **Goal**: Dedizierte Web-Seite unter `/plugins/SpotOn/status.html` mit Live-Statistiken, Health-Infos und Diagnostik — Daemon-Status, API-Quota, Player-Übersicht, Token-Health, Cache-Statistiken, letzte Fehler.
+
 ## Backlog
 
 Items discovered during development — not assigned to a milestone.
