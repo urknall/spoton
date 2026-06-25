@@ -136,13 +136,13 @@
   - [x] 31-01-PLAN.md — Respawn event dispatcher after Spirc reconnect (R-WR-07)
   - [x] 31-02-PLAN.md — CSRF protection on AJAX write-endpoints (P-CR-03)
 
-- [ ] **Phase 32: Status Page**
+- [x] **Phase 32: Status Page** (completed 2026-06-25)
   **Goal**: Dedizierte Web-Seite unter `/plugins/SpotOn/status.html` mit Live-Statistiken, Health-Infos und Diagnostik — Daemon-Status, API-Quota, Player-Übersicht, Token-Health, Cache-Statistiken, letzte Fehler.
   **Plans:** 2 plans
 
   Plans:
   - [x] 32-01-PLAN.md — Backend: Status.pm module + Client.pm counters + tests
-  - [ ] 32-02-PLAN.md — Frontend: status.html dashboard + Settings link + visual verification
+  - [x] 32-02-PLAN.md — Frontend: status.html dashboard + Settings link + visual verification
 
 ## Progress Table
 
