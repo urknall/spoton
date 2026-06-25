@@ -141,7 +141,7 @@
   **Plans:** 2 plans
 
   Plans:
-  - [ ] 32-01-PLAN.md — Backend: Status.pm module + Client.pm counters + tests
+  - [x] 32-01-PLAN.md — Backend: Status.pm module + Client.pm counters + tests
   - [ ] 32-02-PLAN.md — Frontend: status.html dashboard + Settings link + visual verification
 
 ## Progress Table
