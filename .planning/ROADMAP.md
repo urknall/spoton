@@ -10,7 +10,7 @@
 - ✅ **v1.1 Hardening & Reach** — Phases 7-12 (shipped 2026-06-06)
 - ✅ **v1.3 Polish & Publish** — Phases 13-16.1 (shipped 2026-06-13)
 - ✅ **v1.5 Podcasts** — Phases 18-21 (shipped 2026-06-15)
-- 🔄 **v2.0 Browse Daemon Migration** — Phases 28-30 (active)
+- ✅ **v2.0 Browse Daemon Migration** — Phases 22, 25-32 (shipped 2026-06-25)
 
 ## Phases
 
@@ -60,89 +60,7 @@
 </details>
 
 - ✅ **v1.5 Podcasts** — Phases 18-21 (shipped 2026-06-15) → [archive](milestones/v1.5-ROADMAP.md)
-
-## Active
-
-- [x] **Phase 22: Seek + Favorites Bugfixes** — completed 2026-06-17
-  **Goal**: Fix seeking (duration 0:00 in seek bar) and LMS favorites (spotify: scheme statt spoton://)
-  **Plans:** 1 plan
-
-  Plans:
-  - [x] 22-01-PLAN.md — Fix seek bar duration + favorites URL scheme + explodePlaylist
-
-- [ ] **Phase 23: Forum Monitor + Draft Generation**
-  **Goal**: GitHub Action (cron) die den Lyrion-Forum-Thread pollt, neue Posts erkennt, via Claude API Draft-Replies generiert und als GitHub Issues zur Review erstellt.
-
-- [ ] **Phase 24: Forum Auto-Post**
-  **Goal**: Label-getriggerter GitHub Action Workflow der approved Draft-Replies automatisch im vBulletin-Forum postet.
-
-- [x] **Phase 25: Play-All Full Pagination** — completed 2026-06-18
-  **Goal**: Play-All auf Playlists, Liked Songs, Alben und Shows spielt alle Tracks ab — nicht nur die erste API-Seite (max 50/100). Reusable Paginator-Helper für alle Feed-Funktionen.
-  **Plans:** 1/1 plans complete
-
-  Plans:
-  - [x] 25-01-PLAN.md — Reusable _fetchAllPages helper + integration in all four feeds + ProtocolHandler show-explode fix
-
-- [x] **Phase 26: Browse Error Recovery + Diagnostics** — completed 2026-06-21
-  **Goal**: Unavailable Tracks in Browse Mode erkennen und automatisch skippen statt endlos hängen. Diagnostic Bundle um Browse-Mode stderr erweitern.
-  **Plans:** 2/2 plans complete
-
-  Plans:
-  - [x] 26-01-PLAN.md — Unavailable track detection + auto-skip
-  - [x] 26-02-PLAN.md — Browse stderr capture for diagnostics
-
-- [x] **Phase 27: Browse Pipeline Failure Recovery** — completed 2026-06-22
-  **Goal**: Prefetch-Hang bei unavailable Tracks verhindern (LMS wartet auf PCM-Daten die nie kommen) und Rapid-Retry-Loop stoppen.
-  **Plans:** 1/1 plans complete
-
-  Plans:
-  - [x] 27-01-PLAN.md — Prefetch watchdog + skip cache
-
-### v2.0 Browse Daemon Migration
-
-- [x] **Phase 28: Persistent Browse Daemon** — completed 2026-06-22
-  **Goal**: Per-track `--single-track` spawning durch persistenten Browse-Daemon mit HTTP-Track-Serving ersetzen. Löst Prefetch-Hang, Audio-Key-Throttling und Log-Flood an der Wurzel.
-  **Plans:** 3/3 plans complete
-  Canonical refs: `.planning/notes/browse-daemon-architecture-decision.md`
-
-  Plans:
-  - [x] 28-01-PLAN.md — Browse daemon Rust implementation (HTTP server + track endpoint)
-  - [x] 28-02-PLAN.md — Browse daemon lifecycle modules (DaemonManager + Daemon Perl)
-  - [x] 28-03-PLAN.md — Browse-HTTP pipeline integration (ProtocolHandler + Plugin wiring)
-
-- [x] **Phase 29: Unified Browse+Connect Daemon** (completed 2026-06-22)
-  **Goal**: Browse- und Connect-Daemon in einen Prozess pro Player zusammenführen — ein librespot-Prozess mit Spirc (Connect) + HTTP Track-Endpoint (Browse) gleichzeitig. Eliminiert doppelten RAM-Overhead und Session-Koordination.
-  **Plans:** 3 plans
-  Canonical refs: `.planning/notes/browse-daemon-architecture-decision.md`, `.planning/seeds/evaluate-phase2-unified-daemon.md`
-
-  Plans:
-  - [x] 29-01-PLAN.md — Unified Rust daemon (unified.rs + main.rs CLI dispatch)
-  - [x] 29-02-PLAN.md — Unified Perl DaemonManager + Daemon lifecycle modules
-  - [x] 29-03-PLAN.md — Integration (ProtocolHandler + Plugin.pm + daemonMode pref)
-
-- [x] **Phase 30: Legacy Pipe Cleanup** (completed 2026-06-22)
-  **Goal**: Remove `--single-track` mode and `son-*` transcoding pipelines. Remove `browseMode`/`daemonMode` toggle prefs. Delete Browse::DM, Browse::Daemon, Connect::DM, Connect::Daemon modules. Add rapid-skip debounce to unified.rs.
-  **Plans:** 2 plans
-
-  Plans:
-  - [x] 30-01-PLAN.md — Delete legacy Perl modules + simplify Plugin.pm/ProtocolHandler.pm/Connect.pm + remove son-* from custom-convert.conf + remove dead Rust modes
-  - [x] 30-02-PLAN.md — Add browse_abort_gen rapid-skip debounce to unified.rs + final verification
-
-- [x] **Phase 31: Code Review Hardening** (completed 2026-06-24)
-  **Goal**: Fix two architectural findings from the full codebase code review: (1) Spirc event dispatcher dies silently after ZeroConf reconnect — LMS loses Connect notifications, (2) AJAX write-endpoints lack CSRF protection when LMS auth is enabled.
-  **Plans:** 2 plans
-
-  Plans:
-  - [x] 31-01-PLAN.md — Respawn event dispatcher after Spirc reconnect (R-WR-07)
-  - [x] 31-02-PLAN.md — CSRF protection on AJAX write-endpoints (P-CR-03)
-
-- [x] **Phase 32: Status Page** (completed 2026-06-25)
-  **Goal**: Dedizierte Web-Seite unter `/plugins/SpotOn/status.html` mit Live-Statistiken, Health-Infos und Diagnostik — Daemon-Status, API-Quota, Player-Übersicht, Token-Health, Cache-Statistiken, letzte Fehler.
-  **Plans:** 2 plans
-
-  Plans:
-  - [x] 32-01-PLAN.md — Backend: Status.pm module + Client.pm counters + tests
-  - [x] 32-02-PLAN.md — Frontend: status.html dashboard + Settings link + visual verification
+- ✅ **v2.0 Browse Daemon Migration** — Phases 22, 25-32 (shipped 2026-06-25) → [archive](milestones/v2.0-ROADMAP.md)
 
 ## Progress Table
 
@@ -151,17 +69,16 @@
 | 1-6 (15 phases) | v1.0 | 50/50 | Complete | 2026-06-03 |
 | 7-12 (7 phases) | v1.1 | 13/13 | Complete | 2026-06-06 |
 | 13-16.1 (5 phases) | v1.3 | 9/9 | Complete | 2026-06-13 |
-| 18. Podcast API Foundation | v1.5 | 1/1 | Complete | 2026-06-14 |
-| 19. Podcast Browse | v1.5 | 2/2 | Complete | 2026-06-14 |
-| 20. Podcast Library Actions | v1.5 | 1/1 | Complete | 2026-06-15 |
-| 21. Podcast UX Polish + i18n | v1.5 | 2/2 | Complete | 2026-06-15 |
-| 22. Seek + Favorites Bugfixes | — | 1/1 | Complete | 2026-06-17 |
-| 25. Play-All Full Pagination | — | 1/1 | Complete | 2026-06-18 |
-| 26. Browse Error Recovery | — | 2/2 | Complete | 2026-06-21 |
-| 27. Pipeline Failure Recovery | — | 1/1 | Complete | 2026-06-22 |
+| 18-21 (4 phases) | v1.5 | 6/6 | Complete | 2026-06-15 |
+| 22. Seek + Favorites Bugfixes | v2.0 | 1/1 | Complete | 2026-06-17 |
+| 25. Play-All Full Pagination | v2.0 | 1/1 | Complete | 2026-06-18 |
+| 26. Browse Error Recovery | v2.0 | 2/2 | Complete | 2026-06-21 |
+| 27. Pipeline Failure Recovery | v2.0 | 1/1 | Complete | 2026-06-22 |
 | 28. Persistent Browse Daemon | v2.0 | 3/3 | Complete | 2026-06-22 |
-| 29. Unified Daemon | v2.0 | 3/3 | Complete   | 2026-06-22 |
-| 30. Legacy Pipe Cleanup | v2.0 | 2/2 | Complete   | 2026-06-22 |
+| 29. Unified Daemon | v2.0 | 3/3 | Complete | 2026-06-22 |
+| 30. Legacy Pipe Cleanup | v2.0 | 2/2 | Complete | 2026-06-22 |
+| 31. Code Review Hardening | v2.0 | 2/2 | Complete | 2026-06-24 |
+| 32. Status Page | v2.0 | 2/2 | Complete | 2026-06-25 |
 
 ## Backlog
 
@@ -174,7 +91,9 @@ Items discovered during development — not assigned to a milestone.
 5. ~~**Diagnostics: "Clear Logs" Button in Settings**~~ — Implementiert in v1.7.4 (truncate on daemon restart + Clear Logs button).
 6. **Spotty Favorites Migration** — Settings-Button der `spotify://` Einträge in LMS Favorites und Playlists als `spoton://` Duplikate anlegt. Originale bleiben erhalten, User kann Spotty danach deinstallieren. URI-Schema nach Prefix ist identisch (`track:ID`, `album:ID`, etc.). Idee von Paul Webster (Forum #32, 2026-06-19).
 7. **Search Pagination** — Suchergebnisse über offset-Pagination nachladen (aktuell max 50 pro Typ, Spotify hat oft 100+). LMS OPMLBased-Pagination nutzen.
+8. **Forum Monitor + Draft Generation** — GitHub Action (cron) die den Lyrion-Forum-Thread pollt, neue Posts erkennt, via Claude API Draft-Replies generiert und als GitHub Issues zur Review erstellt. (Ehemals Phase 23, bereits als Self-Hosted Runner implementiert.)
+9. **Forum Auto-Post** — Label-getriggerter GitHub Action Workflow der approved Draft-Replies automatisch im vBulletin-Forum postet. (Ehemals Phase 24.)
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-25 — Phase 32 plans created (2 plans, 2 waves)*
+*Last updated: 2026-06-25 — v2.0 milestone closed*

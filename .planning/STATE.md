@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.5
-milestone_name: Podcasts
+milestone: v2.0
+milestone_name: Browse Daemon Migration
 status: milestone_complete
-stopped_at: Milestone complete (Phase 32 was final phase)
-last_updated: 2026-06-25T16:30:02.705Z
+stopped_at: v2.0 milestone closed — all phases (22, 25-32) shipped
+last_updated: 2026-06-25T19:00:00.000Z
 progress:
-  total_phases: 12
-  completed_phases: 7
-  total_plans: 19
+  total_phases: 9
+  completed_phases: 9
+  total_plans: 16
   completed_plans: 16
-  percent: 58
+  percent: 100
 ---
 
 # Project State: SpotOn
@@ -21,38 +21,50 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-14)
+See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Milestone complete
+**Current Focus:** v2.0 milestone shipped. No active milestone.
 
 ## Current Position
 
-Phase: 32
-Plan: Not started
-All milestones shipped (v1.0, v1.1, v1.3, v1.5).
-Phase 22 (seek-favorites-bugfixes) complete.
-Phase 25 (play-all-full-pagination) complete.
-Phases 23/24 (forum monitor) in progress — ad-hoc, no milestone.
-Current version: v1.7.8
+All milestones shipped (v1.0, v1.1, v1.3, v1.5, v2.0).
+Current version: v2.0.8
+No active phase or milestone.
 
 ## Progress Bar
 
 ```
-v1.5 Podcasts: [████████████████████] 4/4 phases (SHIPPED 2026-06-15)
-Phase 18: [x] API Foundation
-Phase 19: [x] Podcast Browse
-Phase 20: [x] Library Actions
-Phase 21: [x] UX Polish + i18n
+v2.0 Browse Daemon Migration: [████████████████████] 9/9 phases (SHIPPED 2026-06-25)
+Phase 22: [x] Seek + Favorites Bugfixes
+Phase 25: [x] Play-All Full Pagination
+Phase 26: [x] Browse Error Recovery
+Phase 27: [x] Pipeline Failure Recovery
+Phase 28: [x] Persistent Browse Daemon
+Phase 29: [x] Unified Daemon
+Phase 30: [x] Legacy Pipe Cleanup
+Phase 31: [x] Code Review Hardening
+Phase 32: [x] Status Page
 ```
 
 ## Performance Metrics
 
+**v2.0 velocity:**
+
+- 9 phases, 16 plans in 9 days (2026-06-17 → 2026-06-25)
+- Avg ~1.8 plans/day (architecture-heavy phases, Rust + Perl dual-stack)
+- 197 commits, 25 files changed, +3020/-989 lines
+
+**v1.5 velocity:**
+
+- 4 phases, 6 plans in 2 days (2026-06-14 → 2026-06-15)
+- Avg ~3 plans/day
+
 **v1.3 velocity:**
 
 - 5 phases, 9 plans in 7 days (2026-06-07 → 2026-06-13)
-- Avg ~1.3 plans/day (lower due to hardware testing, research, and UX iteration)
+- Avg ~1.3 plans/day
 
 **v1.1 velocity:**
 
@@ -66,14 +78,14 @@ Phase 21: [x] UX Polish + i18n
 
 ## Deferred Items
 
-Items acknowledged at v1.5 milestone close (2026-06-16):
+Items acknowledged at v2.0 milestone close (2026-06-25):
 
 | Category | Item | Status |
 |----------|------|--------|
 | debug | connect-reconnect-no-audio | awaiting_human_verify |
 | debug | sync-group-audio | fixed |
 | uat | Phase 16 macOS Binary (3 scenarios) | deferred (no macOS test env) |
-| Phase 31 P02 | 113 | 1 tasks | 3 files |
+| verification | Phase 25, 26, 30 human_needed | functionally verified via UAT |
 
 ## Accumulated Context
 
@@ -84,20 +96,13 @@ Items acknowledged at v1.5 milestone close (2026-06-16):
 - [v1.3]: macOS ad-hoc codesign sufficient for LMS plugin manager
 - [v1.3]: Conditional Rust build via tag-diff change detection
 - [v1.3]: Phase 17 removed — MozartBridge project preferred
-- [v1.3]: Account switcher: text + link pattern (LMS OPML has no auto-redirect)
 - [v1.5]: "Podcasts" is a top-level menu item (not nested under Bibliothek)
-- [v1.5]: Episode order is a GLOBAL setting (not per-player like Spotty had it)
-- [v1.5]: Batch show/episode endpoints removed in Dev Mode — individual fetch only
-- [v1.5]: Search limited to max 10 results per type in Dev Mode
-- [v1.5]: Resume point available via episode.resume_point (fully_played + resume_position_ms)
-- [v1.5]: Follow/unfollow uses existing unified `PUT/DELETE /me/library` (same as Like button)
-- [Phase ?]: Follow/Unfollow uses unified PUT/DELETE /me/library — same endpoint as Like/Unlike, no new Spotify API surface
-- [Phase ?]: UX-01 dropped: episodeOrder setting not needed (Spotify API default newest-first is sufficient)
-- [Phase ?]: P-CR-03: CSRF guard checks csrfProtectionLevel before enforcing — respects admin security settings
-
-### Pending Todos
-
-None.
+- [v1.5]: Episode order is a GLOBAL setting (not per-player)
+- [v2.0]: Unified Daemon Architecture — one librespot process per player (Browse + Connect)
+- [v2.0]: HTTP Track Streaming replaces FIFO pipe architecture
+- [v2.0]: Status Page uses addPageFunction (standalone, not inside Settings framework)
+- [v2.0]: Browse 404 retry: 3 attempts with 2s delay before skip (audio-key throttle resilience)
+- [v2.0]: CSRF guard checks csrfProtectionLevel before enforcing
 
 ### Blockers/Concerns
 
@@ -118,10 +123,10 @@ None for current milestone.
 
 ## Session Continuity
 
-**Last session:** 2026-06-25T15:19:06.649Z
-**Stopped at:** Phase 32 UI-SPEC approved
-**Next action:** Issue #20 Antwort abwarten. Upstream PRs monitoren (librespot#1722 CDN fix, #1724 IPv6, lms-material#1236). Backlog: Spotty Favorites Migration (#6).
+**Last session:** 2026-06-25
+**Stopped at:** v2.0 milestone closed
+**Next action:** Start next milestone or work from backlog. Upstream PRs monitoren (librespot#1722 CDN fix, #1724 IPv6, lms-material#1236). Backlog: Spotty Favorites Migration (#6), Search Pagination (#7).
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-21 — Forum support @lmsc, Phase 25 complete, Issue #12 relabeled*
+*Last updated: 2026-06-25 — v2.0 milestone closed*
