@@ -1,35 +1,37 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-24T11:35:34.285Z",
-  "phase": null,
-  "phase_name": null,
-  "phase_dir": null,
+  "timestamp": "2026-06-25T12:11:02.168Z",
+  "phase": "31",
+  "phase_name": "code-review-hardening",
+  "phase_dir": ".planning/phases/31-code-review-hardening",
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "released",
   "completed_tasks": [
-    {"id": "v2.0.2", "name": "v2.0.2 released — Browse session auto-reconnect fix", "status": "done", "commit": "4a7c4e8"},
-    {"id": "repo-xml", "name": "repo.xml SHA updated for v2.0.2", "status": "done", "commit": "3a204f3"},
-    {"id": "issue-37", "name": "Issue #37 created — Browse 404 after overnight session drop", "status": "done"},
-    {"id": "issue-28", "name": "Issue #28 (Ogg early skip) closed — root cause eliminated by v2.0", "status": "done"},
-    {"id": "forum-35", "name": "Forum draft #35 (CJS) closed — positive, no reply", "status": "done"},
-    {"id": "forum-36", "name": "Forum draft #36 (gegen) closed — positive, no reply", "status": "done"},
-    {"id": "backlog-prio", "name": "Backlog priorisiert: #29 More-Menü → #33 Follow Show → #6 Migration → #32 Library", "status": "done"}
+    {"id": "v2.0.3-v2.0.8", "name": "6 releases: Browse reconnect, code review fixes, Windows support, static CRT, troubleshooting", "status": "done"},
+    {"id": "phase-31", "name": "Phase 31 complete: event dispatcher respawn + CSRF protection", "status": "done"},
+    {"id": "code-review", "name": "Full codebase code review (7 critical, 15 warnings, 11 info) — all addressed", "status": "done"},
+    {"id": "windows", "name": "Windows daemon startup: tempfile port capture, SPOTON_PORT_FILE/LOG_FILE env vars, MSVC build, static CRT", "status": "done"},
+    {"id": "search", "name": "Search routed through bundled token: limit raised 10→50, no null entries", "status": "done"},
+    {"id": "troubleshooting", "name": "TROUBLESHOOTING.md + i18n setup hint + Windows Firewall tip", "status": "done"},
+    {"id": "forum", "name": "Forum replies: foxesden Windows (#62), CJS confirmation (#64/#66)", "status": "done"},
+    {"id": "issues", "name": "Issues closed: #1, #37, #38, #39, #40, #41, #43, #44. #42 commented (update needed)", "status": "done"}
   ],
   "remaining_tasks": [],
   "blockers": [],
   "human_actions_pending": [
-    {"action": "Morgen früh Logs checken ob Browse nach Overnight-Session-Drop funktioniert", "context": "v2.0.2 auto-reconnect fix — Issue #37 schließen wenn OK", "blocking": false},
-    {"action": "Connect auf chilly wieder einschalten", "context": "Wurde für UAT Test 5 deaktiviert", "blocking": false}
+    {"action": "Forum reply foxesden/CJS posten", "context": "~/SynologyDrive/forum-reply-cjs-foxesden-windows-fix.txt — v2.0.7 erwähnt, v2.0.8 ist aktuell", "blocking": false},
+    {"action": "Windows VM Firewall-Ausnahme dokumentieren", "context": "CJS Tipp in TROUBLESHOOTING.md aufgenommen", "blocking": false}
   ],
   "decisions": [
-    {"decision": "Backlog-Reihenfolge: #29 → #33 → #6 → #32", "rationale": "#29 More-Menü höchster Impact (betrifft jeden User), #32 Library bewusst niedrig (API-Quota)", "phase": "general"},
-    {"decision": "#29 und #33 als ad-hoc Phasen, #6 als Milestone-Material", "rationale": "Kleine UX-Fixes vs. größeres Feature", "phase": "general"},
-    {"decision": "Positive Forum-Bestätigungen: nur Emoji, kein Text-Reply", "rationale": "Kein Noise im Thread", "phase": "general"},
-    {"decision": "Lokal testen vor Release, Pi ist erster Community-User", "rationale": "Klare Trennung Dev/Prod, kein direktes scp auf Pi", "phase": "general"}
+    {"decision": "Search über bundled Token routen", "rationale": "Bundled Token hat keine Dev-Mode-Beschränkung auf 10, liefert keine null-Einträge", "phase": "search"},
+    {"decision": "SPOTON_PORT_FILE + SPOTON_LOG_FILE env vars", "rationale": "Proc::Background stdout/stderr redirect funktioniert nicht auf Windows Services", "phase": "windows"},
+    {"decision": "Statisches CRT-Linking für Windows", "rationale": "Kein VCRUNTIME140.dll Redistributable nötig", "phase": "windows"},
+    {"decision": "tasklist statt PowerShell", "rationale": "PowerShell kann per Enterprise Policy eingeschränkt sein", "phase": "windows"},
+    {"decision": "Search Pagination ins Backlog", "rationale": "50 Ergebnisse reichen, Pagination ist Nice-to-have", "phase": "search"}
   ],
-  "uncommitted_files": [".planning/ROADMAP.md", ".planning/STATE.md"],
-  "next_action": "Morgen: Overnight-Logs auf Pi checken (#37). Wenn OK → Issue schließen. Dann #29 More-Menü als nächsten ad-hoc Fix angehen.",
-  "context_notes": "v2.0.2 released mit Browse session auto-reconnect. Fix deployed auf Pi für Overnight-Test. Backlog priorisiert. Nächster Code-Task wäre #29 More-Menü (trackInfoHandler append statt override)."
+  "uncommitted_files": [],
+  "next_action": "Forum-Reply aktualisieren (v2.0.8 statt v2.0.7), v2.0.9 Release mit Search-Verbesserung vorbereiten. Backlog: #29 More-Menü, #33 Follow Show, #6 Spotty Migration, #7 Search Pagination.",
+  "context_notes": "Extrem produktive Session: 6 Releases (v2.0.3-v2.0.8), Full Code Review, Windows-Support von Grund auf gebaut, Search-Limit von 10 auf 50 gehoben. Windows VM (192.168.123.244) ist eingerichtet und getestet. Forum-Community aktiv (CJS, foxesden, gegen)."
 }
