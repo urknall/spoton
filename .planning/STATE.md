@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.5
 milestone_name: Podcasts
 status: milestone_complete
-stopped_at: Phase 32 UI-SPEC approved
-last_updated: "2026-06-25T15:36:45.322Z"
+stopped_at: Milestone complete (Phase 32 was final phase)
+last_updated: 2026-06-25T16:30:02.705Z
 progress:
   total_phases: 12
   completed_phases: 7
   total_plans: 19
-  completed_plans: 14
+  completed_plans: 16
   percent: 58
 ---
 
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-06-14)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 32 — status-page
+**Current Focus:** Milestone complete
 
 ## Current Position
 
-Phase: 32 (status-page) — EXECUTING
-Plan: 1 of 2
+Phase: 32
+Plan: Not started
 All milestones shipped (v1.0, v1.1, v1.3, v1.5).
 Phase 22 (seek-favorites-bugfixes) complete.
 Phase 25 (play-all-full-pagination) complete.
