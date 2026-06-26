@@ -83,7 +83,7 @@
 
 | 33. More Context Menu | v2.1 | 1/1 | Complete | 2026-06-26 |
 | 34. Add to Playlist | v2.1 | 1/1 | Complete | 2026-06-26 |
-| 35. Liked Songs Play-All Throttle | — | 0/1 | Ready | — |
+| 35. Liked Songs Play-All Throttle | — | 1/1 | Complete | 2026-06-26 |
 
 ## Backlog
 

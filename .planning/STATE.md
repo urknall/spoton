@@ -135,8 +135,14 @@ None.
 ## Session Continuity
 
 **Last session:** 2026-06-26
-**Stopped at:** Milestone v2.1 Context Menu audited + PASSED. Alle Phasen, Releases, Docs abgeschlossen.
-**Next action:** Backlog priorisieren (Spotty Favorites Migration #6, Search Pagination #7) oder Issue #50 untersuchen. Issue #50 (JesseHoekema) wartet auf Antwort — Pi Binary/Log-Infos angefragt. Forum Reply für CJS liegt in ~/SynologyDrive/forum-reply-cjs-context-menu.txt.
+**Stopped at:** v2.1.2 released (Phase 35 play-all fix). Debug session liked-songs-play-all-throttle resolved. Issue #42, #50, #52 awaiting user replies.
+**Next action:**
+- Phase 35 GSD docs abschließen (SUMMARY, STATE, ROADMAP für Phase 35)
+- Forum Replies posten: CJS (~/SynologyDrive/forum-reply-cjs-context-menu.txt), Borrowing7981 (~/SynologyDrive/forum-reply-borrowing7981-kubernetes.txt)
+- Issue #42 (jmhunter): custom-convert.conf in Docker — wartet auf Antwort
+- Issue #50 (JesseHoekema): Pi Binary — wartet auf Antwort
+- Issue #52 (Borrowing7981): Kubernetes credentials — wartet auf Antwort
+- Backlog: Spotty Favorites Migration (#6), Search Pagination (#7)
 
 ---
 *State initialized: 2026-05-26*
