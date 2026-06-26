@@ -54,7 +54,7 @@ completed: 2026-06-26
 - **Files modified:** 3
 
 ## Accomplishments
-- Extended metadata cache with artistId/albumId/showId across all 5 cache-write sites (Plugin, ProtocolHandler x3, Connect)
+- Extended metadata cache with artistId/albumId/showId across all 6 cache-write sites (Plugin _trackItem + _episodeItem, ProtocolHandler x3, Connect)
 - Rewrote trackInfoMenu to return arrayref: Artist View, Album View, Like/Unlike for tracks; View Show, Follow for episodes
 - Updated trackInfoURL in ProtocolHandler to mirror the same items
 - Fixed registerInfoProvider positioning with `after => 'top'`
@@ -63,11 +63,12 @@ completed: 2026-06-26
 
 1. **Task 1+2: Cache extension + Menu rewrite** — `13025a4` (feat)
 2. **Review fix: Episode Follow showId guard** — `8be296e` (fix)
+3. **UAT fix: _episodeItem cache missing showId/showName** — `a276e22` (fix)
 
 **Plan metadata:** `ef39d0c` (docs: create phase plan)
 
 ## Files Created/Modified
-- `Plugins/SpotOn/Plugin.pm` — trackInfoMenu rewrite (arrayref, track+episode), _trackItem cache extension, registerInfoProvider after=>'top', JSON::XS import
+- `Plugins/SpotOn/Plugin.pm` — trackInfoMenu rewrite (arrayref, track+episode), _trackItem + _episodeItem cache extension, registerInfoProvider after=>'top', JSON::XS import
 - `Plugins/SpotOn/ProtocolHandler.pm` — _cacheExplodedTrack (+albumId param), _cacheExplodedEpisode (+showId/showName), _asyncRefetch (+ID fields), trackInfoURL (episode support + Artist/Album View), JSON::XS import
 - `Plugins/SpotOn/Connect.pm` — _fetchTrackMetadata cache extension (+artistId/artistIds/albumId)
 
@@ -87,9 +88,17 @@ completed: 2026-06-26
 - **Verification:** Brace balance check passed
 - **Committed in:** `8be296e`
 
+**2. [Rule 2 - Missing Critical] _episodeItem cache missing showId/showName**
+- **Found during:** Local UAT — episode More menu was empty
+- **Issue:** `_episodeItem` in Plugin.pm (6th cache-write site) was missed by plan — no showId/showName stored, so trackInfoMenu returned no items for episodes
+- **Fix:** Added showId and showName to the cache hash in _episodeItem
+- **Files modified:** Plugins/SpotOn/Plugin.pm
+- **Verification:** Local UAT — View Show and Follow/Unfollow now appear for episodes
+- **Committed in:** `a276e22`
+
 ---
 
-**Total deviations:** 1 auto-fixed (1 missing critical)
+**Total deviations:** 2 auto-fixed (2 missing critical)
 **Impact on plan:** Essential correctness fix. No scope creep.
 
 ## Issues Encountered
