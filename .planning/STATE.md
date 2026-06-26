@@ -120,12 +120,13 @@ None for current milestone.
 | 260618-gt7 | Connect daemon log truncate on restart + clear logs button | 2026-06-18 | 398a722 | [260618-gt7-connect-daemon-log-truncate-on-restart-c](./quick/260618-gt7-connect-daemon-log-truncate-on-restart-c/) |
 | 260618-mi1 | IPv6 discovery fallback — vendor librespot-discovery, patch dual-stack bind | 2026-06-18 | 784556b | [260618-mi1-ipv6-discovery-fallback-vendor-librespot](./quick/260618-mi1-ipv6-discovery-fallback-vendor-librespot/) |
 | 260618-zc1 | Fix ZeroConf discovery auth race condition + setup guide rewrite + AJAX discovery | 2026-06-18 | 9de1891..42aca77 | [260618-zc1-fix-zeroconf-discovery-auth-race-cond](./quick/260618-zc1-fix-zeroconf-discovery-auth-race-cond/) |
+| 260626-caw | Status page: player names, sync groups, playback status, error recording | 2026-06-26 | 20c5381 | [260626-caw-status-page-player-names-sync-groups-pla](./quick/260626-caw-status-page-player-names-sync-groups-pla/) |
 
 ## Session Continuity
 
-**Last session:** 2026-06-25
-**Stopped at:** v2.0 milestone closed
-**Next action:** Start next milestone or work from backlog. Upstream PRs monitoren (librespot#1722 CDN fix, #1724 IPv6, lms-material#1236). Backlog: Spotty Favorites Migration (#6), Search Pagination (#7).
+**Last session:** 2026-06-26
+**Stopped at:** Quick task 260626-caw complete — status page enhanced
+**Next action:** Start next milestone or work from backlog. Upstream PRs monitoren (librespot#1724 IPv6). Backlog: Spotty Favorites Migration (#6), Search Pagination (#7).
 
 ---
 *State initialized: 2026-05-26*
