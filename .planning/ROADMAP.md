@@ -81,6 +81,7 @@
 | 32. Status Page | v2.0 | 2/2 | Complete | 2026-06-25 |
 
 | 33. More Context Menu | — | 1/1 | Complete | 2026-06-26 |
+| 34. Add to Playlist | — | 1/1 | Complete | 2026-06-26 |
 
 ## Backlog
 

@@ -25,11 +25,11 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 33 complete — awaiting local UAT
+**Current Focus:** Phase 34 complete — Add to Playlist shipped
 
 ## Current Position
 
-Phase: 33 (more-context-menu) — COMPLETE (pending UAT)
+Phase: 34 (add-to-playlist) — COMPLETE
 Plan: 1 of 1 — done
 All milestones shipped (v1.0, v1.1, v1.3, v1.5, v2.0).
 Current version: v2.0.9
@@ -51,6 +51,7 @@ Phase 32: [x] Status Page
 
 Standalone:
 Phase 33: [x] More Context Menu (GH #29)
+Phase 34: [x] Add to Playlist
 ```
 
 ## Performance Metrics
@@ -110,6 +111,8 @@ Items acknowledged at v2.0 milestone close (2026-06-25):
 - [v2.0]: CSRF guard checks csrfProtectionLevel before enforcing
 - [33]: trackInfoMenu returns arrayref (multi-item), after => 'top' positioning
 - [33]: Cache-driven context menu: store IDs at cache-write, read at menu-build — no live API call
+- [34]: Spotify playlists (not LMS) for Add to Playlist — LMS handles its own natively
+- [34]: Query param for uris in addToPlaylist — works with existing _request infrastructure
 
 ### Blockers/Concerns
 
@@ -132,8 +135,8 @@ None.
 ## Session Continuity
 
 **Last session:** 2026-06-26
-**Stopped at:** Phase 33 complete — More Context Menu implemented, code reviewed, pending local UAT
-**Next action:** Local UAT (play track → More menu → verify Artist View, Album View, Like/Unlike). Dann: Backlog priorisieren (Spotty Favorites Migration #6, Search Pagination #7) oder Issue #50 untersuchen.
+**Stopped at:** Phase 34 complete — Add to Playlist shipped as v2.1.1
+**Next action:** Backlog priorisieren (Spotty Favorites Migration #6, Search Pagination #7) oder Issue #50 untersuchen.
 
 ---
 *State initialized: 2026-05-26*
