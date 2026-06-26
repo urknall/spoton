@@ -61,6 +61,7 @@
 
 - ✅ **v1.5 Podcasts** — Phases 18-21 (shipped 2026-06-15) → [archive](milestones/v1.5-ROADMAP.md)
 - ✅ **v2.0 Browse Daemon Migration** — Phases 22, 25-32 (shipped 2026-06-25) → [archive](milestones/v2.0-ROADMAP.md)
+- ✅ **v2.1 Context Menu** — Phases 33-34 (shipped 2026-06-26)
 
 ## Progress Table
 
@@ -80,8 +81,8 @@
 | 31. Code Review Hardening | v2.0 | 2/2 | Complete | 2026-06-24 |
 | 32. Status Page | v2.0 | 2/2 | Complete | 2026-06-25 |
 
-| 33. More Context Menu | — | 1/1 | Complete | 2026-06-26 |
-| 34. Add to Playlist | — | 1/1 | Complete | 2026-06-26 |
+| 33. More Context Menu | v2.1 | 1/1 | Complete | 2026-06-26 |
+| 34. Add to Playlist | v2.1 | 1/1 | Complete | 2026-06-26 |
 
 ## Backlog
 

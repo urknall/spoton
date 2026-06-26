@@ -49,7 +49,7 @@ Phase 30: [x] Legacy Pipe Cleanup
 Phase 31: [x] Code Review Hardening
 Phase 32: [x] Status Page
 
-Standalone:
+v2.1 Context Menu: [████████████████████] 2/2 phases (SHIPPED 2026-06-26)
 Phase 33: [x] More Context Menu (GH #29)
 Phase 34: [x] Add to Playlist
 ```
