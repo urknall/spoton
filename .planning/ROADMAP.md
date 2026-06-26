@@ -80,7 +80,7 @@
 | 31. Code Review Hardening | v2.0 | 2/2 | Complete | 2026-06-24 |
 | 32. Status Page | v2.0 | 2/2 | Complete | 2026-06-25 |
 
-| 33. More Context Menu | — | 1/1 | In Progress | — |
+| 33. More Context Menu | — | 1/1 | Complete | 2026-06-26 |
 
 ## Backlog
 

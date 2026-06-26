@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Browse Daemon Migration
 status: milestone_complete
-stopped_at: v2.0 milestone closed — all phases (22, 25-32) shipped
-last_updated: 2026-06-25T19:00:00.000Z
+stopped_at: Phase 33 complete — More Context Menu shipped, pending local UAT
+last_updated: "2026-06-26T09:15:00Z"
 progress:
-  total_phases: 9
+  total_phases: 13
   completed_phases: 9
-  total_plans: 16
-  completed_plans: 16
-  percent: 100
+  total_plans: 21
+  completed_plans: 17
+  percent: 65
 ---
 
 # Project State: SpotOn
@@ -25,13 +25,15 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** v2.0 milestone shipped. No active milestone.
+**Current Focus:** Phase 33 complete — awaiting local UAT
 
 ## Current Position
 
+Phase: 33 (more-context-menu) — COMPLETE (pending UAT)
+Plan: 1 of 1 — done
 All milestones shipped (v1.0, v1.1, v1.3, v1.5, v2.0).
-Current version: v2.0.8
-No active phase or milestone.
+Current version: v2.0.9
+No active milestone.
 
 ## Progress Bar
 
@@ -46,6 +48,9 @@ Phase 29: [x] Unified Daemon
 Phase 30: [x] Legacy Pipe Cleanup
 Phase 31: [x] Code Review Hardening
 Phase 32: [x] Status Page
+
+Standalone:
+Phase 33: [x] More Context Menu (GH #29)
 ```
 
 ## Performance Metrics
@@ -103,10 +108,12 @@ Items acknowledged at v2.0 milestone close (2026-06-25):
 - [v2.0]: Status Page uses addPageFunction (standalone, not inside Settings framework)
 - [v2.0]: Browse 404 retry: 3 attempts with 2s delay before skip (audio-key throttle resilience)
 - [v2.0]: CSRF guard checks csrfProtectionLevel before enforcing
+- [33]: trackInfoMenu returns arrayref (multi-item), after => 'top' positioning
+- [33]: Cache-driven context menu: store IDs at cache-write, read at menu-build — no live API call
 
 ### Blockers/Concerns
 
-None for current milestone.
+None.
 
 ### Quick Tasks Completed
 
@@ -125,9 +132,9 @@ None for current milestone.
 ## Session Continuity
 
 **Last session:** 2026-06-26
-**Stopped at:** Quick task 260626-caw complete — status page enhanced
-**Next action:** Start next milestone or work from backlog. Upstream PRs monitoren (librespot#1724 IPv6). Backlog: Spotty Favorites Migration (#6), Search Pagination (#7).
+**Stopped at:** Phase 33 complete — More Context Menu implemented, code reviewed, pending local UAT
+**Next action:** Local UAT (play track → More menu → verify Artist View, Album View, Like/Unlike). Dann: Backlog priorisieren (Spotty Favorites Migration #6, Search Pagination #7) oder Issue #50 untersuchen.
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-25 — v2.0 milestone closed*
+*Last updated: 2026-06-26 — Phase 33 complete*
