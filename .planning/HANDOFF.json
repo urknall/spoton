@@ -1,37 +1,29 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-25T12:11:02.168Z",
-  "phase": "31",
-  "phase_name": "code-review-hardening",
-  "phase_dir": ".planning/phases/31-code-review-hardening",
-  "plan": null,
-  "task": null,
-  "total_tasks": null,
-  "status": "released",
+  "timestamp": "2026-06-26T08:41:35Z",
+  "phase": "33",
+  "phase_name": "more-context-menu",
+  "phase_dir": ".planning/phases/33-more-context-menu",
+  "plan": 1,
+  "task": 1,
+  "total_tasks": 2,
+  "status": "paused",
   "completed_tasks": [
-    {"id": "v2.0.3-v2.0.8", "name": "6 releases: Browse reconnect, code review fixes, Windows support, static CRT, troubleshooting", "status": "done"},
-    {"id": "phase-31", "name": "Phase 31 complete: event dispatcher respawn + CSRF protection", "status": "done"},
-    {"id": "code-review", "name": "Full codebase code review (7 critical, 15 warnings, 11 info) — all addressed", "status": "done"},
-    {"id": "windows", "name": "Windows daemon startup: tempfile port capture, SPOTON_PORT_FILE/LOG_FILE env vars, MSVC build, static CRT", "status": "done"},
-    {"id": "search", "name": "Search routed through bundled token: limit raised 10→50, no null entries", "status": "done"},
-    {"id": "troubleshooting", "name": "TROUBLESHOOTING.md + i18n setup hint + Windows Firewall tip", "status": "done"},
-    {"id": "forum", "name": "Forum replies: foxesden Windows (#62), CJS confirmation (#64/#66)", "status": "done"},
-    {"id": "issues", "name": "Issues closed: #1, #37, #38, #39, #40, #41, #43, #44. #42 commented (update needed)", "status": "done"}
+    {"id": 1, "name": "Extend metadata cache with artist/album/show IDs", "status": "in_progress", "progress": "Plugin.pm _trackItem cache extended (artistId, artistIds, albumId) — uncommitted. ProtocolHandler.pm and Connect.pm cache sites not yet done."}
   ],
-  "remaining_tasks": [],
+  "remaining_tasks": [
+    {"id": 1, "name": "Extend metadata cache with artist/album/show IDs", "status": "in_progress", "details": "Still need: ProtocolHandler.pm _cacheExplodedTrack (add $albumId param + fields), _cacheExplodedEpisode (showId, showName), _asyncRefetch (all ID fields). Connect.pm _fetchTrackMetadata (artistId, albumId)."},
+    {"id": 2, "name": "Rewrite trackInfoMenu and trackInfoURL for full context menu", "status": "not_started"}
+  ],
   "blockers": [],
-  "human_actions_pending": [
-    {"action": "Forum reply foxesden/CJS posten", "context": "~/SynologyDrive/forum-reply-cjs-foxesden-windows-fix.txt — v2.0.7 erwähnt, v2.0.8 ist aktuell", "blocking": false},
-    {"action": "Windows VM Firewall-Ausnahme dokumentieren", "context": "CJS Tipp in TROUBLESHOOTING.md aufgenommen", "blocking": false}
-  ],
+  "human_actions_pending": [],
   "decisions": [
-    {"decision": "Search über bundled Token routen", "rationale": "Bundled Token hat keine Dev-Mode-Beschränkung auf 10, liefert keine null-Einträge", "phase": "search"},
-    {"decision": "SPOTON_PORT_FILE + SPOTON_LOG_FILE env vars", "rationale": "Proc::Background stdout/stderr redirect funktioniert nicht auf Windows Services", "phase": "windows"},
-    {"decision": "Statisches CRT-Linking für Windows", "rationale": "Kein VCRUNTIME140.dll Redistributable nötig", "phase": "windows"},
-    {"decision": "tasklist statt PowerShell", "rationale": "PowerShell kann per Enterprise Policy eingeschränkt sein", "phase": "windows"},
-    {"decision": "Search Pagination ins Backlog", "rationale": "50 Ergebnisse reichen, Pagination ist Nice-to-have", "phase": "search"}
+    {"decision": "Execute inline instead of subagent", "rationale": "Sonnet executor agent ran but failed to commit or complete changes despite reporting success. Plugin.pm partial changes are in working tree.", "phase": "33"}
   ],
-  "uncommitted_files": [],
-  "next_action": "Forum-Reply aktualisieren (v2.0.8 statt v2.0.7), v2.0.9 Release mit Search-Verbesserung vorbereiten. Backlog: #29 More-Menü, #33 Follow Show, #6 Spotty Migration, #7 Search Pagination.",
-  "context_notes": "Extrem produktive Session: 6 Releases (v2.0.3-v2.0.8), Full Code Review, Windows-Support von Grund auf gebaut, Search-Limit von 10 auf 50 gehoben. Windows VM (192.168.123.244) ist eingerichtet und getestet. Forum-Community aktiv (CJS, foxesden, gegen)."
+  "uncommitted_files": [
+    "Plugins/SpotOn/Plugin.pm",
+    ".planning/STATE.md"
+  ],
+  "next_action": "Commit Plugin.pm _trackItem cache changes, then continue Task 1: extend cache in ProtocolHandler.pm (_cacheExplodedTrack, _cacheExplodedEpisode, _asyncRefetch) and Connect.pm (_fetchTrackMetadata). Then Task 2: rewrite trackInfoMenu and trackInfoURL.",
+  "context_notes": "Phase 33 resolves GitHub Issue #29. The plan is well-specified with exact line numbers and interface details in 33-01-PLAN.md. A Sonnet executor agent was spawned but failed silently — it modified Plugin.pm _trackItem but never committed. Recommend inline execution for remaining work."
 }
