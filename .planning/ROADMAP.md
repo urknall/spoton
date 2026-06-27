@@ -83,7 +83,7 @@
 
 | 33. More Context Menu | v2.1 | 1/1 | Complete | 2026-06-26 |
 | 34. Add to Playlist | v2.1 | 1/1 | Complete | 2026-06-26 |
-| 35. Liked Songs Play-All Throttle | — | 1/1 | Complete | 2026-06-26 |
+| 35. Liked Songs Play-All Throttle | v2.1.2 | 1/1 | Complete | 2026-06-26 |
 
 ## Backlog
 
@@ -101,4 +101,4 @@ Items discovered during development — not assigned to a milestone.
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-25 — v2.0 milestone closed*
+*Last updated: 2026-06-27 — Phase 35 complete, v2.1.2 released*

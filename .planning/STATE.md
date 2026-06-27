@@ -1,10 +1,10 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.0
-milestone_name: Browse Daemon Migration
+milestone: v2.1
+milestone_name: Context Menu
 status: milestone_complete
-stopped_at: Phase 33 complete — More Context Menu shipped, pending local UAT
-last_updated: "2026-06-26T09:15:00Z"
+stopped_at: v2.1.2 released — Phase 35 complete, community issues triaged
+last_updated: "2026-06-27T08:30:00Z"
 progress:
   total_phases: 13
   completed_phases: 9
@@ -25,14 +25,14 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 34 complete — Add to Playlist shipped
+**Current Focus:** All milestones shipped — community support + upstream tracking
 
 ## Current Position
 
-Phase: 34 (add-to-playlist) — COMPLETE
+Phase: 35 (liked-songs-play-all-throttle) — COMPLETE
 Plan: 1 of 1 — done
-All milestones shipped (v1.0, v1.1, v1.3, v1.5, v2.0).
-Current version: v2.0.9
+All milestones shipped (v1.0, v1.1, v1.3, v1.5, v2.0, v2.1).
+Current version: v2.1.2
 No active milestone.
 
 ## Progress Bar
@@ -52,6 +52,9 @@ Phase 32: [x] Status Page
 v2.1 Context Menu: [████████████████████] 2/2 phases (SHIPPED 2026-06-26)
 Phase 33: [x] More Context Menu (GH #29)
 Phase 34: [x] Add to Playlist
+
+Standalone fixes:
+Phase 35: [x] Liked Songs Play-All Throttle (GH #51) → v2.1.2
 ```
 
 ## Performance Metrics
@@ -134,15 +137,14 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-06-26
-**Stopped at:** v2.1.2 released (Phase 35 play-all fix). Debug session liked-songs-play-all-throttle resolved. Issue #42, #50, #52 awaiting user replies.
+**Last session:** 2026-06-27
+**Stopped at:** Community issues triaged, forum replies posted, Settings.pm undef-guard fixed.
 **Next action:**
-- Phase 35 GSD docs abschließen (SUMMARY, STATE, ROADMAP für Phase 35)
-- Forum Replies posten: CJS (~/SynologyDrive/forum-reply-cjs-context-menu.txt), Borrowing7981 (~/SynologyDrive/forum-reply-borrowing7981-kubernetes.txt)
-- Issue #42 (jmhunter): custom-convert.conf in Docker — wartet auf Antwort
-- Issue #50 (JesseHoekema): Pi Binary — wartet auf Antwort
-- Issue #52 (Borrowing7981): Kubernetes credentials — wartet auf Antwort
-- Backlog: Spotty Favorites Migration (#6), Search Pagination (#7)
+- Issue #42 (jmhunter): SqueezeDSP conflict identified — awaiting confirmation that disabling SqueezeDSP fixes playback
+- Issue #50 (JesseHoekema): RPi 3 — awaiting `--check` output
+- Issue #52 (jmccoy555): K8s credentials — awaiting restart + permissions check
+- Librespot binary rebuild when PR #1722 (CDN fallback fix) lands in a release
+- Backlog: Spotty Favorites Migration (#6), Search Pagination (#7), Context Menu LMS Items (#55)
 
 ---
 *State initialized: 2026-05-26*
