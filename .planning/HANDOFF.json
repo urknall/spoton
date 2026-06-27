@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-27T08:56:00Z",
+  "phase": null,
+  "phase_name": null,
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "status": "idle",
+  "work_type": "community-support",
+  "completed": [
+    "Triaged all open GitHub issues (#42, #50, #52, #55, #56, #57)",
+    "Posted diagnostic reply on #42 — SqueezeDSP conflict identified",
+    "Posted follow-up on #52 — K8s credential troubleshooting steps",
+    "Updated #57 forum draft with librespot CDN fix reference",
+    "Posted forum replies: CJS (#55 enhancement), gegen (#57 CDN workaround)",
+    "Closed #54 (forum-only), #56 (upstream CDN), #57 (replied)",
+    "Relabeled #55 as enhancement",
+    "Fixed Settings.pm:397 undef logdir guard",
+    "Phase 35 SUMMARY + STATE + ROADMAP housekeeping",
+    "Phase 35 VALIDATION.md — Nyquist compliant (manual-only)",
+    "Created librespot upstream tracking memory"
+  ],
+  "pending": {
+    "awaiting_user_reply": [
+      {"issue": 42, "user": "jmhunter", "waiting_for": "Confirm SqueezeDSP disable fixes playback"},
+      {"issue": 50, "user": "JesseHoekema", "waiting_for": "spoton --check output from RPi 3"},
+      {"issue": 52, "user": "jmccoy555", "waiting_for": "LMS restart + permissions + file structure check"}
+    ],
+    "upstream": [
+      {"repo": "librespot-org/librespot", "item": "PR #1722 CDN fallback fix", "action": "Rebuild binaries when released"}
+    ],
+    "backlog": [
+      {"issue": 6, "title": "Spotty Favorites Migration"},
+      {"issue": 7, "title": "Search Pagination"},
+      {"issue": 55, "title": "Context Menu: include standard LMS items"}
+    ]
+  },
+  "blockers": [],
+  "decisions": [
+    "#55 CJS context menu: classified as enhancement, not bug — standard LMS items handled by framework",
+    "#56/#57 gegen CDN: upstream Spotify issue, not SpotOn bug — workaround documented, librespot fix tracked",
+    "#42 jmhunter: root cause is SqueezeDSP removeNativeConversion() deleting SpotOn soc→pcm rule"
+  ]
+}
