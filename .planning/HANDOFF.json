@@ -1,36 +1,38 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-28T19:19:04Z",
+  "timestamp": "2026-06-28T21:45:00Z",
   "phase": null,
-  "phase_name": "ad-hoc bugfix session",
+  "phase_name": "ad-hoc triage session",
   "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "GH #75 Multi-Account Settings-Switch Fix", "status": "done", "commit": "3a311aa"},
-    {"id": 2, "name": "Remove platform binaries from git tracking", "status": "done", "commit": "b0445b6"},
-    {"id": 3, "name": "Fix test failures (binary check + Settings client mock)", "status": "done", "commit": "0c66aaf"},
-    {"id": 4, "name": "v2.1.4 release (Settings fix + binary cleanup)", "status": "done", "commit": "74045a6"},
-    {"id": 5, "name": "Connect credential overwrite fix (Rust)", "status": "done", "commit": "62105de"},
-    {"id": 6, "name": "v2.1.5 release (credential isolation)", "status": "done", "commit": "16592c1"},
-    {"id": 7, "name": "Close GH #75, #76, #77, #78", "status": "done"},
-    {"id": 8, "name": "Forum monitor triage (5 new posts)", "status": "done"}
+    {"id": 1, "name": "Forum monitor refactor: pendingTriage instead of GH issues", "status": "done", "commit": "fa9cc9d"},
+    {"id": 2, "name": "CDN workaround comment on GH #60", "status": "done"},
+    {"id": 3, "name": "Forum draft issues triage (6 drafts reviewed)", "status": "done"}
   ],
-  "remaining_tasks": [],
+  "remaining_tasks": [
+    {"id": 4, "name": "Close forum draft issues (#79, #80, #81, #83, #84, #87)", "status": "not_started"},
+    {"id": 5, "name": "Investigate #85 (playlist tracks) and #86 (search no results)", "status": "not_started"},
+    {"id": 6, "name": "Update forum-topics.json with new resolved topics", "status": "not_started"}
+  ],
   "blockers": [],
-  "human_actions_pending": [],
+  "human_actions_pending": [
+    {"action": "Close forum draft issues on GH", "context": "User was deleting them during session — verify status", "blocking": false}
+  ],
   "decisions": [
-    {"decision": "Settings and OPML account management stay independent", "rationale": "Settings = global default, OPML = per-player override. Settings-Switch is authoritative and clears all per-client overrides.", "phase": "ad-hoc"},
-    {"decision": "Credential isolation via reconnect_cache, not per-player cache dirs", "rationale": "Spirc::new() always calls store_credentials=true. Stripping credentials_location from reconnect cache is the only reliable prevention.", "phase": "ad-hoc"},
-    {"decision": "Binaries removed from git tracking", "rationale": "CI builds all 7 platform binaries at tag-push. 28 binary commits bloated the repo. gitignored Plugins/SpotOn/Bin/", "phase": "ad-hoc"},
-    {"decision": "OPML switch shows confirmation text, no back-link", "rationale": "OPML limitation: every url click creates a breadcrumb level. Nested SpotOn link caused stacking. Simple text confirmation is the cleanest UX within OPML constraints.", "phase": "ad-hoc"}
+    {"decision": "Forum monitor no longer creates GH issues", "rationale": "Posts queue in forum-state.json pendingTriage, triage happens manually during resume-work", "phase": "ad-hoc"},
+    {"decision": "All 6 forum drafts are closeable", "rationale": "No new bugs — known upstream CDN issue, community self-help, or positive feedback", "phase": "ad-hoc"}
   ],
   "uncommitted_files": [
-    ".planning/debug/liked-songs-play-all-throttle.md (deleted — moved to resolved)",
-    "librespot-spoton/Cargo.lock (updated by cargo build)"
+    ".planning/debug/liked-songs-play-all-throttle.md (deleted)",
+    "librespot-spoton/Cargo.lock (cargo build artifact)",
+    ".github/scripts/forum-monitor/forum-state.json (new — runtime state)",
+    ".github/scripts/forum-monitor/.github/ (new — unknown)",
+    "win-vm/ (new — unrelated)"
   ],
-  "next_action": "No immediate next action. All bugs fixed and released. Check forum and issues for new reports.",
-  "context_notes": "Productive bugfix session: two releases (v2.1.4, v2.1.5) shipping fixes for multi-account switch (#75) and Connect credential overwrite. Key discovery: spoton.db is a separate cache DB from cache.db — both must be cleared for cache-related debugging."
+  "next_action": "Verify forum draft issues are closed. Investigate #85 and #86 — could be real bugs. Check upstream librespot for new release.",
+  "context_notes": "Triage session after v2.1.5 release. Forum monitor refactored to stop auto-creating issues. CDN workaround posted on #60. Upstream librespot PR #1722 (CDN failover) merged but no release yet. PR #1724 (IPv6 discovery, our PR) still open."
 }
