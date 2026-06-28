@@ -1,45 +1,36 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-27T08:56:00Z",
+  "timestamp": "2026-06-28T19:19:04Z",
   "phase": null,
-  "phase_name": null,
+  "phase_name": "ad-hoc bugfix session",
   "phase_dir": null,
   "plan": null,
   "task": null,
-  "status": "idle",
-  "work_type": "community-support",
-  "completed": [
-    "Triaged all open GitHub issues (#42, #50, #52, #55, #56, #57)",
-    "Posted diagnostic reply on #42 — SqueezeDSP conflict identified",
-    "Posted follow-up on #52 — K8s credential troubleshooting steps",
-    "Updated #57 forum draft with librespot CDN fix reference",
-    "Posted forum replies: CJS (#55 enhancement), gegen (#57 CDN workaround)",
-    "Closed #54 (forum-only), #56 (upstream CDN), #57 (replied)",
-    "Relabeled #55 as enhancement",
-    "Fixed Settings.pm:397 undef logdir guard",
-    "Phase 35 SUMMARY + STATE + ROADMAP housekeeping",
-    "Phase 35 VALIDATION.md — Nyquist compliant (manual-only)",
-    "Created librespot upstream tracking memory"
+  "total_tasks": null,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "GH #75 Multi-Account Settings-Switch Fix", "status": "done", "commit": "3a311aa"},
+    {"id": 2, "name": "Remove platform binaries from git tracking", "status": "done", "commit": "b0445b6"},
+    {"id": 3, "name": "Fix test failures (binary check + Settings client mock)", "status": "done", "commit": "0c66aaf"},
+    {"id": 4, "name": "v2.1.4 release (Settings fix + binary cleanup)", "status": "done", "commit": "74045a6"},
+    {"id": 5, "name": "Connect credential overwrite fix (Rust)", "status": "done", "commit": "62105de"},
+    {"id": 6, "name": "v2.1.5 release (credential isolation)", "status": "done", "commit": "16592c1"},
+    {"id": 7, "name": "Close GH #75, #76, #77, #78", "status": "done"},
+    {"id": 8, "name": "Forum monitor triage (5 new posts)", "status": "done"}
   ],
-  "pending": {
-    "awaiting_user_reply": [
-      {"issue": 42, "user": "jmhunter", "waiting_for": "Confirm SqueezeDSP disable fixes playback"},
-      {"issue": 50, "user": "JesseHoekema", "waiting_for": "spoton --check output from RPi 3"},
-      {"issue": 52, "user": "jmccoy555", "waiting_for": "LMS restart + permissions + file structure check"}
-    ],
-    "upstream": [
-      {"repo": "librespot-org/librespot", "item": "PR #1722 CDN fallback fix", "action": "Rebuild binaries when released"}
-    ],
-    "backlog": [
-      {"issue": 6, "title": "Spotty Favorites Migration"},
-      {"issue": 7, "title": "Search Pagination"},
-      {"issue": 55, "title": "Context Menu: include standard LMS items"}
-    ]
-  },
+  "remaining_tasks": [],
   "blockers": [],
+  "human_actions_pending": [],
   "decisions": [
-    "#55 CJS context menu: classified as enhancement, not bug — standard LMS items handled by framework",
-    "#56/#57 gegen CDN: upstream Spotify issue, not SpotOn bug — workaround documented, librespot fix tracked",
-    "#42 jmhunter: root cause is SqueezeDSP removeNativeConversion() deleting SpotOn soc→pcm rule"
-  ]
+    {"decision": "Settings and OPML account management stay independent", "rationale": "Settings = global default, OPML = per-player override. Settings-Switch is authoritative and clears all per-client overrides.", "phase": "ad-hoc"},
+    {"decision": "Credential isolation via reconnect_cache, not per-player cache dirs", "rationale": "Spirc::new() always calls store_credentials=true. Stripping credentials_location from reconnect cache is the only reliable prevention.", "phase": "ad-hoc"},
+    {"decision": "Binaries removed from git tracking", "rationale": "CI builds all 7 platform binaries at tag-push. 28 binary commits bloated the repo. gitignored Plugins/SpotOn/Bin/", "phase": "ad-hoc"},
+    {"decision": "OPML switch shows confirmation text, no back-link", "rationale": "OPML limitation: every url click creates a breadcrumb level. Nested SpotOn link caused stacking. Simple text confirmation is the cleanest UX within OPML constraints.", "phase": "ad-hoc"}
+  ],
+  "uncommitted_files": [
+    ".planning/debug/liked-songs-play-all-throttle.md (deleted — moved to resolved)",
+    "librespot-spoton/Cargo.lock (updated by cargo build)"
+  ],
+  "next_action": "No immediate next action. All bugs fixed and released. Check forum and issues for new reports.",
+  "context_notes": "Productive bugfix session: two releases (v2.1.4, v2.1.5) shipping fixes for multi-account switch (#75) and Connect credential overwrite. Key discovery: spoton.db is a separate cache DB from cache.db — both must be cleared for cache-related debugging."
 }
