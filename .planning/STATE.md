@@ -139,12 +139,13 @@ None.
 ## Session Continuity
 
 **Last session:** 2026-06-29
-**Stopped at:** v2.1.8 released — Custom Client ID bundled-token fallback, docs + i18n updated, issues commented.
+**Stopped at:** Issue triage — #91 PKCE vs Keymaster erklärt, #92 go-librespot beantwortet, ohne-Client-ID lokal verifiziert.
 **Next action:**
-- Issue #91 (woorszt): Custom Client ID 403 — v2.1.8 fix kommentiert, warten auf Bestätigung
+- Issue #91 (woorszt): Custom Client ID 403 — PKCE vs Keymaster erklärt, v2.1.8 + ohne-ID Test angefragt
+- Issue #92 (urknall): go-librespot Feature Request — abgelehnt (2.700 LOC Rust Neuentwicklung)
 - Issue #85 (urknall): Tracks in Playlists — v2.1.8 fix kommentiert, warten auf Bestätigung
 - Issue #60 (warminskimarcin): Playlist-Bug (Docker) — Cache-Clear empfohlen, warten auf Rückmeldung
-- Issue #50 (JesseHoekema): RPi 3 — awaiting `--check` output (3 Tage)
+- Issue #50 (JesseHoekema): RPi 3 — awaiting `--check` output (4 Tage)
 - Issue #42 (jmhunter): SqueezeDSP conflict — waiting-upstream
 - Issue #20 (lmsc): StatusCode(500) — waiting-user
 - Issue #82 (Artist/Title Radio): enhancement — beantwortet, kein Handlungsbedarf
@@ -153,6 +154,11 @@ None.
 - Upstream PRs: librespot #1724 (IPv6, offen), SqueezeDSP #19 (offen) — kein Handlungsbedarf
 - Backlog: #82 Artist Radio, #55 Context Menu LMS Items, #32 Library Integration, #7 Search Pagination, #6 Spotty Migration
 
+## Key Findings This Session
+
+- **Spotty vs SpotOn Auth:** Herger's Spotty nutzt PKCE OAuth (accounts.spotify.com/api/token), SpotOn nutzt Keymaster (hm://keymaster/token/authenticated). Komplett verschiedene Auth-Flows — Spotty-Vergleich bei Client-ID-Problemen nicht aussagekräftig.
+- **Ohne Custom Client ID:** Lokal verifiziert — SpotOn funktioniert vollständig ohne eigene Client ID. Alle Endpoints (Browse, Search, Library, Connect) nutzen sauber den Bundled Token.
+
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-29 — v2.1.8 released*
+*Last updated: 2026-06-29 — Issue triage, PKCE vs Keymaster Analyse*

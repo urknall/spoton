@@ -1,33 +1,26 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-29T17:51:49Z",
+  "timestamp": "2026-06-29T20:59:30Z",
   "phase": null,
-  "phase_name": "v2.1.8 released — Custom Client ID fallback + community support",
+  "phase_name": "Community support — issue triage, no active development phase",
   "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Clean-install reproduction of Custom Client ID 403 bug", "status": "done"},
-    {"id": 2, "name": "Token routing code analysis — identified missing fallback in _doFlavouredRequest", "status": "done"},
-    {"id": 3, "name": "Fix: bundled fallback on no_token for flavor=own non-me/* paths", "status": "done"},
-    {"id": 4, "name": "Reproduction verified — fake Client ID triggers Keymaster 404, fallback works", "status": "done"},
-    {"id": 5, "name": "Keymaster whitelist research — confirmed grandfathered IDs only", "status": "done"},
-    {"id": 6, "name": "i18n updates (11 languages): DESC, DEGRADED_MODE, SETUP_TITLE, SETUP_DESC", "status": "done"},
-    {"id": 7, "name": "README + TROUBLESHOOTING updated with Keymaster restriction info", "status": "done"},
-    {"id": 8, "name": "v2.1.8 released — tag, CI, repo.xml SHA updated", "status": "done"},
-    {"id": 9, "name": "Issue comments posted: #91 (woorszt), #86 (urknall), #85 (urknall playlists)", "status": "done"}
+    {"id": 1, "name": "Issue #91 (woorszt): Explained PKCE vs Keymaster auth difference, asked to test v2.1.8 and try without custom Client ID", "status": "done"},
+    {"id": 2, "name": "Issue #92 (urknall): Explained ~2,700 LOC custom Rust integration layer, go-librespot not feasible", "status": "done"},
+    {"id": 3, "name": "Verified SpotOn works without custom Client ID — local test, logs clean, all flavors use bundled token", "status": "done"}
   ],
   "remaining_tasks": [],
   "blockers": [],
   "human_actions_pending": [],
   "decisions": [
-    {"decision": "Bundled fallback at no_token level, not just HTTP 403/410", "rationale": "Keymaster failure is a different code path than API 403 — both need fallback to bundled for non-me/* paths", "phase": "ad-hoc"},
-    {"decision": "Custom Client ID docs: 'older apps only' instead of 'recommended'", "rationale": "Keymaster whitelist means new Developer Apps will always fail. No point encouraging users to create them.", "phase": "ad-hoc"},
-    {"decision": "Dev environment restored to symlink after clean-install testing", "rationale": "Clean install via Plugin Manager was for reproduction only, not permanent", "phase": "ad-hoc"}
+    {"decision": "Spotty uses PKCE OAuth (accounts.spotify.com), SpotOn uses Keymaster (hm://keymaster) — different auth flows, Spotty comparison not meaningful for Client ID issues", "rationale": "Discovered by reading Herger's Spotty-Plugin source: Settings/Callback.pm uses PKCE_AUTH_URL, API.pm uses _tokenCall with refresh_token grant — no Keymaster involved", "phase": "ad-hoc"},
+    {"decision": "Custom Client ID is unnecessary for SpotOn — bundled token covers all endpoints", "rationale": "Verified locally: removed custom Client ID, LMS restart, Browse/Search/Library/Connect all work via bundled token", "phase": "ad-hoc"}
   ],
   "uncommitted_files": [],
-  "next_action": "Warten auf Rückmeldungen: #91 (woorszt v2.1.8 Bestätigung), #85 (urknall Playlists), #60 (warminskimarcin Cache-Clear), #50 (JesseHoekema RPi3 --check). Backlog: #82 Artist Radio, #55 Context Menu LMS, #32 Library Integration, #7 Search Pagination.",
-  "context_notes": "v2.1.8 shipped. Alle Custom-Client-ID-Issues beantwortet. Dev-Umgebung zurück auf Symlink mit eigener Client ID (56bcbd90...). Forum ruhig (119 Posts, kein Triage-Bedarf). Upstream: librespot #1724 (IPv6, gevendort), SqueezeDSP #19 (wartet auf Foxenfurter)."
+  "next_action": "Warten auf Rückmeldungen: #91 (woorszt — v2.1.8 test + ohne Custom ID test), #85 (urknall Playlists v2.1.8), #60 (warminskimarcin Cache-Clear), #50 (JesseHoekema RPi3). Backlog: #82 Artist Radio, #55 Context Menu LMS, #32 Library Integration, #7 Search Pagination.",
+  "context_notes": "Session war reine Issue-Triage. Wichtigste Erkenntnis: Spotty vs SpotOn Auth-Differenz (PKCE vs Keymaster) erklärt warum Custom Client IDs in Spotty funktionieren aber in SpotOn scheitern können. v2.1.8 Fallback + 'einfach ohne ID fahren' sind die beiden Lösungen. Forum ruhig (119 Posts, kein Triage-Bedarf). Upstream: librespot #1724 (IPv6), SqueezeDSP #19 — beide offen."
 }
