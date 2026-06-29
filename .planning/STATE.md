@@ -139,14 +139,18 @@ None.
 ## Session Continuity
 
 **Last session:** 2026-06-29
-**Stopped at:** Pause guard fix implemented and tested. Issues #88 + #52 closed (user-confirmed). #86 Rückfrage gepostet.
+**Stopped at:** Issue-Triage — #90 geschlossen (dup), #74 beantwortet (volume-ctrl), #60 Cache-Clear empfohlen, #86 Diagnose-Script gepostet.
 **Next action:**
-- Issue #42 (jmhunter): SqueezeDSP conflict — awaiting confirmation
+- Issue #86 (urknall): Search mit Custom Client ID — Diagnose-Script gepostet, warten auf Output
+- Issue #60 (warminskimarcin): Playlist-Bug — Cache-Clear empfohlen, warten auf Rückmeldung
+- Issue #74 (alex-aust): Connect Volume — beantwortet, ggf. Followup
+- Issue #85 (urknall): Tracks in Playlists — waiting-user
 - Issue #50 (JesseHoekema): RPi 3 — awaiting `--check` output
-- Issue #86 (urknall): Search nicht funktioniert — Rückfrage gepostet, warten auf Details
-- Librespot binary rebuild when PR #1722 lands in stable release
+- Issue #42 (jmhunter): SqueezeDSP conflict — waiting-upstream
+- Issue #20 (lmsc): StatusCode(500) — waiting-user
+- Upstream PRs: librespot #1724 (IPv6, offen), SqueezeDSP #19 (offen) — kein Handlungsbedarf
 - Backlog: Spotty Favorites Migration (#6), Search Pagination (#7), Context Menu LMS Items (#55), Library Integration (#32)
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-26 — Phase 33 complete*
+*Last updated: 2026-06-29 — Issue-Triage*

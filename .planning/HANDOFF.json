@@ -1,41 +1,32 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-29T13:18:00Z",
+  "timestamp": "2026-06-29T14:12:26Z",
   "phase": null,
-  "phase_name": "ad-hoc triage + pause guard bugfix",
+  "phase_name": "Issue triage + community support",
   "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Pause bug investigated on Pi — reproduced (15/20 at track transitions, 7/20 rapid pause/resume)", "status": "done"},
-    {"id": 2, "name": "Pause guard implemented — per-client timer chain re-applies swallowed pauses", "status": "done", "commit": "1adf957"},
-    {"id": 3, "name": "Code review (4 angles + verifier) — 5 findings fixed", "status": "done", "commit": "a5c8ef4"},
-    {"id": 4, "name": "Resume detection via [['pause']] subscription added", "status": "done", "commit": "8dc6ffa"},
-    {"id": 5, "name": "v2.1.7 released — CI build + repo.xml SHA updated", "status": "done", "commit": "fa2939a"},
-    {"id": 6, "name": "Tested on Pi (chilly) — Test 1: 0/10, Test 2: 5/10 false re-pauses (known limit)", "status": "done"},
-    {"id": 7, "name": "GH #88 closed (CDN fix confirmed by OXipro)", "status": "done"},
-    {"id": 8, "name": "GH #52 closed (K8s credentials confirmed fixed by jmccoy555)", "status": "done"},
-    {"id": 9, "name": "GH #86 + #85 replied — Custom Client ID + Premium requirement explained", "status": "done"},
-    {"id": 10, "name": "TROUBLESHOOTING.md — Custom Client ID entry + CDN 404 entry added", "status": "done", "commit": "de12808"},
-    {"id": 11, "name": "README.md — Developer App Premium requirement noted", "status": "done", "commit": "52e081e"},
-    {"id": 12, "name": "Forum monitor workflow — state now committed back to repo", "status": "done"},
-    {"id": 13, "name": "Forum triage — gegen #119: positive CDN fix feedback, no reply needed", "status": "done"},
-    {"id": 14, "name": "Memory updated: forum state path (local runner), docs review on pause, pause DIAG cleanup", "status": "done"}
+    {"id": 1, "name": "#90 closed — duplicate of #32, user confirmed", "status": "done"},
+    {"id": 2, "name": "#74 replied — volume-ctrl linear already best option, log worse, fixed kills Spotify slider", "status": "done"},
+    {"id": 3, "name": "#60 replied — playlist-bug likely stale cache from broken Docker versions, recommended spoton.db + cache.db clear", "status": "done"},
+    {"id": 4, "name": "#86 replied — diagnostic Python script posted for Custom Client ID search issue", "status": "done"},
+    {"id": 5, "name": "Upstream PRs checked — librespot #1722 merged, #1724 open (vendored), SqueezeDSP #19 open (waiting)", "status": "done"}
   ],
   "remaining_tasks": [],
   "blockers": [],
   "human_actions_pending": [],
   "decisions": [
-    {"decision": "Pause guard via timer chain (2.5s initial, 1s recheck, 5s max)", "rationale": "LMS [['playlist'],['pause']] subscription doesn't fire for resume events — can't reliably detect user resume within <2s. Timer approach is the best available workaround at plugin level.", "phase": "ad-hoc"},
-    {"decision": "Quick resume false re-pause accepted as known limit", "rationale": "5/10 in stress test, but extremely unlikely in real usage (user pauses then resumes within 1s). Test 1 (realistic) = 0/10.", "phase": "ad-hoc"},
-    {"decision": "Custom Client ID: recommended but requires Premium", "rationale": "Bundled token works without, but own app gives dedicated quota. Premium requirement is Spotify-side since Feb 2026.", "phase": "ad-hoc"}
+    {"decision": "#60 playlist bug: cache-first diagnosis before code investigation", "rationale": "User went through v2.1.2→Gemini patches→v2.1.3→v2.1.6, stale cache most likely cause. Own playlists work fine on our setup.", "phase": "ad-hoc"},
+    {"decision": "#86 search: diagnostic script approach", "rationale": "Only user with Custom Client ID search failure. Script tests client_credentials→search directly against Spotify API to isolate app config vs SpotOn routing.", "phase": "ad-hoc"}
   ],
   "uncommitted_files": [
+    ".planning/STATE.md (updated session continuity)",
     ".planning/debug/liked-songs-play-all-throttle.md (deleted)",
     "win-vm/ (unrelated)"
   ],
-  "next_action": "Warten auf urknall Rückmeldung (#85/#86 Custom Client ID). Pause guard DIAG-Logging entfernen wenn Bug als gelöst gilt (siehe Memory pause-diag-cleanup). Upstream librespot Release beobachten. Backlog: Library Integration (#32), Search Pagination (#7), Spotty Migration (#6).",
-  "context_notes": "v2.1.7 shipped mit Pause Guard. Alle Issues triagiert. Forum Monitor committed jetzt State ins Repo. Pause guard hat bekanntes Limit bei schnellem Resume (<2s) — LMS-Architektur-Limitation, kein Plugin-Level-Fix möglich."
+  "next_action": "Warten auf Rückmeldungen: #86 (urknall Diagnose-Script Output), #60 (warminskimarcin Cache-Clear Ergebnis), #74 (alex-aust Followup). Backlog: #7 Search Pagination, #55 Context Menu LMS Items, #6 Spotty Migration, #32 Library Integration.",
+  "context_notes": "v2.1.7 current. Reine Triage-Session, kein Code geändert. Alle aktiven Issues beantwortet, warten auf User-Feedback. Upstream PRs (librespot #1724, SqueezeDSP #19) brauchen keine Aktion — IPv6 ist gevendort, SqueezeDSP wartet auf Foxenfurter."
 }
