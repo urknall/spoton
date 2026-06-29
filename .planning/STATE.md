@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Context Menu
 status: milestone_complete
-stopped_at: v2.1.2 released — Phase 35 complete, community issues triaged
-last_updated: "2026-06-27T08:30:00Z"
+stopped_at: v2.1.8 released — Custom Client ID fallback fix, all issues triaged
+last_updated: "2026-06-29T17:51:00Z"
 progress:
   total_phases: 13
   completed_phases: 9
@@ -32,7 +32,7 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 Phase: 35 (liked-songs-play-all-throttle) — COMPLETE
 Plan: 1 of 1 — done
 All milestones shipped (v1.0, v1.1, v1.3, v1.5, v2.0, v2.1).
-Current version: v2.1.2
+Current version: v2.1.8
 No active milestone.
 
 ## Progress Bar
@@ -139,18 +139,20 @@ None.
 ## Session Continuity
 
 **Last session:** 2026-06-29
-**Stopped at:** Issue-Triage — #90 geschlossen (dup), #74 beantwortet (volume-ctrl), #60 Cache-Clear empfohlen, #86 Diagnose-Script gepostet.
+**Stopped at:** v2.1.8 released — Custom Client ID bundled-token fallback, docs + i18n updated, issues commented.
 **Next action:**
-- Issue #86 (urknall): Search mit Custom Client ID — Diagnose-Script gepostet, warten auf Output
-- Issue #60 (warminskimarcin): Playlist-Bug — Cache-Clear empfohlen, warten auf Rückmeldung
-- Issue #74 (alex-aust): Connect Volume — beantwortet, ggf. Followup
-- Issue #85 (urknall): Tracks in Playlists — waiting-user
-- Issue #50 (JesseHoekema): RPi 3 — awaiting `--check` output
+- Issue #91 (woorszt): Custom Client ID 403 — v2.1.8 fix kommentiert, warten auf Bestätigung
+- Issue #85 (urknall): Tracks in Playlists — v2.1.8 fix kommentiert, warten auf Bestätigung
+- Issue #60 (warminskimarcin): Playlist-Bug (Docker) — Cache-Clear empfohlen, warten auf Rückmeldung
+- Issue #50 (JesseHoekema): RPi 3 — awaiting `--check` output (3 Tage)
 - Issue #42 (jmhunter): SqueezeDSP conflict — waiting-upstream
 - Issue #20 (lmsc): StatusCode(500) — waiting-user
+- Issue #82 (Artist/Title Radio): enhancement — beantwortet, kein Handlungsbedarf
+- Issue #74 (alex-aust): Connect Volume — beantwortet
+- Issue #32 (Library Integration): +1 von akoirium — Backlog
 - Upstream PRs: librespot #1724 (IPv6, offen), SqueezeDSP #19 (offen) — kein Handlungsbedarf
-- Backlog: Spotty Favorites Migration (#6), Search Pagination (#7), Context Menu LMS Items (#55), Library Integration (#32)
+- Backlog: #82 Artist Radio, #55 Context Menu LMS Items, #32 Library Integration, #7 Search Pagination, #6 Spotty Migration
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-06-29 — Issue-Triage*
+*Last updated: 2026-06-29 — v2.1.8 released*

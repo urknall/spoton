@@ -1,32 +1,33 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-29T14:12:26Z",
+  "timestamp": "2026-06-29T17:51:49Z",
   "phase": null,
-  "phase_name": "Issue triage + community support",
+  "phase_name": "v2.1.8 released — Custom Client ID fallback + community support",
   "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "#90 closed — duplicate of #32, user confirmed", "status": "done"},
-    {"id": 2, "name": "#74 replied — volume-ctrl linear already best option, log worse, fixed kills Spotify slider", "status": "done"},
-    {"id": 3, "name": "#60 replied — playlist-bug likely stale cache from broken Docker versions, recommended spoton.db + cache.db clear", "status": "done"},
-    {"id": 4, "name": "#86 replied — diagnostic Python script posted for Custom Client ID search issue", "status": "done"},
-    {"id": 5, "name": "Upstream PRs checked — librespot #1722 merged, #1724 open (vendored), SqueezeDSP #19 open (waiting)", "status": "done"}
+    {"id": 1, "name": "Clean-install reproduction of Custom Client ID 403 bug", "status": "done"},
+    {"id": 2, "name": "Token routing code analysis — identified missing fallback in _doFlavouredRequest", "status": "done"},
+    {"id": 3, "name": "Fix: bundled fallback on no_token for flavor=own non-me/* paths", "status": "done"},
+    {"id": 4, "name": "Reproduction verified — fake Client ID triggers Keymaster 404, fallback works", "status": "done"},
+    {"id": 5, "name": "Keymaster whitelist research — confirmed grandfathered IDs only", "status": "done"},
+    {"id": 6, "name": "i18n updates (11 languages): DESC, DEGRADED_MODE, SETUP_TITLE, SETUP_DESC", "status": "done"},
+    {"id": 7, "name": "README + TROUBLESHOOTING updated with Keymaster restriction info", "status": "done"},
+    {"id": 8, "name": "v2.1.8 released — tag, CI, repo.xml SHA updated", "status": "done"},
+    {"id": 9, "name": "Issue comments posted: #91 (woorszt), #86 (urknall), #85 (urknall playlists)", "status": "done"}
   ],
   "remaining_tasks": [],
   "blockers": [],
   "human_actions_pending": [],
   "decisions": [
-    {"decision": "#60 playlist bug: cache-first diagnosis before code investigation", "rationale": "User went through v2.1.2→Gemini patches→v2.1.3→v2.1.6, stale cache most likely cause. Own playlists work fine on our setup.", "phase": "ad-hoc"},
-    {"decision": "#86 search: diagnostic script approach", "rationale": "Only user with Custom Client ID search failure. Script tests client_credentials→search directly against Spotify API to isolate app config vs SpotOn routing.", "phase": "ad-hoc"}
+    {"decision": "Bundled fallback at no_token level, not just HTTP 403/410", "rationale": "Keymaster failure is a different code path than API 403 — both need fallback to bundled for non-me/* paths", "phase": "ad-hoc"},
+    {"decision": "Custom Client ID docs: 'older apps only' instead of 'recommended'", "rationale": "Keymaster whitelist means new Developer Apps will always fail. No point encouraging users to create them.", "phase": "ad-hoc"},
+    {"decision": "Dev environment restored to symlink after clean-install testing", "rationale": "Clean install via Plugin Manager was for reproduction only, not permanent", "phase": "ad-hoc"}
   ],
-  "uncommitted_files": [
-    ".planning/STATE.md (updated session continuity)",
-    ".planning/debug/liked-songs-play-all-throttle.md (deleted)",
-    "win-vm/ (unrelated)"
-  ],
-  "next_action": "Warten auf Rückmeldungen: #86 (urknall Diagnose-Script Output), #60 (warminskimarcin Cache-Clear Ergebnis), #74 (alex-aust Followup). Backlog: #7 Search Pagination, #55 Context Menu LMS Items, #6 Spotty Migration, #32 Library Integration.",
-  "context_notes": "v2.1.7 current. Reine Triage-Session, kein Code geändert. Alle aktiven Issues beantwortet, warten auf User-Feedback. Upstream PRs (librespot #1724, SqueezeDSP #19) brauchen keine Aktion — IPv6 ist gevendort, SqueezeDSP wartet auf Foxenfurter."
+  "uncommitted_files": [],
+  "next_action": "Warten auf Rückmeldungen: #91 (woorszt v2.1.8 Bestätigung), #85 (urknall Playlists), #60 (warminskimarcin Cache-Clear), #50 (JesseHoekema RPi3 --check). Backlog: #82 Artist Radio, #55 Context Menu LMS, #32 Library Integration, #7 Search Pagination.",
+  "context_notes": "v2.1.8 shipped. Alle Custom-Client-ID-Issues beantwortet. Dev-Umgebung zurück auf Symlink mit eigener Client ID (56bcbd90...). Forum ruhig (119 Posts, kein Triage-Bedarf). Upstream: librespot #1724 (IPv6, gevendort), SqueezeDSP #19 (wartet auf Foxenfurter)."
 }
