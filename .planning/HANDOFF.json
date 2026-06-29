@@ -1,38 +1,42 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-28T21:45:00Z",
+  "timestamp": "2026-06-29T08:30:00Z",
   "phase": null,
-  "phase_name": "ad-hoc triage session",
+  "phase_name": "ad-hoc triage + bugfix release",
   "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Forum monitor refactor: pendingTriage instead of GH issues", "status": "done", "commit": "fa9cc9d"},
-    {"id": 2, "name": "CDN workaround comment on GH #60", "status": "done"},
-    {"id": 3, "name": "Forum draft issues triage (6 drafts reviewed)", "status": "done"}
+    {"id": 1, "name": "librespot upgraded to dev branch (CDN fallback, RPi overflow, socket fix)", "status": "done", "commit": "ca81f95"},
+    {"id": 2, "name": "v2.1.6 released — CI build + repo.xml SHA updated", "status": "done", "commit": "b7de9a0"},
+    {"id": 3, "name": "Forum reply v2.1.6 announcement posted (CDN users)", "status": "done"},
+    {"id": 4, "name": "GH #88, #20, #60 commented with v2.1.6 reference", "status": "done"},
+    {"id": 5, "name": "GH #89 (mherger CDN reply) posted + closed", "status": "done"},
+    {"id": 6, "name": "GH #82 (Artist Radio) replied — API removed, low-priority", "status": "done"},
+    {"id": 7, "name": "GH #86 (search) replied — in-app search works, global needs Library Integration", "status": "done"},
+    {"id": 8, "name": "GH #85 (playlist tracks) replied — works for us, waiting user details", "status": "done"},
+    {"id": 9, "name": "GH #74 (Connect volume) commented — v2.1.6 includes volume-ctrl fix", "status": "done"},
+    {"id": 10, "name": "GH #32 (Library Integration) reopened as future enhancement", "status": "done"},
+    {"id": 11, "name": "Pause-bug diagnostic logging added (newsong deferred retry + mode change listener)", "status": "done"},
+    {"id": 12, "name": "Forum monitor triggered — 0 pending triage", "status": "done"},
+    {"id": 13, "name": "Memory updated: forum state path, forum reply location, librespot upstream", "status": "done"}
   ],
-  "remaining_tasks": [
-    {"id": 4, "name": "Close forum draft issues (#79, #80, #81, #83, #84, #87)", "status": "not_started"},
-    {"id": 5, "name": "Investigate #85 (playlist tracks) and #86 (search no results)", "status": "not_started"},
-    {"id": 6, "name": "Update forum-topics.json with new resolved topics", "status": "not_started"}
-  ],
+  "remaining_tasks": [],
   "blockers": [],
-  "human_actions_pending": [
-    {"action": "Close forum draft issues on GH", "context": "User was deleting them during session — verify status", "blocking": false}
-  ],
+  "human_actions_pending": [],
   "decisions": [
-    {"decision": "Forum monitor no longer creates GH issues", "rationale": "Posts queue in forum-state.json pendingTriage, triage happens manually during resume-work", "phase": "ad-hoc"},
-    {"decision": "All 6 forum drafts are closeable", "rationale": "No new bugs — known upstream CDN issue, community self-help, or positive feedback", "phase": "ad-hoc"}
+    {"decision": "librespot dev branch statt stable v0.8.0", "rationale": "CDN fallback (#1722) + RPi overflow (#1678) + socket fix (#1651) rechtfertigen dev branch; alle PRs reviewed/merged", "phase": "ad-hoc"},
+    {"decision": "Library Integration (#32) wieder offen", "rationale": "Inkrementeller Import (Liked Songs, Saved Albums, Playlists) möglich ohne API-Quota-Explosion", "phase": "ad-hoc"},
+    {"decision": "Pause-Bug nicht gefixt, nur diagnostiziert", "rationale": "Intermittent, nicht reproduzierbar — DIAG-Logging zeigt beim nächsten Auftreten ob newsong race condition", "phase": "ad-hoc"}
   ],
   "uncommitted_files": [
     ".planning/debug/liked-songs-play-all-throttle.md (deleted)",
-    "librespot-spoton/Cargo.lock (cargo build artifact)",
-    ".github/scripts/forum-monitor/forum-state.json (new — runtime state)",
-    ".github/scripts/forum-monitor/.github/ (new — unknown)",
-    "win-vm/ (new — unrelated)"
+    ".github/scripts/forum-monitor/forum-state.json (stale local copy)",
+    ".github/scripts/forum-monitor/.github/ (actions cache artifact)",
+    "win-vm/ (unrelated)"
   ],
-  "next_action": "Verify forum draft issues are closed. Investigate #85 and #86 — could be real bugs. Check upstream librespot for new release.",
-  "context_notes": "Triage session after v2.1.5 release. Forum monitor refactored to stop auto-creating issues. CDN workaround posted on #60. Upstream librespot PR #1722 (CDN failover) merged but no release yet. PR #1724 (IPv6 discovery, our PR) still open."
+  "next_action": "Warten auf User-Feedback zu v2.1.6 (CDN fix wirksam?). Pause-Bug beobachten wenn DIAG-Logs neue Daten liefern. Upstream librespot Release beobachten (stable statt dev branch). #50 (RPi 3) und #52 (K8s) weiter warten.",
+  "context_notes": "v2.1.6 shipped mit librespot dev branch. Alle 12 offenen Issues triagiert und beantwortet. Forum-Monitor läuft, 0 pending. Pause-Bug hat DIAG-Logging, wartet auf nächstes Auftreten. Library Integration (#32) wieder auf dem Tisch als future enhancement."
 }
