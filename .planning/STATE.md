@@ -134,17 +134,18 @@ None.
 | 260618-mi1 | IPv6 discovery fallback — vendor librespot-discovery, patch dual-stack bind | 2026-06-18 | 784556b | [260618-mi1-ipv6-discovery-fallback-vendor-librespot](./quick/260618-mi1-ipv6-discovery-fallback-vendor-librespot/) |
 | 260618-zc1 | Fix ZeroConf discovery auth race condition + setup guide rewrite + AJAX discovery | 2026-06-18 | 9de1891..42aca77 | [260618-zc1-fix-zeroconf-discovery-auth-race-cond](./quick/260618-zc1-fix-zeroconf-discovery-auth-race-cond/) |
 | 260626-caw | Status page: player names, sync groups, playback status, error recording | 2026-06-26 | 20c5381 | [260626-caw-status-page-player-names-sync-groups-pla](./quick/260626-caw-status-page-player-names-sync-groups-pla/) |
+| 260629-gwy | Pause guard — re-apply pause swallowed by HTTP stream setup | 2026-06-29 | b83b27f | [260629-gwy-fix-pause-swallowed-during-http-stream-s](./quick/260629-gwy-fix-pause-swallowed-during-http-stream-s/) |
 
 ## Session Continuity
 
-**Last session:** 2026-06-27
-**Stopped at:** Community issues triaged, forum replies posted, Settings.pm undef-guard fixed.
+**Last session:** 2026-06-29
+**Stopped at:** Pause guard fix implemented and tested. Issues #88 + #52 closed (user-confirmed). #86 Rückfrage gepostet.
 **Next action:**
-- Issue #42 (jmhunter): SqueezeDSP conflict identified — awaiting confirmation that disabling SqueezeDSP fixes playback
+- Issue #42 (jmhunter): SqueezeDSP conflict — awaiting confirmation
 - Issue #50 (JesseHoekema): RPi 3 — awaiting `--check` output
-- Issue #52 (jmccoy555): K8s credentials — awaiting restart + permissions check
-- Librespot binary rebuild when PR #1722 (CDN fallback fix) lands in a release
-- Backlog: Spotty Favorites Migration (#6), Search Pagination (#7), Context Menu LMS Items (#55)
+- Issue #86 (urknall): Search nicht funktioniert — Rückfrage gepostet, warten auf Details
+- Librespot binary rebuild when PR #1722 lands in stable release
+- Backlog: Spotty Favorites Migration (#6), Search Pagination (#7), Context Menu LMS Items (#55), Library Integration (#32)
 
 ---
 *State initialized: 2026-05-26*
