@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Context Menu
 status: milestone_complete
-stopped_at: "Issue triage — #91 PKCE vs Keymaster erklärt, #92 go-librespot beantwortet, ohne-Client-ID lokal verifiziert."
-last_updated: "2026-06-30T06:26:55.637Z"
+stopped_at: Milestone complete (Phase 36 was final phase)
+last_updated: 2026-06-30T07:27:34.257Z
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
+  completed_plans: 21
   percent: 0
 ---
 
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** Phase 36 — session-health-monitoring
+**Current Focus:** Milestone complete
 
 ## Current Position
 
-Phase: 36 (session-health-monitoring) — EXECUTING
-Plan: 1 of 2
+Phase: 36
+Plan: Not started
 All milestones shipped (v1.0, v1.1, v1.3, v1.5, v2.0, v2.1).
 Current version: v2.1.8
 No active milestone.

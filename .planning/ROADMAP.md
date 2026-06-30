@@ -85,7 +85,7 @@
 | 34. Add to Playlist | v2.1 | 1/1 | Complete | 2026-06-26 |
 | 35. Liked Songs Play-All Throttle | v2.1.2 | 1/1 | Complete | 2026-06-26 |
 
-| 36. Session Health Monitoring | — | 2/2 | Complete   | 2026-06-30 |
+| 36. Session Health Monitoring | — | 2/2 | Complete    | 2026-06-30 |
 
 ### Phase 36: Session Health Monitoring
 **Goal:** Prevent cold-start playback failure after overnight daemon idle by enhancing the `/health` endpoint with Spotify session health reporting and adding Perl-side health-aware daemon monitoring.

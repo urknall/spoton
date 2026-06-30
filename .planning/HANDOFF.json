@@ -1,26 +1,29 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-29T20:59:30Z",
-  "phase": null,
-  "phase_name": "Community support — issue triage, no active development phase",
-  "phase_dir": null,
+  "timestamp": "2026-06-30T08:08:29Z",
+  "phase": "36",
+  "phase_name": "session-health-monitoring",
+  "phase_dir": ".planning/phases/36-session-health-monitoring",
   "plan": null,
   "task": null,
-  "total_tasks": null,
+  "total_tasks": 4,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Issue #91 (woorszt): Explained PKCE vs Keymaster auth difference, asked to test v2.1.8 and try without custom Client ID", "status": "done"},
-    {"id": 2, "name": "Issue #92 (urknall): Explained ~2,700 LOC custom Rust integration layer, go-librespot not feasible", "status": "done"},
-    {"id": 3, "name": "Verified SpotOn works without custom Client ID — local test, logs clean, all flavors use bundled token", "status": "done"}
+    {"id": 1, "name": "Rust /health JSON endpoint (Plan 36-01)", "status": "done", "commit": "a2e78fc"},
+    {"id": 2, "name": "Perl health monitoring + status page (Plan 36-02)", "status": "done", "commit": "c638263"},
+    {"id": 3, "name": "Code review fixes (6/6: CR-01, WR-01..WR-05)", "status": "done", "commit": "205abf9"},
+    {"id": 4, "name": "v2.2.0 release (tag, CI, repo.xml SHA)", "status": "done", "commit": "eff5718"}
   ],
   "remaining_tasks": [],
   "blockers": [],
-  "human_actions_pending": [],
-  "decisions": [
-    {"decision": "Spotty uses PKCE OAuth (accounts.spotify.com), SpotOn uses Keymaster (hm://keymaster) — different auth flows, Spotty comparison not meaningful for Client ID issues", "rationale": "Discovered by reading Herger's Spotty-Plugin source: Settings/Callback.pm uses PKCE_AUTH_URL, API.pm uses _tokenCall with refresh_token grant — no Keymaster involved", "phase": "ad-hoc"},
-    {"decision": "Custom Client ID is unnecessary for SpotOn — bundled token covers all endpoints", "rationale": "Verified locally: removed custom Client ID, LMS restart, Browse/Search/Library/Connect all work via bundled token", "phase": "ad-hoc"}
+  "human_actions_pending": [
+    {"action": "Wait for woorszt feedback on #91 (Docker me/* fallback)", "context": "Posted v2.2.0 update, issue reopened — awaiting confirmation", "blocking": false}
   ],
-  "uncommitted_files": [],
-  "next_action": "Warten auf Rückmeldungen: #91 (woorszt — v2.1.8 test + ohne Custom ID test), #85 (urknall Playlists v2.1.8), #60 (warminskimarcin Cache-Clear), #50 (JesseHoekema RPi3). Backlog: #82 Artist Radio, #55 Context Menu LMS, #32 Library Integration, #7 Search Pagination.",
-  "context_notes": "Session war reine Issue-Triage. Wichtigste Erkenntnis: Spotty vs SpotOn Auth-Differenz (PKCE vs Keymaster) erklärt warum Custom Client IDs in Spotty funktionieren aber in SpotOn scheitern können. v2.1.8 Fallback + 'einfach ohne ID fahren' sind die beiden Lösungen. Forum ruhig (119 Posts, kein Triage-Bedarf). Upstream: librespot #1724 (IPv6), SqueezeDSP #19 — beide offen."
+  "decisions": [
+    {"decision": "v2.2.0 statt v2.1.9 wegen me/* API-Änderungen", "rationale": "Semantisch relevante Änderung: me/* Endpoints haben jetzt Bundled-Fallback auf Keymaster 403", "phase": "36"},
+    {"decision": "InstalledPlugins-Cache manuell gelöscht für Dev-Testing", "rationale": "LMS lud alte Perl-Dateien aus dem repo.xml-Cache statt aus dem Dev-Symlink", "phase": "36"}
+  ],
+  "uncommitted_files": [".planning/ROADMAP.md", ".planning/STATE.md"],
+  "next_action": "Wait for #91 feedback from woorszt. Check forum monitor. Waiting-user issues: #85, #60, #50, #20 — all waiting on user replies, no action needed.",
+  "context_notes": "Phase 36 complete, v2.2.0 released and deployed. All UAT verified (Connect protection idle_secs=0, Status Page session rows). 3 Nyquist validation items pending (session_valid=false restart, stale session restart, restart logging) — require specific failure conditions, structurally verified via code review. Dev-testing blocker: InstalledPlugins cache overrode symlinked dev files — deleted manually. Perl CI test fix: 429 rate-limit tests needed clientId pref after D-05 me/* routing change. Forum: 120 posts, #119 (gegen confirms v2.1.6 works on piCorePlayer), #120 (Henry Hudson Spotty /etc/hosts discussion) — both correctly filtered as non-actionable."
 }
