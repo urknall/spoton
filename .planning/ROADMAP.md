@@ -85,7 +85,9 @@
 **Success Criteria** (what must be TRUE):
   1. User sees standard LMS actions (Add to Favorites, Add to Playlist, More Info) in SpotOn's More menu for tracks, albums, and artists
   2. Standard LMS actions execute correctly -- adding a SpotOn track to LMS Favorites actually creates a working favorite entry
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 37-01-PLAN.md -- Remove trackInfoURL override from ProtocolHandler.pm
 
 ### Phase 38: Importer Foundation
 **Goal**: Importer.pm registered with LMS as online library provider, scanner infrastructure ready for data import phases
@@ -151,7 +153,7 @@
 | 34. Add to Playlist | v2.1 | 1/1 | Complete | 2026-06-26 |
 | 35. Liked Songs Play-All Throttle | v2.1.2 | 1/1 | Complete | 2026-06-26 |
 | 36. Session Health Monitoring | v2.2 | 2/2 | Complete | 2026-06-30 |
-| 37. Context Menu LMS Items | v2.3 | 0/? | Not started | - |
+| 37. Context Menu LMS Items | v2.3 | 0/1 | Planning complete | - |
 | 38. Importer Foundation | v2.3 | 0/? | Not started | - |
 | 39. Album + Artist Import | v2.3 | 0/? | Not started | - |
 | 40. Liked Songs + Incremental Sync | v2.3 | 0/? | Not started | - |
