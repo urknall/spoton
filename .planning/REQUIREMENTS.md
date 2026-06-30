@@ -31,7 +31,7 @@ Requirements for Library Integration milestone. Each maps to roadmap phases.
 
 ### Context Menu
 
-- [ ] **CTX-01**: Standard-LMS-Menüeinträge (Add to Favorites, etc.) erscheinen im SpotOn More-Menü neben den SpotOn-Einträgen
+- [x] **CTX-01**: Standard-LMS-Menüeinträge (Add to Favorites, etc.) erscheinen im SpotOn More-Menü neben den SpotOn-Einträgen
 
 ### Configuration
 
@@ -60,7 +60,7 @@ Deferred to future release. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CTX-01 | Phase 37 | Pending |
+| CTX-01 | Phase 37 | Complete |
 | LIB-06 | Phase 38 | Pending |
 | TOK-01 | Phase 38 | Pending |
 | TOK-02 | Phase 38 | Pending |
