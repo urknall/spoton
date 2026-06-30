@@ -85,7 +85,7 @@
 | 34. Add to Playlist | v2.1 | 1/1 | Complete | 2026-06-26 |
 | 35. Liked Songs Play-All Throttle | v2.1.2 | 1/1 | Complete | 2026-06-26 |
 
-| 36. Session Health Monitoring | — | 0/2 | In Progress | — |
+| 36. Session Health Monitoring | — | 2/2 | Complete   | 2026-06-30 |
 
 ### Phase 36: Session Health Monitoring
 **Goal:** Prevent cold-start playback failure after overnight daemon idle by enhancing the `/health` endpoint with Spotify session health reporting and adding Perl-side health-aware daemon monitoring.
@@ -102,11 +102,11 @@
 - Binary + Perl must ship together
 - Must not disrupt active Connect sessions
 
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 36-01-PLAN.md — Rust: Enhanced /health endpoint with session health JSON + shared state
-- [ ] 36-02-PLAN.md — Perl: Health-aware monitoring, Status Page display, log cleanup
+- [x] 36-01-PLAN.md — Rust: Enhanced /health endpoint with session health JSON + shared state
+- [x] 36-02-PLAN.md — Perl: Health-aware monitoring, Status Page display, log cleanup
 
 ## Backlog
 

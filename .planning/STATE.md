@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Context Menu
 status: milestone_complete
-stopped_at: v2.1.8 released — Custom Client ID fallback fix, all issues triaged
-last_updated: "2026-06-29T17:51:00Z"
+stopped_at: "Issue triage — #91 PKCE vs Keymaster erklärt, #92 go-librespot beantwortet, ohne-Client-ID lokal verifiziert."
+last_updated: "2026-06-30T06:26:55.637Z"
 progress:
-  total_phases: 13
-  completed_phases: 9
-  total_plans: 21
-  completed_plans: 17
-  percent: 65
+  total_phases: 1
+  completed_phases: 0
+  total_plans: 2
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State: SpotOn
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-06-25)
 
 **Core Value:** Reliable Spotify playback and Connect integration on LMS — Browse, stream, and control via Spotify app, without 429 bursts, zombie daemons, or audio glitches.
 
-**Current Focus:** All milestones shipped — community support + upstream tracking
+**Current Focus:** Phase 36 — session-health-monitoring
 
 ## Current Position
 
-Phase: 35 (liked-songs-play-all-throttle) — COMPLETE
-Plan: 1 of 1 — done
+Phase: 36 (session-health-monitoring) — EXECUTING
+Plan: 1 of 2
 All milestones shipped (v1.0, v1.1, v1.3, v1.5, v2.0, v2.1).
 Current version: v2.1.8
 No active milestone.
@@ -141,6 +141,7 @@ None.
 **Last session:** 2026-06-29
 **Stopped at:** Issue triage — #91 PKCE vs Keymaster erklärt, #92 go-librespot beantwortet, ohne-Client-ID lokal verifiziert.
 **Next action:**
+
 - Issue #91 (woorszt): Custom Client ID 403 — PKCE vs Keymaster erklärt, v2.1.8 + ohne-ID Test angefragt
 - Issue #92 (urknall): go-librespot Feature Request — abgelehnt (2.700 LOC Rust Neuentwicklung)
 - Issue #85 (urknall): Tracks in Playlists — v2.1.8 fix kommentiert, warten auf Bestätigung
