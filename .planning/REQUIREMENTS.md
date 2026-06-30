@@ -58,17 +58,30 @@ Deferred to future release. Tracked but not in current roadmap.
 
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| — | — | Pending roadmap |
+| CTX-01 | Phase 37 | Pending |
+| LIB-06 | Phase 38 | Pending |
+| TOK-01 | Phase 38 | Pending |
+| TOK-02 | Phase 38 | Pending |
+| CFG-01 | Phase 38 | Pending |
+| LIB-02 | Phase 39 | Pending |
+| LIB-03 | Phase 39 | Pending |
+| LIB-07 | Phase 39 | Pending |
+| LIB-09 | Phase 39 | Pending |
+| LIB-01 | Phase 40 | Pending |
+| LIB-04 | Phase 40 | Pending |
+| LIB-05 | Phase 40 | Pending |
+| LIB-08 | Phase 40 | Pending |
+| PL-01 | Phase 41 | Pending |
+| PL-02 | Phase 41 | Pending |
+| CFG-02 | Phase 41 | Pending |
 
 **Coverage:**
 - v2.3 requirements: 16 total
-- Mapped to phases: 0
-- Unmapped: 16 (awaiting roadmap)
+- Mapped to phases: 16
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-30*
-*Last updated: 2026-06-30 after initial definition*
+*Last updated: 2026-06-30 — traceability updated with phase mappings*
