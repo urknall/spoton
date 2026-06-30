@@ -70,7 +70,7 @@
 
 **Milestone Goal:** Spotify library in LMS native library -- Liked Songs, Saved Albums, Followed Artists searchable and browsable in My Music, with incremental sync and optional playlist import.
 
-- [ ] **Phase 37: Context Menu LMS Items** — Standard LMS actions (Add to Favorites, etc.) alongside SpotOn entries in More menu
+- [x] **Phase 37: Context Menu LMS Items** — Standard LMS actions (Add to Favorites, etc.) alongside SpotOn entries in More menu (completed 2026-06-30)
 - [ ] **Phase 38: Importer Foundation** — Importer.pm skeleton, install.xml registration, scanner throttle, token routing, Import Library preference
 - [ ] **Phase 39: Album + Artist Import** — Saved albums and followed artists in LMS My Music with icon badge and progress indicator
 - [ ] **Phase 40: Liked Songs + Incremental Sync** — Liked songs in LMS with global search, added_at early-exit, needsUpdate(), status page stats
@@ -87,7 +87,7 @@
   2. Standard LMS actions execute correctly -- adding a SpotOn track to LMS Favorites actually creates a working favorite entry
 **Plans**: 1 plan
 Plans:
-- [ ] 37-01-PLAN.md -- Remove trackInfoURL override from ProtocolHandler.pm
+- [x] 37-01-PLAN.md -- Remove trackInfoURL override from ProtocolHandler.pm
 
 ### Phase 38: Importer Foundation
 **Goal**: Importer.pm registered with LMS as online library provider, scanner infrastructure ready for data import phases
@@ -153,7 +153,7 @@ Plans:
 | 34. Add to Playlist | v2.1 | 1/1 | Complete | 2026-06-26 |
 | 35. Liked Songs Play-All Throttle | v2.1.2 | 1/1 | Complete | 2026-06-26 |
 | 36. Session Health Monitoring | v2.2 | 2/2 | Complete | 2026-06-30 |
-| 37. Context Menu LMS Items | v2.3 | 0/1 | Planning complete | - |
+| 37. Context Menu LMS Items | v2.3 | 1/1 | Complete   | 2026-06-30 |
 | 38. Importer Foundation | v2.3 | 0/? | Not started | - |
 | 39. Album + Artist Import | v2.3 | 0/? | Not started | - |
 | 40. Liked Songs + Incremental Sync | v2.3 | 0/? | Not started | - |
