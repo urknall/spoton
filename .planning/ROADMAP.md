@@ -75,7 +75,7 @@
 - [ ] **Phase 39: Album + Artist Import** — Saved albums and followed artists in LMS My Music with icon badge and progress indicator
 - [ ] **Phase 40: Liked Songs + Incremental Sync** — Liked songs in LMS with global search, added_at early-exit, needsUpdate(), status page stats
 - [ ] **Phase 41: Playlist Import** — Opt-in playlist import with snapshot_id change detection
-- [ ] **Phase 42: OGG Vorbis Passthrough** — Rust sinks forward OGG packets to capable players (squeezelite), PCM fallback for hardware players (#96)
+- [x] **Phase 42: OGG Vorbis Passthrough** — Rust sinks forward OGG packets to capable players (squeezelite), PCM fallback for hardware players (#96) (completed 2026-07-01)
 
 ## Phase Details
 
@@ -175,7 +175,8 @@ Plans:
 | 39. Album + Artist Import | v2.3 | 0/? | Not started | - |
 | 40. Liked Songs + Incremental Sync | v2.3 | 0/? | Not started | - |
 | 41. Playlist Import | v2.3 | 0/? | Not started | - |
-| 42. OGG Vorbis Passthrough | v2.3 | 0/2 | Not started | - |
+| 42. OGG Vorbis Passthrough | v2.3 | 2/2 | Complete   | 2026-07-01 |
+| 43. Connect OGG Passthrough | v2.3 | 1/1 | Complete   | 2026-07-02 |
 
 ## Backlog
 
@@ -192,20 +193,51 @@ Items discovered during development — not assigned to a milestone.
 9. **Forum Auto-Post** — Label-getriggerter GitHub Action Workflow der approved Draft-Replies automatisch im vBulletin-Forum postet. (Ehemals Phase 24.)
 
 ### Phase 42: OGG Vorbis Passthrough
+
 **Goal**: Wire up prepared OGG passthrough infrastructure — Rust sinks forward AudioPacket::OggData to capable players (squeezelite), PCM fallback for hardware players. Fixes misleading "OGG" display and enables CPU-saving codec offload. (#96)
 **Depends on**: None (independent of Phases 38-41)
 **Requirements**: OGG-01, OGG-02, OGG-03
 **Success Criteria** (what must be TRUE):
+
   1. squeezelite player receives raw Ogg/Vorbis data from SpotOn daemon (verified via Content-Type and player codec log)
   2. Hardware Squeezebox players continue to receive PCM (no regression)
   3. NowPlaying correctly shows "OGG" only when OGG is actually streamed, "PCM" otherwise
   4. Sync groups with mixed player types work correctly (all players get format they support)
-**Plans**: 2 plans
+
+**Plans**: 2/2 plans complete
 Plans:
 
-- [ ] 42-01-PLAN.md -- Rust sink passthrough and CLI wiring (OGG-01)
-- [ ] 42-02-PLAN.md -- Perl capability resolution, daemon wiring, NowPlaying fix, and tests (OGG-02, OGG-03)
+- [x] 42-01-PLAN.md -- Rust sink passthrough and CLI wiring (OGG-01)
+- [x] 42-02-PLAN.md -- Perl capability resolution, daemon wiring, NowPlaying fix, and tests (OGG-02, OGG-03)
+
+### Phase 43: Connect OGG Passthrough
+
+**Goal**: Fix Connect mode audio with OGG passthrough — Connect-Sink currently discards AudioPacket::Raw, and /stream relay drains OGG headers on startup. Browse OGG passthrough works, Connect is silent since v2.2.4.
+**Depends on**: Phase 42
+**Requirements**: OGG-04
+**Success Criteria** (what must be TRUE):
+
+  1. Connect mode plays audio with OGG passthrough enabled (squeezelite receives Ogg/Vorbis via /stream)
+  2. Track changes in Connect mode produce continuous audio (chained OGG with valid headers per track)
+  3. Browse OGG passthrough continues to work (no regression)
+  4. Connect PCM fallback works when player doesn't support OGG
+
+**Plans**: 1/1 plans complete
+Plans:
+
+- [x] 43-01-PLAN.md — Rust fixes (connect.rs AudioPacket::Raw + unified.rs OGG header buffering) + build verification
+
+### Phase 44: Connect OGG Rate-Limiting
+
+**Goal:** Fix Spirc/audio desync by adding granule_position-based wall-clock rate-limiting to Connect passthrough sink, matching CON-14 PCM pacing
+**Requirements**: OGG-05
+**Depends on:** Phase 43
+**Plans:** 1 plan
+
+Plans:
+
+- [ ] 44-01-PLAN.md -- Granule_position-based CON-14 rate-limiting in both Connect sinks (OGG-05)
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-06-30 — v2.3 Library Integration roadmap added (Phases 37-41)*
+*Last updated: 2026-07-02 — Phase 43 planned (1 plan: Connect OGG Passthrough fix)*
