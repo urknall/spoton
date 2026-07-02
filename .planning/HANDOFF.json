@@ -1,9 +1,9 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-30T20:03:02.812Z",
-  "phase": "37",
-  "phase_name": "context-menu-lms-items",
-  "phase_dir": ".planning/phases/37-context-menu-lms-items",
+  "timestamp": "2026-07-02T19:30:00.000Z",
+  "phase": null,
+  "phase_name": null,
+  "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": 0,
@@ -13,10 +13,16 @@
   "blockers": [],
   "async_jobs": [],
   "human_actions_pending": [
-    {"action": "Wait for woorszt feedback on #91 (Docker me/* fallback)", "context": "Posted v2.2.0 update, issue reopened — awaiting confirmation", "blocking": false}
+    {"action": "Wait for urknall WiiM Ultra feedback on v2.3.3 metadata fix", "context": "Issue #96 — separate title/artist/album fields added", "blocking": false},
+    {"action": "Wait for woorszt response on Keymaster sunset hypothesis", "context": "Issue #91 — account-cohort theory, diagnostic: test with different account", "blocking": false},
+    {"action": "Wait for foxesden on SqueezeDSP PR #19 status", "context": "SqueezeDSP issue #18 — foxesden confirmed integration works, adapted removeNativeConversion", "blocking": false}
   ],
-  "decisions": [],
+  "decisions": [
+    {"decision": "WiiM metadata via separate OPML fields, not Library Integration", "rationale": "LMS maps artist/album from OPML items to RemoteTrack — no Importer needed for standardTitle()", "phase": "n/a"},
+    {"decision": "Keymaster 403 is upstream Spotify sunset, not SpotOn bug", "rationale": "librespot #1532, spotify-player #801 — identical pattern, cohort-based rollout", "phase": "n/a"},
+    {"decision": "PR #98 fixed manually with co-author credit", "rationale": "Needed fix in both Connect.pm and ProtocolHandler.pm, PR only covered one", "phase": "n/a"}
+  ],
   "uncommitted_files": [],
-  "next_action": "Start Phase 38 (Importer Foundation): /gsd-discuss-phase 38. Consider addressing #93 (Favorites URL) and #94 (Browse context menu items) first — both are Phase 37 follow-ups.",
-  "context_notes": "Session was resume + forum work only. Answered forum post #126 (urknall) about OGG passthrough data flow — reply posted. Phase 37 complete, v2.2.1 released. Three new issues since last session: #93 (Favorites spoton:// URL), #94 (Browse menu fewer context items), #95 (OGG passthrough feature request — already implemented, user may not realize). No code changes this session."
+  "next_action": "Wait for community feedback on v2.3.3. Then: /gsd-discuss-phase 38 (Importer Foundation) or /spoton-triage for new activity.",
+  "context_notes": "Three releases in one session (v2.3.1/2/3). Two project skills built (/spoton-uat, /spoton-triage). Full code review + UAT. Community triage complete. All external — waiting on user feedback."
 }
