@@ -112,13 +112,14 @@ Plans:
 
 **Goal**: User's saved albums and followed artists appear in LMS native library with visual distinction
 **Depends on**: Phase 38
-**Requirements**: LIB-02, LIB-03, LIB-07, LIB-09
+**Requirements**: LIB-02, LIB-03, LIB-07, LIB-09, LIB-10
 **Success Criteria** (what must be TRUE):
 
   1. After library scan, user's saved Spotify albums appear in LMS My Music > Albums with cover art and full track listing
   2. After library scan, user's followed Spotify artists appear in LMS My Music > Artists
   3. Spotify items in LMS library views show a SpotOn icon badge for visual distinction from local music
   4. User sees scan progress indicator during import showing item counts (Slim::Utils::Progress)
+  5. Imported tracks have separate title/artist/album DB fields so LMS standardTitle() composes the client's titleFormat correctly (current_title compatibility with WiiM Ultra and similar devices, see GH #96)
 
 **Plans**: TBD
 
@@ -232,11 +233,24 @@ Plans:
 **Goal:** Fix Spirc/audio desync by adding granule_position-based wall-clock rate-limiting to Connect passthrough sink, matching CON-14 PCM pacing
 **Requirements**: OGG-05
 **Depends on:** Phase 43
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 
-- [ ] 44-01-PLAN.md -- Granule_position-based CON-14 rate-limiting in both Connect sinks (OGG-05)
+- [x] 44-01-PLAN.md -- Granule_position-based CON-14 rate-limiting in both Connect sinks (OGG-05)
+
+### Phase 45: URL Canonicalization
+
+**Goal:** Ensure spoton:// remains the canonical track URL for LMS metadata lookups when canDirectStream() returns daemon HTTP URLs. Evaluate whether URL canonicalization is needed in getMetadataFor(), getIcon(), trackInfoMenu(), parseDirectHeaders(). Reported by @urknall in #96.
+**Requirements**: META-01
+**Depends on:** Phase 44
+**Canonical refs:** GH #96 comment 4857569938 (urknall's design analysis), GH #96 comment 4857885025 (urknall's concession re LMS URL separation)
+**Status note:** Quick-fixes from GH #96 comment 4860032342 already applied: currentPlaylistUpdateTime before newmetadata, em dash replaced with dash. Remaining scope is URL canonicalization -- pending urknall's feedback on quick-fixes.
+**Plans:** 0 plans
+
+Plans:
+
+- [ ] TBD (run /gsd-plan-phase 45 to break down)
 
 ---
 *Roadmap created: 2026-05-26*
