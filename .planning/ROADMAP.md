@@ -176,7 +176,7 @@ Plans:
 | 40. Liked Songs + Incremental Sync | v2.3 | 0/? | Not started | - |
 | 41. Playlist Import | v2.3 | 0/? | Not started | - |
 | 42. OGG Vorbis Passthrough | v2.3 | 2/2 | Complete   | 2026-07-01 |
-| 43. Connect OGG Passthrough | v2.3 | 0/1 | Planned     | - |
+| 43. Connect OGG Passthrough | v2.3 | 1/1 | Complete   | 2026-07-02 |
 
 ## Backlog
 
@@ -222,10 +222,21 @@ Plans:
   3. Browse OGG passthrough continues to work (no regression)
   4. Connect PCM fallback works when player doesn't support OGG
 
-**Plans**: 1 plan
+**Plans**: 1/1 plans complete
 Plans:
 
-- [ ] 43-01-PLAN.md — Rust fixes (connect.rs AudioPacket::Raw + unified.rs OGG header buffering) + build verification
+- [x] 43-01-PLAN.md — Rust fixes (connect.rs AudioPacket::Raw + unified.rs OGG header buffering) + build verification
+
+### Phase 44: Connect OGG Rate-Limiting
+
+**Goal:** Fix Spirc/audio desync by adding granule_position-based wall-clock rate-limiting to Connect passthrough sink, matching CON-14 PCM pacing
+**Requirements**: OGG-05
+**Depends on:** Phase 43
+**Plans:** 1 plan
+
+Plans:
+
+- [ ] 44-01-PLAN.md -- Granule_position-based CON-14 rate-limiting in both Connect sinks (OGG-05)
 
 ---
 *Roadmap created: 2026-05-26*
