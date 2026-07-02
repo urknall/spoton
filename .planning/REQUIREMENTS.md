@@ -18,6 +18,7 @@ Requirements for Library Integration milestone. Each maps to roadmap phases.
 - [ ] **LIB-07**: Library-Icon Badge für Spotify-Items in LMS Library View
 - [ ] **LIB-08**: Library Stats auf Status Page (Tracks/Albums/Artists importiert)
 - [ ] **LIB-09**: Progress-Anzeige während Scan (Slim::Utils::Progress)
+- [ ] **LIB-10**: Importierte Tracks haben separate title/artist/album DB-Felder, damit LMS standardTitle() das konfigurierte titleFormat (z.B. "TITLE BY ARTIST FROM ALBUM") korrekt zusammenbauen kann -- ermoeglicht current_title Kompatibilitaet mit Drittanbieter-Playern (WiiM Ultra etc.), siehe GH #96
 
 ### Playlist Import
 
@@ -69,6 +70,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | LIB-03 | Phase 39 | Pending |
 | LIB-07 | Phase 39 | Pending |
 | LIB-09 | Phase 39 | Pending |
+| LIB-10 | Phase 39 | Pending |
 | LIB-01 | Phase 40 | Pending |
 | LIB-04 | Phase 40 | Pending |
 | LIB-05 | Phase 40 | Pending |
@@ -78,10 +80,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | CFG-02 | Phase 41 | Pending |
 
 **Coverage:**
-- v2.3 requirements: 16 total
-- Mapped to phases: 16
+- v2.3 requirements: 17 total
+- Mapped to phases: 17
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-30*
-*Last updated: 2026-06-30 — traceability updated with phase mappings*
+*Last updated: 2026-07-02 — LIB-10 added (current_title metadata compatibility for third-party players)*
