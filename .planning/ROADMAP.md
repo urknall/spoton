@@ -252,6 +252,17 @@ Plans:
 
 - [ ] TBD (run /gsd-plan-phase 45 to break down)
 
+### Phase 46: Code Review Bugfixes
+
+**Goal:** Fix all High and Medium findings from the Fable full-project code review (2026-07-02), plus Windows compatibility fixes.
+**Depends on:** None (independent bugfix phase)
+**Canonical refs:** Fable review findings documented in session 2026-07-02
+**Plans:** 1 plan
+
+Plans:
+
+- [ ] 46-01-PLAN.md — All 30 review fixes grouped by module: API safety (H1-H3, M1-M3), Plugin core (H4, M5-M7, W2), Connect guards (H6, H7, M8, M11), ProtocolHandler (H5, M9), daemon lifecycle (H8-H10, M10, M12, W1), Rust daemon (H11-H13, M15, M16, M18, M19)
+
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-07-02 — Phase 43 planned (1 plan: Connect OGG Passthrough fix)*
+*Last updated: 2026-07-02 — Phase 46 added (Code Review Bugfixes)*
