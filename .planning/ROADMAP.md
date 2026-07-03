@@ -179,11 +179,35 @@ Plans:
 | 42. OGG Vorbis Passthrough | v2.3 | 2/2 | Complete   | 2026-07-01 |
 | 43. Connect OGG Passthrough | v2.3 | 1/1 | Complete   | 2026-07-02 |
 
+### Phase 48: login5 Token Retrieval (Bridge)
+
+**Goal:** Replace Keymaster token retrieval with login5 fallback in `--get-token`. Fixes GH #91 for accounts where Spotify deprecated Keymaster. Bridge to PKCE-only architecture.
+**Depends on:** None
+**Requirements:** (bridge — superseded by AUTH-01..AUTH-07)
+**Status:** Context gathered, ready for planning
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 48 to break down)
+
+### Future: PKCE-Only Auth Architecture (Golden Path)
+
+> **Decision 2026-07-03:** PKCE replaces ZeroConf/Keymaster/login5 as the single auth mechanism. One browser click in LMS Settings handles both Web API tokens (own rate pool) and librespot Connect credentials. No mDNS discovery needed — Connect via cloud/Spirc. Deep Research: https://gist.github.com/stiefenm/1f8c1231462ec6c41e29832e758f338d
+
+**Phases (TBD — to be broken down after Phase 48 ships):**
+- PKCE OAuth flow in LMS Settings (browser redirect, callback handler)
+- Perl-side TokenManager with OAuth refresh (replaces `--get-token` binary spawn)
+- librespot stored credentials from PKCE token (PR #1309 pattern)
+- `--disable-discovery` as default (Connect via cloud, no mDNS)
+- Keymaster code removal
+- login5 fallback for users skipping browser flow
+
+**Requirements:** AUTH-01 through AUTH-07 (see REQUIREMENTS.md)
+
 ## Backlog
 
 Items discovered during development — not assigned to a milestone.
 
-1. **Eigene SpotOn Client-ID bei Spotify registrieren** — Blocked: Spotify requires 250k MAU + legally registered business. Extended Quota documentation deferred to future milestone.
+1. ~~**Eigene SpotOn Client-ID bei Spotify registrieren**~~ — Resolved: existing Extended Quota grandfathered, PKCE with SpotOn ID is the Golden Path.
 2. **~~Online-Musiksammlung (Importer.pm / OnlineLibraryBase)~~** — ~~Evaluiert und bewusst abgelehnt.~~ Now v2.3 scope (Phases 38-41).
 3. ~~**LMS Community Repo Submission**~~ — Erledigt: Plugin im Community Repo veröffentlicht.
 4. ~~**ZeroConf Auth UX: "Connected" an Spotify App melden**~~ — Verworfen: Setup Guide erklärt das Verhalten, kein technischer Fix möglich ohne Playback-Session.

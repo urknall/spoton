@@ -27,7 +27,7 @@ Requirements for Library Integration milestone. Each maps to roadmap phases.
 
 ### Token Routing
 
-- [ ] **TOK-01**: Library-Import nutzt Own-ID-Token (Keymaster), Fallback auf Bundled bei 403
+- [ ] **TOK-01**: Library-Import nutzt PKCE-Token (eigener Rate-Pool via SpotOn client_id), Fallback auf login5 (shared pool)
 - [ ] **TOK-02**: Cross-Process Rate-Limit-Signal zwischen Scanner und Hauptprozess via Cache-Key
 
 ### Context Menu
@@ -48,14 +48,25 @@ Deferred to future release. Tracked but not in current roadmap.
 - **LIB-F01**: Tag Cleanup — Strip "(Remastered)", "(Deluxe Edition)" from imported album/track names (opt-in)
 - **LIB-F02**: Multi-Account Support — Import from multiple Spotify accounts into separate LMS library namespaces
 
+### Auth Architecture (v2.4 — Golden Path: PKCE-Only)
+
+> **Architectural Decision (2026-07-03):** PKCE replaces ZeroConf as the primary auth mechanism. Single auth flow handles both Web API tokens (own rate pool) and librespot Connect credentials. ZeroConf/mDNS discovery is no longer needed — librespot registers as Connect device via cloud/Spirc with stored credentials. Solves Keymaster deprecation (#91), Docker mDNS issues (#103), and rate pool fragmentation in one move. Deep Research Report: https://gist.github.com/stiefenm/1f8c1231462ec6c41e29832e758f338d
+
+- [ ] **AUTH-01**: User authenticates via one-click PKCE OAuth in LMS Settings ("Connect Spotify Account" button → browser redirect → authorize → callback)
+- [ ] **AUTH-02**: PKCE flow uses SpotOn's own client_id → access+refresh tokens under own Extended Quota rate pool
+- [ ] **AUTH-03**: PKCE access token is used once to obtain non-expiring librespot stored credentials (PR #1309 pattern: token → AP session → credential blob)
+- [ ] **AUTH-04**: librespot starts with stored credentials + `--disable-discovery` — Connect device appears via cloud/Spirc registration, no mDNS needed
+- [ ] **AUTH-05**: TokenManager.pm refreshes Web API tokens via standard OAuth refresh flow — no binary spawn (`--get-token`) needed for API calls
+- [ ] **AUTH-06**: Fallback path: login5 with default librespot ID for users who skip browser flow (shared rate pool, functional but limited)
+- [ ] **AUTH-07**: Keymaster code removed from TokenManager.pm after PKCE is stable
+
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
 | Full Catalog Search via Importer | Dev Mode limit=10 macht Search-basierte Anreicherung unwirtschaftlich |
-| PKCE OAuth für Library Import | Würde zusätzliche Setup-Schritte erfordern, ZeroConf-Simplizität hat Priorität |
 | Background Polling kürzer als 1h | LMS OnlineLibrary pollt stündlich, kürzere Intervalle nicht vorgesehen |
-| Extended Quota | Spotify requires 250k MAU + legally registered business |
+| Extended Quota Neuantrag | Spotify requires 250k MAU + legally registered business (bestehende EQ grandfathered) |
 
 ## Traceability
 
