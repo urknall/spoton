@@ -1021,6 +1021,9 @@ sub _trackItem {
 
     my %item = (
         name          => "$title \x{2014} $artist",    # em-dash fallback for older clients
+        title         => $title,
+        artist        => $artist,
+        album         => $album,
         line1         => $title,
         line2         => $artist . ($album ? " \x{2022} $album" : ''),
         url           => $spoton_url,
@@ -1777,7 +1780,7 @@ sub _episodeItem {
     $cache->set('spoton_meta_' . md5_hex($spoton_url), {
         title    => $title,
         artist   => $showName,
-        album    => '',
+        album    => $showName,
         duration => $duration,
         cover    => $image,
         icon     => $image,
@@ -1789,6 +1792,9 @@ sub _episodeItem {
 
     my %item = (
         name          => $title . $explicit_tag,
+        title         => $title,
+        artist        => $showName,
+        album         => $showName,
         line1         => $title . $explicit_tag,
         line2         => $line2,
         url           => $spoton_url,
@@ -2519,6 +2525,9 @@ sub _albumTrackItem {
 
     my %item = (
         name      => ($trackNum ? "$trackNum. " : '') . $title,
+        title     => $title,
+        artist    => $artists,
+        album     => $albumName || '',
         line1     => ($trackNum ? "$trackNum. " : '') . $title,
         line2     => $line2,
         url       => $spoton_url,
