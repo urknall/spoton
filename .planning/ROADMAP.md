@@ -14,6 +14,7 @@
 - ✅ **v2.1 Context Menu** — Phases 33-34 (shipped 2026-06-26)
 - ✅ **v2.2 Session Health** — Phase 36 (shipped 2026-06-30)
 - 🚧 **v2.3 Library Integration** — Phases 37-41
+- 📋 **v3.0 Auth Overhaul** — Phases 49-53 (PKCE + sp_dc/Pathfinder, spike-validated)
 
 ## Phases
 
@@ -178,30 +179,73 @@ Plans:
 | 41. Playlist Import | v2.3 | 0/? | Not started | - |
 | 42. OGG Vorbis Passthrough | v2.3 | 2/2 | Complete   | 2026-07-01 |
 | 43. Connect OGG Passthrough | v2.3 | 1/1 | Complete   | 2026-07-02 |
+| 46. Code Review Bugfixes | v2.3 | 1/1 | Complete   | 2026-07-02 |
 
-### Phase 48: login5 Token Retrieval (Bridge)
+### ~~Phase 48: login5 Token Retrieval (Bridge)~~ — SUPERSEDED
 
-**Goal:** Replace Keymaster token retrieval with login5 fallback in `--get-token`. Fixes GH #91 for accounts where Spotify deprecated Keymaster. Bridge to PKCE-only architecture.
-**Depends on:** None
-**Requirements:** (bridge — superseded by AUTH-01..AUTH-07)
-**Status:** Context gathered, ready for planning
+> Superseded 2026-07-04 by v3.0 Auth Overhaul. Spike session proved login5 rate pool is 429-revoked and PKCE + sp_dc/Pathfinder covers all use cases. Planning artifacts archived in `48-SUPERSEDED-login5-token-retrieval/`.
 
-Plans:
-- [ ] TBD (run /gsd-plan-phase 48 to break down)
+</details>
 
-### Future: PKCE-Only Auth Architecture (Golden Path)
+### v3.0 Auth Overhaul
 
-> **Decision 2026-07-03:** PKCE replaces ZeroConf/Keymaster/login5 as the single auth mechanism. One browser click in LMS Settings handles both Web API tokens (own rate pool) and librespot Connect credentials. No mDNS discovery needed — Connect via cloud/Spirc. Deep Research: https://gist.github.com/stiefenm/1f8c1231462ec6c41e29832e758f338d
+> **Decision 2026-07-04:** Complete auth rewrite based on Spike session (7 spikes, all VALIDATED). Three token paths replace the current Keymaster architecture. Spike findings: `.claude/skills/spike-findings-spoton/`. Research: https://gist.github.com/stiefenm/1f8c1231462ec6c41e29832e758f338d
+>
+> **Revision 2026-07-04 (post urknall forum review #153-158):** ZeroConf stays as guest-discovery feature (not removed). PKCE-first for all auth (not ZeroConf-first). Discovery ON by default. Audit phase added. sp_dc hardened for TOTP rotation. Multi-pool token routing in Client.pm. urknall's 11 success criteria adopted as UAT gates.
 
-**Phases (TBD — to be broken down after Phase 48 ships):**
-- PKCE OAuth flow in LMS Settings (browser redirect, callback handler)
-- Perl-side TokenManager with OAuth refresh (replaces `--get-token` binary spawn)
-- librespot stored credentials from PKCE token (PR #1309 pattern)
-- `--disable-discovery` as default (Connect via cloud, no mDNS)
-- Keymaster code removal
-- login5 fallback for users skipping browser flow
+**Branch:** `v3.0-auth` (from main)
 
-**Requirements:** AUTH-01 through AUTH-07 (see REQUIREMENTS.md)
+**Key architectural decisions (post forum review):**
+- **PKCE-first (Option A):** PKCE OAuth is the single auth mechanism. One browser click in Settings → Web API tokens + automatic credential derivation. Clean break from Keymaster.
+- **ZeroConf stays as feature:** mDNS discovery remains active for guest/party access (household members casting to speaker). It is no longer an auth mechanism — just a Connect discovery feature.
+- **Discovery ON by default:** `--disable-discovery` is a per-player option for Docker/owner-only setups, not the default. Existing users' speakers stay visible.
+- **Login5 fallback declined:** Login5 tokens get immediate 429 on api.spotify.com (quota revocation, per Herger). librespot handles Login5 internally for spclient/session — no separate SpotOn fallback phase needed.
+- **Desktop Client ID OAuth declined:** ToS risk, unnecessary given grandfathered Extended Quota. Documented as conscious decision, not oversight.
+- **LMS-community PKCE flow:** Future backlog, not v3.0 scope.
+- **Callback URI via GitHub Pages:** Static page at `https://stiefenm.github.io/spoton/auth/` serves as PKCE redirect URI. LMS encodes its local callback URL + nonce in the OAuth `state` parameter. The static page decodes `state`, validates the target is a private IP (RFC1918/loopback/.local), and redirects the browser to `http://<lms-host>:9000/plugins/SpotOn/callback?code=...`. Fallback: page shows the code for manual copy-paste if the redirect fails. No server-side infrastructure needed. Pattern proven by SpotMyBackup (github.io) and similar to Spotty's `api.lms-community.org` relay but fully static.
+
+**Phases (to be broken down via /gsd-plan-phase):**
+
+| Phase | Name | Scope | Spike Basis |
+|-------|------|-------|-------------|
+| 49-00 | Token Usage Audit + Backend Evaluation | **Part A — Token Audit:** Map every `--get-token` / Keymaster call in Perl + Rust. Classify: Keymaster service call vs. client-ID-as-identity-hint. Answer urknall's 8 audit questions. **Part B — go-librespot Evaluation:** Assess whether go-librespot can replace the SpotOn Rust fork as streaming backend. Evaluate: native token management (Login5, PKCE, /token, /web-api/* proxy), REST API vs CLI+JSON-RPC, audio pipeline quality (OGG passthrough, Connect sinks, rate-limiting), cross-compile story (Go vs Rust). Decision: build token architecture in Perl+Rust-fork, or migrate to go-librespot. Output feeds all subsequent phases. | Pre-requisite |
+| 49 | PKCE OAuth Flow | "Login with Spotify" button in Settings, GitHub Pages callback relay (`stiefenm.github.io/spoton/auth/`), `state` parameter carries LMS callback URL + nonce, static page validates private-IP target and redirects browser to LMS, copy-paste fallback if redirect fails, token exchange with stored PKCE verifier, scope management. Redirect URI: `https://stiefenm.github.io/spoton/auth/` (registered in Spotify Developer App). | Spikes 001, 002 |
+| 50 | Perl TokenManager Rewrite | OAuth refresh in Perl (no binary spawn), atomic refresh-token persistence, proactive refresh timer. Multi-pool token routing through `API/Client.pm` (pkce \| webplayer), callers never touch tokens directly. go-librespot reference: `login5.go` (AccessToken renewal), `spclient.go` (centralized request wrapper with forced-refresh-on-401) | Spike 003 |
+| 51 | Credential Derivation + Connect | `--token-login` integration, credential lifecycle, discovery ON by default with `--disable-discovery` as per-player option, Connect via Spirc cloud. ZeroConf remains active for guest discovery. | Spikes 004, 005 |
+| 52 | sp_dc + Pathfinder Integration (best-effort) | sp_dc cookie Settings UI, TOTP secret self-scrape from web-player bundle with re-scrape on token failure, graceful degradation ("Made for You temporarily unavailable" — never breaks Browse/Connect), status page health indicator. Feature documented as "best effort" due to TOTP secret rotation risk. | Spikes 006, 007 |
+| 53 | Keymaster Removal + Migration | Remove Keymaster TokenProvider service calls (`hm://keymaster/token/authenticated`) from normal operation. ZeroConf discovery code stays. Migration path for existing users (one-time PKCE setup prompt). Settings flow update. | All spikes |
+
+**Architecture (proven by spikes):**
+```
+Feature              Token Type          Source                   User Action
+───────────────────  ──────────────────  ───────────────────────  ──────────────────────
+Browse/Library/      PKCE OAuth          Perl HTTP Refresh        One-time browser login
+Search/Player                                                     in LMS Settings
+
+Connect Mode         Stored Credentials  spoton --token-login     Automatic (from PKCE)
+
+Guest Discovery      ZeroConf/mDNS       librespot built-in       None (on by default)
+
+Made for You         Web-Player Token    sp_dc → TOTP → /api/     sp_dc cookie once in
+(Daily Mix, DW,      (best-effort)       token (server-side)      LMS Settings (~1yr valid)
+Release Radar)
+```
+
+**v3.0 Success Criteria (adapted from urknall's 11-point list, Forum #155):**
+
+1. Can SpotOn generate valid credentials.json without mDNS? (via PKCE + --token-login)
+2. Can existing ZeroConf-derived credentials continue to work for Connect?
+3. Can LMS restart and play without renewed auth?
+4. Does Spotify Connect work bidirectionally?
+5. Do Browse/Search/Library work with PKCE tokens?
+6. **Does `hm://keymaster/token/authenticated` still appear during normal operation? (Must be NO)**
+7. Which features truly require official Web API OAuth scopes? (All Browse/Library/Player — answered by audit)
+8. Can Library Importer complete a full 2000-track scan on PKCE pool without 429?
+9. Where is Keymaster client ID only an identity/platform detail, not a service call? (Answered by audit, those stay)
+
+**Reference implementations:** go-librespot `login5/login5.go`, `spclient/spclient.go`, `daemon/api_server.go` — token ownership and centralized request wrapper patterns.
+
+**Requirements:** AUTH-01 through AUTH-07 (see REQUIREMENTS.md), plus new requirements for sp_dc/Pathfinder TBD
 
 ## Backlog
 
@@ -216,6 +260,7 @@ Items discovered during development — not assigned to a milestone.
 7. **Search Pagination** — Suchergebnisse über offset-Pagination nachladen (aktuell max 50 pro Typ, Spotify hat oft 100+). LMS OPMLBased-Pagination nutzen.
 8. **Forum Monitor + Draft Generation** — GitHub Action (cron) die den Lyrion-Forum-Thread pollt, neue Posts erkennt, via Claude API Draft-Replies generiert und als GitHub Issues zur Review erstellt. (Ehemals Phase 23, bereits als Self-Hosted Runner implementiert.)
 9. **Forum Auto-Post** — Label-getriggerter GitHub Action Workflow der approved Draft-Replies automatisch im vBulletin-Forum postet. (Ehemals Phase 24.)
+10. **OGG Passthrough + Normalization** — CJS (Forum #152). Aktuell schaltet SpotOn bei Normalization auf PCM um, weil librespot bei Passthrough nicht normalisieren kann. Lösungsansatz: librespot liest den Spotify Gain-Wert (proprietäres Format, 16 bytes LE floats at OGG offset 144, `NormalisationData::parse_from_ogg()` in player.rs) und meldet ihn via JSON-RPC an SpotOn. SpotOn setzt `Song->replayGain` / `remoteMeta->{replay_gain}` — LMS sendet den Wert im Slim-Protokoll an squeezelite, das ihn nach eigenem OGG-Decode anwendet. Kein LMS-Patch nötig. Aufwand: ~20 Zeilen Rust + ~10 Zeilen Perl.
 
 ### Phase 42: OGG Vorbis Passthrough
 
@@ -281,12 +326,12 @@ Plans:
 **Goal:** Fix all High and Medium findings from the Fable full-project code review (2026-07-02), plus Windows compatibility fixes.
 **Depends on:** None (independent bugfix phase)
 **Canonical refs:** Fable review findings documented in session 2026-07-02
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 
-- [ ] 46-01-PLAN.md — All 30 review fixes grouped by module: API safety (H1-H3, M1-M3), Plugin core (H4, M5-M7, W2), Connect guards (H6, H7, M8, M11), ProtocolHandler (H5, M9), daemon lifecycle (H8-H10, M10, M12, W1), Rust daemon (H11-H13, M15, M16, M18, M19)
+- [x] 46-01-PLAN.md — All 30 review fixes grouped by module: API safety (H1-H3, M1-M3), Plugin core (H4, M5-M7, W2), Connect guards (H6, H7, M8, M11), ProtocolHandler (H5, M9), daemon lifecycle (H8-H10, M10, M12, W1), Rust daemon (H11-H13, M15, M16, M18, M19)
 
 ---
 *Roadmap created: 2026-05-26*
-*Last updated: 2026-07-02 — Phase 46 added (Code Review Bugfixes)*
+*Last updated: 2026-07-04 — Phase 46 completed (Code Review Bugfixes)*
