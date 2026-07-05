@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v2.3
 milestone_name: Library Integration
 status: ready_to_plan
-stopped_at: v2.3.10 released, urknall #176 feedback incorporated
+stopped_at: v2.3.12 released, PlayPlay research done, cohort verification next
 last_updated: 2026-07-05
-last_activity: 2026-07-05 -- urknall #176 feedback incorporated into v3.0 decisions
+last_activity: 2026-07-05 -- v2.3.12 released (trackGain + Connect transition), PlayPlay research confirmed existential risk
 progress:
   total_phases: 5
   completed_phases: 0
@@ -114,15 +114,16 @@ Items carried forward from previous milestones:
 - Forum #143 (plasticator2): Audio distortion on Pi 4B + HiFiBerry Digi2 Pro SPDIF — log analysis pending
 - ~~PR #104 (urknall): Release year metadata — review pending~~ MERGED, shipped in v2.3.8
 - Forum #159 (Chezza): New Spotify account (Oct 2025) → NoStoredCredentials, urknall + CJS helping
-- Forum #160 (CJS): "Default Adjustment for Remote Streams" stacks with SpotOn ReplayGain (Spotty doesn't) — potential v2.3.x bug
+- ~~Forum #160 (CJS): "Default Adjustment for Remote Streams" stacks with SpotOn ReplayGain~~ FIXED in v2.3.12: trackGain() implemented (GH #108)
 - ~~Wait for urknall's response to auth architecture reply (#175)~~ RESOLVED: urknall #176 confirmed PKCE-first, provided edge cases and Keymaster audit guidance
+- PlayPlay/Shannon migration: confirmed existential risk (librespot #1649, #1685). New accounts (post-~2020) increasingly get AP RequestKey denied. Issue #110 created for cohort verification.
 
 ## Session Continuity
 
 **Last session:** 2026-07-05
-**Stopped at:** v2.3.10 released, urknall #176 feedback incorporated into v3.0 planning decisions
-**Next action:** `/gsd-plan-phase 49-00` (Token Usage Audit + Backend Evaluation) — go-librespot evaluation scoped to reference-only per urknall feedback
+**Stopped at:** v2.3.12 released (trackGain + Connect track transition), PlayPlay research done
+**Next action:** Issue #110: Verify PlayPlay cohort with fresh Spotify account. Then discuss with Reiner (Telegram, Schwarzzone). After that: `/gsd-plan-phase 49-00`
 
 ---
 *State initialized: 2026-05-26*
-*Last updated: 2026-07-05 — urknall #176 feedback incorporated: PKCE-first confirmed, go-librespot scoped to reference, Keymaster 4-bucket audit, 7 PKCE edge cases*
+*Last updated: 2026-07-05 — v2.3.12 released, PlayPlay research confirmed Shannon deprecation per account cohort*

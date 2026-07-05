@@ -1,43 +1,42 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-05T17:15:00.000Z",
+  "timestamp": "2026-07-05T21:00:27.452Z",
   "phase": "v3.0-planning",
-  "phase_name": "v3.0 Auth Overhaul — Architecture Finalized, Audit Next",
+  "phase_name": "v3.0 Auth Overhaul — v2.3.12 released, PlayPlay researched",
   "phase_dir": ".planning/",
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "PR #106 review (Fable 5, 8-angle, 7 findings)", "status": "done"},
-    {"id": 2, "name": "PR #106 fixes: buffer_latency_ns + frames_consumed guard + OGG header wait", "status": "done"},
-    {"id": 3, "name": "PR #106 merged to main, UAT passed (Browse + Connect, OGG + PCM)", "status": "done"},
-    {"id": 4, "name": "v2.3.10 released (Connect rate-limiter + OGG header fix)", "status": "done"},
-    {"id": 5, "name": "foxesden Windows token bug diagnosed (Fable 5), fix built (SPOTON_TOKEN_FILE)", "status": "done"},
-    {"id": 6, "name": "v2.3.11 released (Windows token capture fix)", "status": "done"},
-    {"id": 7, "name": "Forum Monitor CI fixed (non-fast-forward push)", "status": "done"},
-    {"id": 8, "name": "urknall #176 feedback incorporated into planning artifacts", "status": "done"},
-    {"id": 9, "name": "Post #175 sanitized (sensitive content removed from public forum)", "status": "done"},
-    {"id": 10, "name": "Forum replies posted: #176 (urknall arch), #183 (foxesden Windows fix)", "status": "done"},
-    {"id": 11, "name": "Forum triage complete, forum-topics.json updated", "status": "done"},
-    {"id": 12, "name": "GH #109 created (Windows token), PR #106 closed", "status": "done"},
-    {"id": 13, "name": "Triage skill updated (MANDATORY forum-topics.json update)", "status": "done"}
+    {"id": 1, "name": "PR #107 review — best-of-both analysis", "status": "done"},
+    {"id": 2, "name": "Issue #108 — trackGain() in ProtocolHandler.pm", "status": "done"},
+    {"id": 3, "name": "Connect track transition: continuous OGG timeline + per-page headers + PCM no-reset", "status": "done"},
+    {"id": 4, "name": "Code Review (Fable 5, 8 angles): 5 findings fixed", "status": "done"},
+    {"id": 5, "name": "UAT: Connect OGG+PCM, Browse OGG — all PASS", "status": "done"},
+    {"id": 6, "name": "Release v2.3.12 shipped (tag, CI, repo.xml SHA)", "status": "done"},
+    {"id": 7, "name": "PR #107 closed with credit, Issue #108 commented", "status": "done"},
+    {"id": 8, "name": "Forum reply #160 posted (CJS normalization fix)", "status": "done"},
+    {"id": 9, "name": "PlayPlay/Shannon research (Fable 5): cohort migration confirmed", "status": "done"},
+    {"id": 10, "name": "Issue #110 created: PlayPlay cohort verification", "status": "done"},
+    {"id": 11, "name": "Telegram integration (telethon) set up, Reiner messages read", "status": "done"}
   ],
   "remaining_tasks": [],
   "blockers": [],
   "async_jobs": [],
   "human_actions_pending": [
-    {"action": "Wait for foxesden confirmation on v2.3.11 Windows fix", "context": "GH #109, forum #183", "blocking": false},
-    {"action": "Wait for plasticator2 confirmation on normalization fix (#105)", "context": "v2.3.8 shipped, plasticator2 says resolved (#178) but issue still open", "blocking": false}
+    {"action": "Verify PlayPlay cohort with fresh Spotify account", "context": "Issue #110, verify-playplay-cohort.sh script prepared", "blocking": false},
+    {"action": "Discuss Schwarzzone with Reiner via Telegram", "context": "PlayPlay RE details, privately", "blocking": false},
+    {"action": "Wait for CJS confirmation on Issue #108", "context": "v2.3.12 shipped", "blocking": false},
+    {"action": "Wait for foxesden confirmation on Issue #109", "context": "v2.3.11 Windows fix", "blocking": false}
   ],
   "decisions": [
-    {"decision": "PKCE-first confirmed by urknall (#176)", "rationale": "Extended Quota Client ID makes PKCE viable as single auth mechanism", "phase": "v3.0"},
-    {"decision": "go-librespot = token/control reference only, NOT audio backend", "rationale": "Rust-librespot has OGG passthrough primitives, go-librespot doesn't", "phase": "v3.0"},
-    {"decision": "Keymaster audit 4-bucket classification", "rationale": "Real service call vs client-ID-as-identity vs Login5 vs PKCE", "phase": "v3.0"},
-    {"decision": "7 PKCE edge cases (A-G) adopted from urknall", "rationale": "Verifier isolation, navigation relay, private-IP validation, copy/paste fallback, account mismatch, guest ZeroConf, refresh-token UX", "phase": "v3.0"},
-    {"decision": "Sensitive topics removed from public forum", "rationale": "Agreement with urknall — keep reverse-engineering details private", "phase": "v3.0"}
+    {"decision": "v2.3.12: trackGain + Connect track transition rewrite", "rationale": "GH #108 fix + urknall PR #107 best-of-both", "phase": "v2.3"},
+    {"decision": "PCM gapless: no reset needed", "rationale": "Continuous audio, frames_consumed/began_at carry naturally", "phase": "v2.3"},
+    {"decision": "OGG gapless: continuous cumulative timeline", "rationale": "Eliminates buffer-latency gap between tracks", "phase": "v2.3"},
+    {"decision": "PlayPlay migration confirmed — existential for librespot", "rationale": "librespot #1649/#1685, go-librespot has stub only, DMCA enforced Apr+Aug 2025, new accounts failing since late 2025", "phase": "v3.0"}
   ],
-  "uncommitted_files": [".planning/STATE.md", ".planning/.continue-here.md", "librespot-spoton/Cargo.lock"],
-  "next_action": "Phase 49-00 (Token Usage Audit + Backend Evaluation) — /gsd-plan-phase 49-00",
-  "context_notes": "Massive session: PR #106 reviewed with Fable 5 (8 angles, 7 findings), 2 fixes applied, 2 releases (v2.3.10 + v2.3.11), foxesden Windows bug found and fixed via Fable 5 analysis, urknall #176 auth feedback incorporated, forum post #175 censored. All triage clean."
+  "uncommitted_files": [],
+  "next_action": "Issue #110: Verify PlayPlay cohort with fresh Spotify account. Then discuss findings with Reiner via Telegram.",
+  "context_notes": "Massive session: Telegram (telethon), PR #107 best-of-both, GH #108 trackGain, Fable 5 review (8 angles, 5 findings), UAT, v2.3.12 release, PlayPlay research (existential: Shannon deprecated per cohort, no fix in librespot, DMCA blocks public implementation). Reiner wants Schwarzzone discussion. v3.0 Phase 49-00 (Token Audit) still next after PlayPlay verification."
 }
