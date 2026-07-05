@@ -85,6 +85,26 @@ enum ActiveMode {
     Browse(String), // String = track_id currently streaming
 }
 
+fn advance_connect_track_generation(
+    event: &PlayerEvent,
+    current_track: &mut Option<String>,
+    track_gen: &AtomicU64,
+) {
+    if let PlayerEvent::TrackChanged { audio_item } = event {
+        let new_id = audio_item.track_id.to_id();
+        if current_track.as_deref() != Some(new_id.as_str()) {
+            let prev = current_track.replace(new_id.clone());
+            let gen = track_gen.fetch_add(1, Ordering::AcqRel) + 1;
+            log::info!(
+                "[spoton/unified] Connect TrackChanged {:?} -> {} — track_gen={}",
+                prev.as_deref().unwrap_or("none"),
+                new_id,
+                gen
+            );
+        }
+    }
+}
+
 // -------------------------------------------------------------------------
 // UnifiedHttpStreamSink — rate-limited PCM sink for Connect path
 // -------------------------------------------------------------------------
@@ -99,6 +119,8 @@ struct UnifiedHttpStreamSink {
     pcm_tx: mpsc::Sender<Bytes>,
     #[allow(dead_code)]
     flush_tx: watch::Sender<u64>,
+    track_gen: Arc<AtomicU64>,
+    last_track_gen: u64,
     began_at: Instant,
     frames_consumed: u64,
     buffer_latency_ns: u128,
@@ -116,10 +138,15 @@ struct UnifiedHttpStreamSink {
     // offset, the rate-limiting formula would sleep for the entire track prefix.
     // -1 = sentinel meaning "not yet captured".
     granule_offset: i64,
-    // Phase 44 fix: OGG serial number of the current track. When it changes
-    // (gapless track transition without stop()/start()), reset rate-limiting
-    // state so the new track is paced from its own beginning.
+    // Phase 44 fix: OGG serial number of the current logical bitstream.
+    // Gapless Connect transitions can change this without stop()/start().
     ogg_serial: u32,
+    // Continuous OGG timeline across serial changes. Librespot may stream gapless
+    // track transitions without calling stop()/start(), while OGG granule positions
+    // reset per logical bitstream. Keep a synthetic cumulative frame count so the
+    // rate-limiter does not add a fresh buffer-latency gap at every track boundary.
+    ogg_track_base_frames: u128,
+    ogg_timeline_frames: u128,
 }
 
 impl UnifiedHttpStreamSink {
@@ -128,6 +155,7 @@ impl UnifiedHttpStreamSink {
         format: AudioFormat,
         pcm_tx: mpsc::Sender<Bytes>,
         flush_tx: watch::Sender<u64>,
+        track_gen: Arc<AtomicU64>,
         buffer_latency_ms: u64,
         ogg_header_buf: Arc<std::sync::Mutex<Vec<Bytes>>>,
         passthrough: bool,
@@ -141,6 +169,8 @@ impl UnifiedHttpStreamSink {
         Box::new(Self {
             pcm_tx,
             flush_tx,
+            last_track_gen: track_gen.load(Ordering::Acquire),
+            track_gen,
             began_at: Instant::now(),
             frames_consumed: 0,
             buffer_latency_ns: u128::from(buffer_latency_ms) * 1_000_000u128,
@@ -149,16 +179,26 @@ impl UnifiedHttpStreamSink {
             passthrough,
             granule_offset: -1,
             ogg_serial: 0,
+            ogg_track_base_frames: 0,
+            ogg_timeline_frames: 0,
         })
+    }
+
+    fn reset_pcm_rate_limiter_for_track_transition(&mut self) {
+        self.began_at = Instant::now();
+        self.frames_consumed = 0;
     }
 }
 
 impl Sink for UnifiedHttpStreamSink {
     fn start(&mut self) -> SinkResult<()> {
+        self.last_track_gen = self.track_gen.load(Ordering::Acquire);
         self.began_at = Instant::now();
         self.frames_consumed = 0;
         self.granule_offset = -1; // Phase 44 fix: re-capture on first audio page
         self.ogg_serial = 0;
+        self.ogg_track_base_frames = 0;
+        self.ogg_timeline_frames = 0;
         // Phase 43 (D-03): clear the header buffer on every track start so the
         // /stream handler always replays THIS track's headers, not a stale track's.
         if self.passthrough {
@@ -177,10 +217,25 @@ impl Sink for UnifiedHttpStreamSink {
         self.began_at = Instant::now();
         self.granule_offset = -1;
         self.ogg_serial = 0;
+        self.ogg_track_base_frames = 0;
+        self.ogg_timeline_frames = 0;
         Ok(())
     }
 
     fn write(&mut self, packet: AudioPacket, converter: &mut Converter) -> SinkResult<()> {
+        let current_track_gen = self.track_gen.load(Ordering::Acquire);
+        if current_track_gen != self.last_track_gen {
+            log::info!(
+                "[spoton/unified] Connect track generation {} -> {}",
+                self.last_track_gen,
+                current_track_gen
+            );
+            self.last_track_gen = current_track_gen;
+            if !self.passthrough {
+                self.reset_pcm_rate_limiter_for_track_transition();
+            }
+        }
+
         match packet {
             AudioPacket::Samples(samples) => {
                 let samples_s16 = converter.f64_to_s16(&samples);
@@ -228,108 +283,90 @@ impl Sink for UnifiedHttpStreamSink {
                 // actual audio playback (44-CONTEXT.md).
                 let chunk = Bytes::copy_from_slice(&bytes);
 
-                // Phase 43 (D-03): buffer OGG header pages (BOS + Vorbis headers) so the
-                // /stream handler can replay them after draining stale chunks on new
-                // connections. granule_position == 0 (bytes 6..14 of the Ogg page header)
-                // identifies header pages; the first page with a non-zero granule_position
-                // is the first audio data page, which ends header collection for this track.
-                if self.collecting_headers {
-                    let is_header_page = chunk.len() >= 27
-                        && &chunk[0..4] == b"OggS"
-                        && chunk[6..14].iter().all(|&b| b == 0);
-                    if is_header_page {
-                        let mut buf = self.ogg_header_buf.lock().unwrap_or_else(|e| e.into_inner());
-                        buf.push(chunk.clone());
-                    } else {
-                        self.collecting_headers = false;
+                let mut last_timeline_frames: Option<u128> = None;
+                let mut pos = 0usize;
+                while pos + 27 <= chunk.len() {
+                    if &chunk[pos..pos + 4] != b"OggS" {
+                        break;
                     }
-                }
 
-                // Phase 44 fix: detect gapless track transitions by watching the
-                // OGG serial number (bytes 14..18). In Connect mode, librespot
-                // does NOT call stop()/start() between gapless tracks — the data
-                // flows continuously. When the serial changes, reset began_at and
-                // granule_offset so the new track is paced from its own beginning.
-                //
-                // Note: checks only the FIRST page's serial. If a multi-page chunk
-                // spans a track boundary, the change triggers on the next chunk.
-                // The .max(0) guard on relative_granule prevents hangs in between.
-                if chunk.len() >= 18 && &chunk[0..4] == b"OggS" {
-                    let serial = u32::from_le_bytes(
-                        chunk[14..18].try_into().expect("OGG serial is 4 bytes"),
+                    let granule = i64::from_le_bytes(
+                        chunk[pos + 6..pos + 14]
+                            .try_into()
+                            .expect("OGG granule_position slice is exactly 8 bytes"),
                     );
-                    if self.ogg_serial != 0 && serial != self.ogg_serial {
+                    let serial = u32::from_le_bytes(
+                        chunk[pos + 14..pos + 18]
+                            .try_into()
+                            .expect("OGG serial is 4 bytes"),
+                    );
+                    let n_segments = chunk[pos + 26] as usize;
+                    if pos + 27 + n_segments > chunk.len() {
+                        break;
+                    }
+                    let body_size: usize = chunk[pos + 27..pos + 27 + n_segments]
+                        .iter()
+                        .map(|&b| b as usize)
+                        .sum();
+                    let page_size = 27 + n_segments + body_size;
+                    if pos + page_size > chunk.len() {
+                        break;
+                    }
+
+                    if self.ogg_serial == 0 {
+                        self.ogg_serial = serial;
+                    } else if serial != self.ogg_serial {
                         log::info!(
-                            "[spoton/unified] OGG serial change: {} -> {} — resetting rate-limiter \
-                             (gapless track transition)",
-                            self.ogg_serial, serial
+                            "[spoton/unified] OGG serial change: {} -> {} — continuing rate-limiter timeline",
+                            self.ogg_serial,
+                            serial
                         );
-                        self.began_at = Instant::now();
+                        self.ogg_serial = serial;
+                        self.ogg_track_base_frames = self.ogg_timeline_frames;
                         self.granule_offset = -1;
                         self.collecting_headers = true;
-                        // Re-buffer headers for the new track
                         let mut buf = self.ogg_header_buf.lock().unwrap_or_else(|e| e.into_inner());
                         buf.clear();
-                        // This page is a BOS header — buffer it
-                        buf.push(chunk.clone());
-                        drop(buf);
                     }
-                    self.ogg_serial = serial;
+
+                    // Buffer OGG headers as individual pages. A decoder packet may
+                    // span old audio and the next track's headers during rapid skips;
+                    // replaying whole mixed chunks would give reconnecting clients
+                    // invalid stream setup data.
+                    if self.collecting_headers {
+                        if granule == 0 {
+                            let header_page = Bytes::copy_from_slice(&chunk[pos..pos + page_size]);
+                            let mut buf = self.ogg_header_buf.lock().unwrap_or_else(|e| e.into_inner());
+                            buf.push(header_page);
+                        } else {
+                            self.collecting_headers = false;
+                        }
+                    }
+
+                    if granule > 0 {
+                        if self.granule_offset < 0 {
+                            self.granule_offset = granule;
+                        }
+                        let relative_granule = (granule - self.granule_offset).max(0) as u128;
+                        last_timeline_frames = Some(
+                            self.ogg_track_base_frames.saturating_add(relative_granule)
+                        );
+                    }
+
+                    pos += page_size;
                 }
 
-                // Phase 44: granule_position-based wall-clock rate-limiting.
-                // Scan ALL OGG pages in the chunk (the passthrough decoder may
-                // deliver multiple pages concatenated in a single Raw packet).
-                // Use the LAST audio page's granule_position for the sleep formula
-                // so the pacing matches real-time regardless of chunk size.
-                //
-                // granule_offset: captured on the first audio page after each
-                // start()/resume so pause/resume works correctly.
-                {
-                    let mut last_granule: i64 = -1;
-                    let mut pos = 0usize;
-                    while pos + 27 <= chunk.len() {
-                        if &chunk[pos..pos + 4] != b"OggS" {
-                            break;
-                        }
-                        let granule = i64::from_le_bytes(
-                            chunk[pos + 6..pos + 14]
-                                .try_into()
-                                .expect("OGG granule_position slice is exactly 8 bytes"),
-                        );
-                        // Parse page size: 27-byte header + segment_count bytes of
-                        // segment table + sum of segment sizes.
-                        let n_segments = chunk[pos + 26] as usize;
-                        if pos + 27 + n_segments > chunk.len() {
-                            break;
-                        }
-                        let body_size: usize = chunk[pos + 27..pos + 27 + n_segments]
-                            .iter()
-                            .map(|&b| b as usize)
-                            .sum();
-                        let page_size = 27 + n_segments + body_size;
+                if let Some(timeline_frames) = last_timeline_frames {
+                    self.ogg_timeline_frames = timeline_frames;
+                    let expected_ns: u128 = timeline_frames
+                        * 1_000_000_000u128
+                        / u128::from(SAMPLE_RATE)
+                        + self.buffer_latency_ns;
+                    let elapsed_ns: u128 = self.began_at.elapsed().as_nanos();
 
-                        if granule > 0 {
-                            last_granule = granule;
-                        }
-                        pos += page_size;
-                    }
-                    if last_granule > 0 {
-                        // Capture offset on first audio page after start/resume.
-                        if self.granule_offset < 0 {
-                            self.granule_offset = last_granule;
-                        }
-                        let relative_granule = (last_granule - self.granule_offset).max(0) as u128;
-                        let expected_ns: u128 = relative_granule
-                            * 1_000_000_000u128
-                            / u128::from(SAMPLE_RATE)
-                            + self.buffer_latency_ns;
-                        let elapsed_ns: u128 = self.began_at.elapsed().as_nanos();
-
-                        if expected_ns > elapsed_ns {
-                            let park_ns = (expected_ns - elapsed_ns) as u64;
-                            std::thread::sleep(Duration::from_nanos(park_ns));
-                        }
+                    if expected_ns > elapsed_ns {
+                        let park_ns = (expected_ns - elapsed_ns) as u64;
+                        std::thread::sleep(Duration::from_nanos(park_ns));
                     }
                 }
 
@@ -1251,6 +1288,7 @@ pub async fn run_unified(
         let (pcm_tx, pcm_rx) = mpsc::channel::<Bytes>(256);
         let (flush_tx, flush_rx) = watch::channel::<u64>(0);
         let flush_tx_for_lms = flush_tx.clone();
+        let connect_track_gen = Arc::new(AtomicU64::new(0));
 
         pcm_rx_arc = Some(Arc::new(std::sync::Mutex::new(pcm_rx)));
         flush_rx_arc = Some(Arc::new(std::sync::Mutex::new(flush_rx)));
@@ -1271,6 +1309,7 @@ pub async fn run_unified(
         // Connect Player with rate-limited UnifiedHttpStreamSink.
         let pcm_tx_clone = pcm_tx.clone();
         let flush_tx_for_sink = flush_tx.clone();
+        let track_gen_for_sink = Arc::clone(&connect_track_gen);
         let buffer_latency_ms_copy = buffer_latency_ms;
         let ogg_buf_for_sink = Arc::clone(&ogg_header_buf);
         let session_for_player = {
@@ -1287,6 +1326,7 @@ pub async fn run_unified(
                     AudioFormat::S16,
                     pcm_tx_clone,
                     flush_tx_for_sink,
+                    Arc::clone(&track_gen_for_sink),
                     buffer_latency_ms_copy,
                     ogg_buf_for_sink,
                     passthrough,
@@ -1322,9 +1362,13 @@ pub async fn run_unified(
             let mode_state_lms = Arc::clone(&mode_state);
             let sa = Arc::clone(&spirc_active);
             let browse_cancel_lms = Arc::clone(&browse_cancel);
+            let track_gen_lms = Arc::clone(&connect_track_gen);
             event_dispatcher_handle = Some(tokio::spawn(async move {
                 let mut current_track: Option<String> = None;
+                let mut current_sink_track: Option<String> = None;
                 while let Some(event) = event_chan.recv().await {
+                    advance_connect_track_generation(&event, &mut current_sink_track, &track_gen_lms);
+
                     // Track spirc_active for SessionConnected/Playing/TrackChanged
                     if matches!(event,
                         PlayerEvent::SessionConnected { .. } |
@@ -1366,8 +1410,12 @@ pub async fn run_unified(
             let sa = Arc::clone(&spirc_active);
             let mode_state_w = Arc::clone(&mode_state);
             let browse_cancel_w = Arc::clone(&browse_cancel);
+            let track_gen_w = Arc::clone(&connect_track_gen);
             event_dispatcher_handle = Some(tokio::spawn(async move {
+                let mut current_sink_track: Option<String> = None;
                 while let Some(event) = event_chan.recv().await {
+                    advance_connect_track_generation(&event, &mut current_sink_track, &track_gen_w);
+
                     if matches!(event,
                         PlayerEvent::SessionConnected { .. } |
                         PlayerEvent::Playing { .. } |
@@ -1577,9 +1625,13 @@ pub async fn run_unified(
                                     let mode_state_d = Arc::clone(&mode_state);
                                     let sa_d = Arc::clone(&spirc_active);
                                     let browse_cancel_d = Arc::clone(&browse_cancel);
+                                    let track_gen_d = Arc::clone(&connect_track_gen);
                                     event_dispatcher_handle = Some(tokio::spawn(async move {
                                         let mut current_track: Option<String> = None;
+                                        let mut current_sink_track: Option<String> = None;
                                         while let Some(event) = event_chan.recv().await {
+                                            advance_connect_track_generation(&event, &mut current_sink_track, &track_gen_d);
+
                                             if matches!(event,
                                                 PlayerEvent::SessionConnected { .. } |
                                                 PlayerEvent::Playing { .. } |
@@ -1610,8 +1662,12 @@ pub async fn run_unified(
                                     let sa_d = Arc::clone(&spirc_active);
                                     let mode_state_d = Arc::clone(&mode_state);
                                     let browse_cancel_d = Arc::clone(&browse_cancel);
+                                    let track_gen_d = Arc::clone(&connect_track_gen);
                                     event_dispatcher_handle = Some(tokio::spawn(async move {
+                                        let mut current_sink_track: Option<String> = None;
                                         while let Some(event) = event_chan.recv().await {
+                                            advance_connect_track_generation(&event, &mut current_sink_track, &track_gen_d);
+
                                             if matches!(event,
                                                 PlayerEvent::SessionConnected { .. } |
                                                 PlayerEvent::Playing { .. } |
@@ -1860,4 +1916,3 @@ pub async fn run_unified(
 
     Ok(())
 }
-
