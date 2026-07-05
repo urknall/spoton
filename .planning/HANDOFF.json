@@ -1,43 +1,43 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-05T00:05:00.000Z",
+  "timestamp": "2026-07-05T17:15:00.000Z",
   "phase": "v3.0-planning",
-  "phase_name": "v3.0 Auth Overhaul — Architecture Review + Planning",
+  "phase_name": "v3.0 Auth Overhaul — Architecture Finalized, Audit Next",
   "phase_dir": ".planning/",
   "plan": null,
   "task": null,
   "total_tasks": null,
   "status": "paused",
   "completed_tasks": [
-    {"id": 1, "name": "Forum scrape: urknall posts #153-155, #158 (auth architecture)", "status": "done"},
-    {"id": 2, "name": "Fable 5 gap analysis: v3.0 plan vs urknall feedback", "status": "done"},
-    {"id": 3, "name": "ROADMAP.md v3.0 section rewritten (K1-K3, L1-L4, audit phase, callback URI)", "status": "done"},
-    {"id": 4, "name": "Spike findings updated (callback URI production design)", "status": "done"},
-    {"id": 5, "name": "STATE.md updated with all new decisions", "status": "done"},
-    {"id": 6, "name": "Forum reply to urknall drafted and posted (#175)", "status": "done"},
-    {"id": 7, "name": "Forum triage complete (Chezza thread — community-handled)", "status": "done"},
-    {"id": 8, "name": "GitHub Issues reviewed — no action needed", "status": "done"},
-    {"id": 9, "name": "forum-topics.json updated", "status": "done"}
+    {"id": 1, "name": "PR #106 review (Fable 5, 8-angle, 7 findings)", "status": "done"},
+    {"id": 2, "name": "PR #106 fixes: buffer_latency_ns + frames_consumed guard + OGG header wait", "status": "done"},
+    {"id": 3, "name": "PR #106 merged to main, UAT passed (Browse + Connect, OGG + PCM)", "status": "done"},
+    {"id": 4, "name": "v2.3.10 released (Connect rate-limiter + OGG header fix)", "status": "done"},
+    {"id": 5, "name": "foxesden Windows token bug diagnosed (Fable 5), fix built (SPOTON_TOKEN_FILE)", "status": "done"},
+    {"id": 6, "name": "v2.3.11 released (Windows token capture fix)", "status": "done"},
+    {"id": 7, "name": "Forum Monitor CI fixed (non-fast-forward push)", "status": "done"},
+    {"id": 8, "name": "urknall #176 feedback incorporated into planning artifacts", "status": "done"},
+    {"id": 9, "name": "Post #175 sanitized (sensitive content removed from public forum)", "status": "done"},
+    {"id": 10, "name": "Forum replies posted: #176 (urknall arch), #183 (foxesden Windows fix)", "status": "done"},
+    {"id": 11, "name": "Forum triage complete, forum-topics.json updated", "status": "done"},
+    {"id": 12, "name": "GH #109 created (Windows token), PR #106 closed", "status": "done"},
+    {"id": 13, "name": "Triage skill updated (MANDATORY forum-topics.json update)", "status": "done"}
   ],
   "remaining_tasks": [],
   "blockers": [],
   "async_jobs": [],
   "human_actions_pending": [
-    {"action": "Wait for urknall's response to auth architecture reply (#175)", "context": "Key question: go-librespot as backend replacement — audio pipeline maturity? PKCE-first vs ZeroConf-first gaps?", "blocking": false},
-    {"action": "Wait for plasticator2's response on normalization fix (#105)", "context": "v2.3.8 shipped with fix, waiting for user verification", "blocking": false}
+    {"action": "Wait for foxesden confirmation on v2.3.11 Windows fix", "context": "GH #109, forum #183", "blocking": false},
+    {"action": "Wait for plasticator2 confirmation on normalization fix (#105)", "context": "v2.3.8 shipped, plasticator2 says resolved (#178) but issue still open", "blocking": false}
   ],
   "decisions": [
-    {"decision": "PKCE-first (Option A) — single auth mechanism", "rationale": "Clean break, one flow covers everything, user already in browser for Settings", "phase": "v3.0"},
-    {"decision": "ZeroConf stays as guest-discovery feature only", "rationale": "urknall Variant D adopted, mDNS for household casting, not for auth", "phase": "v3.0"},
-    {"decision": "Discovery ON by default, --disable-discovery as option", "rationale": "Existing users' speakers must stay visible on upgrade", "phase": "v3.0"},
-    {"decision": "Callback URI via GitHub Pages static relay", "rationale": "stiefenm.github.io/spoton/auth/ — state parameter carries LMS callback URL + nonce, zero infrastructure", "phase": "v3.0"},
-    {"decision": "Audit phase 49-00 before implementation", "rationale": "Map Keymaster service calls vs client-ID-as-identity, evaluate go-librespot as backend replacement", "phase": "v3.0"},
-    {"decision": "sp_dc/Pathfinder as best-effort feature", "rationale": "TOTP secrets rotate, graceful degradation required", "phase": "v3.0"},
-    {"decision": "Login5 fallback phase declined", "rationale": "Login5 gets immediate 429 on api.spotify.com, librespot handles it internally for session ops", "phase": "v3.0"},
-    {"decision": "Desktop Client ID OAuth declined", "rationale": "ToS risk, unnecessary with Extended Quota, 127.0.0.1 UX problem", "phase": "v3.0"},
-    {"decision": "urknall's 11 success criteria as v3.0 UAT gates", "rationale": "Central criterion: no hm://keymaster/token/authenticated in normal logs", "phase": "v3.0"}
+    {"decision": "PKCE-first confirmed by urknall (#176)", "rationale": "Extended Quota Client ID makes PKCE viable as single auth mechanism", "phase": "v3.0"},
+    {"decision": "go-librespot = token/control reference only, NOT audio backend", "rationale": "Rust-librespot has OGG passthrough primitives, go-librespot doesn't", "phase": "v3.0"},
+    {"decision": "Keymaster audit 4-bucket classification", "rationale": "Real service call vs client-ID-as-identity vs Login5 vs PKCE", "phase": "v3.0"},
+    {"decision": "7 PKCE edge cases (A-G) adopted from urknall", "rationale": "Verifier isolation, navigation relay, private-IP validation, copy/paste fallback, account mismatch, guest ZeroConf, refresh-token UX", "phase": "v3.0"},
+    {"decision": "Sensitive topics removed from public forum", "rationale": "Agreement with urknall — keep reverse-engineering details private", "phase": "v3.0"}
   ],
-  "uncommitted_files": [".planning/ROADMAP.md", ".planning/STATE.md", ".github/scripts/forum-monitor/forum-topics.json"],
-  "next_action": "Wait for urknall's response to #175 (go-librespot evaluation question). Then /gsd-plan-phase 49-00 to start the Token Usage Audit + Backend Evaluation.",
-  "context_notes": "Major session: analyzed urknall's 4 massive forum posts against our v3.0 plan with Fable 5. Found 3 conflicts (ZeroConf removal, discovery default, bootstrap priority) and 4 gaps (audit, sp_dc fragility, multi-pool routing, importer rate test). All resolved — ROADMAP rewritten. Callback URI architecture decided (GitHub Pages static relay with state parameter). Forum reply posted as #175 with two open questions to urknall. Triage clean — no pending items."
+  "uncommitted_files": [".planning/STATE.md", ".planning/.continue-here.md", "librespot-spoton/Cargo.lock"],
+  "next_action": "Phase 49-00 (Token Usage Audit + Backend Evaluation) — /gsd-plan-phase 49-00",
+  "context_notes": "Massive session: PR #106 reviewed with Fable 5 (8 angles, 7 findings), 2 fixes applied, 2 releases (v2.3.10 + v2.3.11), foxesden Windows bug found and fixed via Fable 5 analysis, urknall #176 auth feedback incorporated, forum post #175 censored. All triage clean."
 }
